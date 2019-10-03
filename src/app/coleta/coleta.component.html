@@ -1,0 +1,38 @@
+<p>coleta works!</p>
+
+<div class="ro">
+  <div class="col-md-12">
+    <input type="text"
+      (input)="search = $event.target.value"
+      [value]="search"/>
+    <button type="button" class="btn btn-primary" (click)="coletar(search)"> Coletar </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md">
+    <table border="1">
+      <tr>
+        <th colspan="4">
+            <progressbar [value]="(pcol)" type="primary">{{ pcol }}%</progressbar>
+        </th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of columns[0]">{{ col }}</th>
+      </tr>
+      <tr *ngFor="let row of dataset">
+        <td *ngFor="let col of columns[0]">{{ row[col] }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="mb-2">
+      <p>{{ pcol }}</p>
+      <progressbar [value]="45" type="success" [striped]="true">45%</progressbar>
+    </div>
+  </div>
+</div>
