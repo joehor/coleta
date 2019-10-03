@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProgressbarModule } from 'ngx-bootstrap';
 
 import { ColetaComponent } from './coleta/coleta.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ColetaComponent
+    ColetaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
