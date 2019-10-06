@@ -49,9 +49,11 @@ export class ColetaComponent implements OnInit {
 
     let columns: any[] = [];
     let column: any;
+    let cap: string;
     cols.map((col, i) => {
       // tslint:disable-next-line: max-line-length
-      column = {id: i, name: col, caption: col.substr(0,1).toUpperCase()+col.substr(1).toLocaleLowerCase(), type: typeof(this.dataset[0][col])};
+      cap = col.substr(0, 1).toUpperCase() + col.substr(1).toLocaleLowerCase();
+      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col])};
       // columns = {...columns, column };
       columns.push(column);
     });
