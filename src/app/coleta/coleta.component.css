@@ -1,0 +1,23 @@
+table td {
+  transition: background-color 1s;
+    transition-property: background-color;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+
+.bglightgreen {
+  background-color: lightgreen;
+}
+
+.txcenter {
+  text-align: center;
+}
+
+.txleft {
+  text-align: left;
+}
+
+.txright {
+  text-align: right;
+}
