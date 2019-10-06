@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-coleta',
@@ -14,13 +14,9 @@ export class ColetaComponent implements OnInit {
   search = '';
   pcol = 0;
 
-  constructor() { }
+  constructor(public toastService: ToastService) { }
 
   ngOnInit() {
-
-    if (!this.colsearch) {
-      this.colsearch = Object.keys(this.columns)[0];
-    }
 
     if (this.dataset.length === 0) {
 
@@ -36,26 +32,26 @@ export class ColetaComponent implements OnInit {
 
       // pega as colunas...
       this.columns = this.addColumns(Object.keys(this.dataset[0]));
-      // this.addColumns(Object.keys(this.dataset[0]));
-      // this.columns.push(Object.keys(this.dataset[0]));
 
-      // console.log(this.dataset);
-      // console.log(this.columns);
+      // define a coluna a ser pesquisada..
+      if (!this.colsearch) {
+        this.colsearch = Object.keys(this.dataset[0])[0];
+      }
 
     }
   }
 
   addColumns(cols: any) {
 
-    let columns: any[] = [];
+    let columns: any;
     let column: any;
     let cap: string;
-    cols.map((col, i) => {
-      // tslint:disable-next-line: max-line-length
+
+    columns = cols.map((col, i) => {
       cap = col.substr(0, 1).toUpperCase() + col.substr(1).toLocaleLowerCase();
-      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col])};
-      // columns = {...columns, column };
-      columns.push(column);
+      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col]), sort: 0};
+
+      return column;
     });
 
     // console.log('columns: ' + JSON.stringify(columns));
@@ -66,11 +62,9 @@ export class ColetaComponent implements OnInit {
 
   addCheckField() {
 
-    let json: any[];
+    let json: any;
     json = this.dataset.map(data => {
-      // data = {...data, check: false};
-      // console.log('data: ' + JSON.stringify(data));
-      json = {...data, check: false};
+      data = {...data, check: false};
       return data;
     });
 
@@ -82,21 +76,45 @@ export class ColetaComponent implements OnInit {
 
   coletar(chave: string, check: boolean) {
 
-    const lidos = this.dataset
-      .filter(row => {
-        if (row.codigo == chave) { row.check = check; }
-        return row.check;
-      }).length;
+    const reg = this.dataset.find(row => row[this.colsearch] == chave);
+    if (reg) { reg.check = check; }
+
+    const lidos = this.dataset.filter(row => row.check).length;
 
     // limpa o campo de busca...
     this.search = '';
 
     this.pcol = Math.round(((lidos * 100) / this.dataset.length));
 
-    // this.pcol = this.dataset.reduce(a => (a.lido == 'true') ? 1 : 0);
+  }
 
-    // console.log('pcol: ' + this.pcol);
+  ordenar(campo: string, sort: number) {
+
+    const nsort = ((sort == 0) ? 1 : ((sort == 1) ? -1 : 1));
+    const isAsc = sort === 1;
+
+    // marca a coluna ordenada...
+    this.columns.map(col => {
+      if (col.name == campo) { col.sort = nsort; } else { col.sort = 0; }
+    });
+
+    this.dataset.sort((a, b) => {
+     return this.compare(a[campo].toString().toLocaleLowerCase(), b[campo].toString().toLocaleLowerCase(), isAsc);
+    });
 
   }
 
+  compare(a, b, isAsc) {
+
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+
+  }
+
+  mudacolumnsearch(campo: string) {
+
+    this.colsearch = campo;
+
+    console.log('Mudou para o campo: ' + campo);
+
+  }
 }

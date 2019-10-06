@@ -8,15 +8,12 @@
         (keyup.enter)="coletar(search, true)"
         [value]="search"/>
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" class="btn btn-primary" (click)="coletar(search, true)"> Coletar </button>
+        <button class="btn btn-outline-secondary" type="button" class="btn btn-primary" ngbTooltip="htmlContent" (click)="coletar(search, true)"> Coletar </button>
       </div>
+      <select name="lsColumns" id="idColumns" class="form-control" (change)="mudacolumnsearch($event.target.value)">
+          <option *ngFor="let col of columns" value="{{col.name}}">{{ col.name }}</option>
+        </select>
     </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col">
-    <progressbar [value]="(pcol)" type="primary">{{ pcol }}%</progressbar>
   </div>
 </div>
 
@@ -25,10 +22,20 @@
     <table class="table table-sm table-bordered">
       <thead class="thead-dark">
         <tr>
-          <th scope="col" *ngFor="let col of columns" [ngClass]="{'txcenter': col.type=='boolean', 'txright':col.type=='number'}">{{ col.caption }}</th>
+          <th scope="col"
+           *ngFor="let col of columns"
+           [ngClass]="{'txcenter': col.type=='boolean', 'txright':col.type=='number'}"
+           (click)="ordenar(col.name, col.sort)">
+           {{ col.caption }}
+          </th>
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td [attr.colspan]="columns.length">
+              <progressbar [value]="(pcol)" type="primary">{{ pcol }}%</progressbar>
+          </td>
+        </tr>
         <tr *ngFor="let row of dataset">
           <td scope="row"
             *ngFor="let col of columns"
@@ -39,7 +46,7 @@
                   <input type="checkbox"
                     class="form-check-input"
                     [ngModel]="row['check']"
-                    (click)="coletar(row['codigo'], !row['check'])"/>
+                    (click)="coletar(row[colsearch], !row['check'])"/>
                 </div>
             </span>
             <span *ngIf="col.name!=='check'">{{ row[col.name] }}</span>

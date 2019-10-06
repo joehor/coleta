@@ -6,23 +6,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ProgressbarModule } from 'ngx-bootstrap';
+import { ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 
 import { ColetaComponent } from './coleta/coleta.component';
 import { LoginComponent } from './login/login.component';
+import { ColetainjetadaComponent } from './coletainjetada/coletainjetada.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ColetaComponent,
-    LoginComponent
+    LoginComponent,
+    ColetainjetadaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
