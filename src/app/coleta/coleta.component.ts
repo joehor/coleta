@@ -68,9 +68,9 @@ export class ColetaComponent implements OnInit {
 
     let json: any[];
     json = this.dataset.map(data => {
-      data = {...data, check: false};
+      // data = {...data, check: false};
       // console.log('data: ' + JSON.stringify(data));
-      json = {...json, data};
+      json = {...data, check: false};
       return data;
     });
 
