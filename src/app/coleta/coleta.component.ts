@@ -104,7 +104,7 @@ export class ColetaComponent implements OnInit {
 
   }
 
-  compare(a, b, isAsc) {
+  compare(a: string, b: string, isAsc: boolean) {
 
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 

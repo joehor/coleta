@@ -1,5 +1,3 @@
-<p>coleta works!</p>
-
 <div class="row">
   <div class="col-12">
     <div class="input-group mb-3">
@@ -10,9 +8,7 @@
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" class="btn btn-primary" ngbTooltip="htmlContent" (click)="coletar(search, true)"> Coletar </button>
       </div>
-      <select name="lsColumns" id="idColumns" class="form-control" (change)="mudacolumnsearch($event.target.value)">
-          <option *ngFor="let col of columns" value="{{col.name}}">{{ col.name }}</option>
-        </select>
+
     </div>
   </div>
 </div>
@@ -27,13 +23,16 @@
            [ngClass]="{'txcenter': col.type=='boolean', 'txright':col.type=='number'}"
            (click)="ordenar(col.name, col.sort)">
            {{ col.caption }}
+           <fa name="sort-up" *ngIf="col.sort === -1"></fa>
+           <fa name="sort-down" *ngIf="col.sort === 1"></fa>
+           <fa name="sort" *ngIf="col.sort === 0"></fa>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td [attr.colspan]="columns.length">
-              <progressbar [value]="(pcol)" type="primary">{{ pcol }}%</progressbar>
+              <progressbar [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
           </td>
         </tr>
         <tr *ngFor="let row of dataset">
@@ -56,3 +55,26 @@
     </table>
   </div>
 </div>
+
+<!-- Modal window -->
+<div class="modal" tabindex="-1" role="dialog" data-toggle="modal" data-target="#Config">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Título do modal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <select name="lsColumns" id="idColumns" class="form-control form-control-sm" (change)="mudacolumnsearch($event.target.value)">
+            <option *ngFor="let col of columns" value="{{col.name}}">{{ col.name }}</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary">Salvar mudanças</button>
+        </div>
+      </div>
+    </div>
+  </div>

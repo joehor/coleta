@@ -1,3 +1,7 @@
+button {
+  margin-right: 3px;
+}
+
 table td {
   transition: background-color 1s;
     transition-property: background-color;
@@ -7,7 +11,7 @@ table td {
 }
 
 .bglightgreen {
-  background-color: lightgreen;
+  background-color: palegreen;
 }
 
 .txcenter {
