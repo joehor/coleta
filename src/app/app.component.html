@@ -1,19 +1,9 @@
+<app-navmenu></app-navmenu>
+
 <div class="jumbotron">
   <h1>
     Welcome to {{ title }}!
   </h1>
 </div>
-
-<ul>
-  <li>
-    <h2><a href="#" [routerLink]="['/coleta']" routerLinkActive="router-link-active" >Coleta</a></h2>
-  </li>
-  <li>
-    <h2><a href="#" [routerLink]="['/login']">Login</a></h2>
-  </li>
-  <li>
-    <h2><a href="#" [routerLink]="['/coletainject']">Coleta Injetada</a></h2>
-  </li>
-</ul>
 
 <router-outlet class="container"></router-outlet>
