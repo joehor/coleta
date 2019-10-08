@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { ToastService } from '../services/toast.service';
+import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-coleta',
@@ -8,13 +9,15 @@ import { ToastService } from '../services/toast.service';
 })
 export class ColetaComponent implements OnInit {
 
+  modalRef: BsModalRef;
   @Input() dataset: any[] = [];
   @Input() colsearch: string;
+  mudadata: any;
   columns: any[] = [];
   search = '';
   pcol = 0;
 
-  constructor(public toastService: ToastService) { }
+  constructor(public toastService: ToastService, private modalService: BsModalService) { }
 
   ngOnInit() {
 
@@ -27,8 +30,19 @@ export class ColetaComponent implements OnInit {
       this.dataset.push({codigo: 5, descricao: 'quinto item', barras: '55555'});
       this.dataset.push({codigo: 6, descricao: 'sexto item', barras: '66666'});
 
+    }
+
+    this.reloadDataSet(this.dataset);
+
+  }
+
+  reloadDataSet(dataset: any) {
+
+    console.log('Tipo de dataset: ' + typeof(dataset));
+
+    if (dataset.length > 0) {
       // adiciona o campo check no json...
-      this.dataset = this.addCheckField();
+      this.dataset = this.addCheckField(dataset);
 
       // pega as colunas...
       this.columns = this.addColumns(Object.keys(this.dataset[0]));
@@ -37,8 +51,8 @@ export class ColetaComponent implements OnInit {
       if (!this.colsearch) {
         this.colsearch = Object.keys(this.dataset[0])[0];
       }
-
     }
+
   }
 
   addColumns(cols: any) {
@@ -60,17 +74,11 @@ export class ColetaComponent implements OnInit {
 
   }
 
-  addCheckField() {
+  addCheckField(dataset: any) {
 
-    let json: any;
-    json = this.dataset.map(data => {
-      data = {...data, check: false};
-      return data;
+    return dataset.map(data => {
+      return {...data, check: false};
     });
-
-    // console.log('json: ' + JSON.stringify(json));
-
-    return json;
 
   }
 
@@ -117,4 +125,20 @@ export class ColetaComponent implements OnInit {
     console.log('Mudou para o campo: ' + campo);
 
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  mudaDataSet(novodataset: any) {
+
+    console.log('novodataset: ' + novodataset);
+    console.log('JSON.stringify(novodataset): ' + JSON.stringify(novodataset));
+
+    if (typeof(novodataset) === 'string') { novodataset = JSON.parse(novodataset); }
+
+    this.reloadDataSet(novodataset);
+
+  }
+
 }

@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-8">
     <div class="input-group mb-3">
       <input type="text"
         (input)="search = $event.target.value"
@@ -8,8 +8,10 @@
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" class="btn btn-primary" ngbTooltip="htmlContent" (click)="coletar(search, true)"> Coletar </button>
       </div>
-
     </div>
+  </div>
+  <div class="col-4">
+    <button type="button" class="btn btn-primary" (click)="openModal(template)">Propriedades</button>
   </div>
 </div>
 
@@ -57,24 +59,46 @@
 </div>
 
 <!-- Modal window -->
-<div class="modal" tabindex="-1" role="dialog" data-toggle="modal" data-target="#Config">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Título do modal</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Propriedades</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-4">
+          Campo da Coleta
+      </div>
+      <div class="col-8">
+        <select name="lsColumns" id="idColumns" class="form-control form-control-sm" (change)="mudacolumnsearch($event.target.value)">
+          <option *ngFor="let col of columns" value="{{col.name}}" [selected]="col.name===colsearch">{{ col.name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12">
+              Informe o json a ser processado...
+          </div>
         </div>
-        <div class="modal-body">
-          <select name="lsColumns" id="idColumns" class="form-control form-control-sm" (change)="mudacolumnsearch($event.target.value)">
-            <option *ngFor="let col of columns" value="{{col.name}}">{{ col.name }}</option>
-          </select>
+        <div class="row">
+          <div class="col-12">
+              <textarea #dataset rows="10" style="width: 100%" [(ngModel)]="mudadata"></textarea>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary">Salvar mudanças</button>
+        <div class="row">
+          <div class="col-12">
+              <button type="button" class="btn btn-primary" (click)="mudaDataSet(mudadata)">Ok</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
+  </div>
+</ng-template>
