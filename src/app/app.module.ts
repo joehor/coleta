@@ -13,6 +13,7 @@ import { ColetaComponent } from './coleta/coleta.component';
 import { LoginComponent } from './login/login.component';
 import { ColetainjetadaComponent } from './coletainjetada/coletainjetada.component';
 import { NavmenuComponent } from './navmenu/navmenu.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NavmenuComponent } from './navmenu/navmenu.component';
     ColetaComponent,
     LoginComponent,
     ColetainjetadaComponent,
-    NavmenuComponent
+    NavmenuComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
