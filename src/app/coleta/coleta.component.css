@@ -25,3 +25,7 @@ table td {
 .txright {
   text-align: right;
 }
+
+.txhighlight {
+  background-color: darkcyan !important;
+}

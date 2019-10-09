@@ -2,6 +2,7 @@
   <div class="col-8">
     <div class="input-group mb-3">
       <input type="text"
+        class="form-control"
         (input)="search = $event.target.value"
         (keyup.enter)="coletar(search, true)"
         [value]="search"/>
@@ -11,7 +12,7 @@
     </div>
   </div>
   <div class="col-4">
-    <button type="button" class="btn btn-primary" (click)="openModal(template)">Propriedades</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="openModal(template)">Propriedades</button>
   </div>
 </div>
 
@@ -21,8 +22,8 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col"
-           *ngFor="let col of columns"
-           [ngClass]="{'txcenter': col.type=='boolean', 'txright':col.type=='number'}"
+           *ngFor="let col of columns | filter : 'true' : 'visible'"
+           [ngClass]="{'txcenter': col.type=='boolean', 'txright':col.type=='number', 'txhighlight':col.name==colsearch}"
            (click)="ordenar(col.name, col.sort)">
            {{ col.caption }}
            <fa name="sort-up" *ngIf="col.sort === -1"></fa>
@@ -30,16 +31,24 @@
            <fa name="sort" *ngIf="col.sort === 0"></fa>
           </th>
         </tr>
+        <tr *ngIf="canfilter">
+          <th [attr.colspan]="visibleColumns()">
+            <div class="form-group form-control-sm">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText" placeholder="Informe parte da pesquisa por {{searchKey || 'qualquer campo'}}" (change)="reloadProgressBar()">
+            </div>
+          </th>
+        </tr>
       </thead>
       <tbody>
         <tr>
-          <td [attr.colspan]="columns.length">
+          <td [attr.colspan]="visibleColumns()">
               <progressbar [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
           </td>
         </tr>
-        <tr *ngFor="let row of dataset">
+
+        <tr *ngFor="let row of dataset | filter : searchText : searchKey || ''">
           <td scope="row"
-            *ngFor="let col of columns"
+            *ngFor="let col of columns | filter : 'true' : 'visible'"
             class="bgwhite"
             [ngClass]="{'bglightgreen': (row['check']===true), 'txcenter': (col.name==='check'), 'txright': (col.type === 'number')}">
             <span *ngIf="col.name==='check'">
@@ -68,13 +77,27 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col-4">
-          Campo da Coleta
+      <div class="col-5">
+          Campo para Coleta
       </div>
-      <div class="col-8">
-        <select name="lsColumns" id="idColumns" class="form-control form-control-sm" (change)="mudacolumnsearch($event.target.value)">
-          <option *ngFor="let col of columns" value="{{col.name}}" [selected]="col.name===colsearch">{{ col.name }}</option>
-        </select>
+      <div class="col-7">
+        <div class="form-group">
+          <select name="lsColumns" id="idColumns" class="form-control form-control-sm" (change)="mudacolumnsearch($event.target.value)">
+            <option *ngFor="let col of columns | filter : 'true' : 'visible'" value="{{col.name}}" [selected]="col.name===colsearch">{{ col.caption }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5">
+          Campo para Filtragem
+      </div>
+      <div class="col-7">
+        <div class="form-group">
+          <select name="lsFilter" id="idFilter" class="form-control form-control-sm" [(ngModel)]="searchKey">
+            <option *ngFor="let col of columns" value="{{col.name}}" [selected]="col.name===searchKey">{{ col.caption }}</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -98,7 +121,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancelar</button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="modalRef.hide()">Cancelar</button>
     <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
   </div>
 </ng-template>
+

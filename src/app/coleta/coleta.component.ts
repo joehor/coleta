@@ -10,8 +10,13 @@ import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
 export class ColetaComponent implements OnInit {
 
   modalRef: BsModalRef;
-  @Input() dataset: any[] = [];
+  @Input() rootdataset: any[] = [];
   @Input() colsearch: string;
+  @Input() canfilter = true;
+  searchText: string;
+  searchKey: string;
+  filterdataset: any[] = [];
+  dataset: any[] = [];
   mudadata: any;
   columns: any[] = [];
   search = '';
@@ -21,16 +26,18 @@ export class ColetaComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.dataset.length === 0) {
+    if (this.rootdataset.length === 0) {
 
-      this.dataset.push({codigo: 1, descricao: 'primeiro item', barras: '11111'});
-      this.dataset.push({codigo: 2, descricao: 'segundo item', barras: '22222'});
-      this.dataset.push({codigo: 3, descricao: 'terceiro item', barras: '33333'});
-      this.dataset.push({codigo: 4, descricao: 'quarto item', barras: '44444'});
-      this.dataset.push({codigo: 5, descricao: 'quinto item', barras: '55555'});
-      this.dataset.push({codigo: 6, descricao: 'sexto item', barras: '66666'});
+      this.rootdataset.push({codigo: 1, descricao: 'primeiro item', barras: '11111'});
+      this.rootdataset.push({codigo: 2, descricao: 'segundo item', barras: '22222'});
+      this.rootdataset.push({codigo: 3, descricao: 'terceiro item', barras: '33333'});
+      this.rootdataset.push({codigo: 4, descricao: 'quarto item', barras: '44444'});
+      this.rootdataset.push({codigo: 5, descricao: 'quinto item', barras: '55555'});
+      this.rootdataset.push({codigo: 6, descricao: 'sexto item', barras: '66666'});
 
     }
+
+    this.dataset = this.rootdataset;
 
     this.reloadDataSet(this.dataset);
 
@@ -41,6 +48,7 @@ export class ColetaComponent implements OnInit {
     console.log('Tipo de dataset: ' + typeof(dataset));
 
     if (dataset.length > 0) {
+      this.rootdataset = dataset;
       // adiciona o campo check no json...
       this.dataset = this.addCheckField(dataset);
 
@@ -63,12 +71,17 @@ export class ColetaComponent implements OnInit {
 
     columns = cols.map((col, i) => {
       cap = col.substr(0, 1).toUpperCase() + col.substr(1).toLocaleLowerCase();
-      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col]), sort: 0};
-
+      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col]), sort: 0, visible: true};
       return column;
     });
 
     // console.log('columns: ' + JSON.stringify(columns));
+
+    // adiciona a opção todos
+    columns.unshift({id: -1, name: '', caption: '-- Todos --', type: 'string', sort: 0, visible: false});
+    //  | filter : 'true' : 'visible'
+
+    console.log('columns: ' + JSON.stringify(columns));
 
     return columns;
 
@@ -93,6 +106,13 @@ export class ColetaComponent implements OnInit {
     this.search = '';
 
     this.pcol = Math.round(((lidos * 100) / this.dataset.length));
+
+  }
+
+  reloadProgressBar() {
+
+    console.log('Recalculando filterdataset: ' + this.filterdataset.length.toString());
+    this.pcol = Math.round( (this.dataset.filter(row => row.check).length * 100) / this.dataset.length );
 
   }
 
@@ -132,12 +152,19 @@ export class ColetaComponent implements OnInit {
 
   mudaDataSet(novodataset: any) {
 
-    console.log('novodataset: ' + novodataset);
-    console.log('JSON.stringify(novodataset): ' + JSON.stringify(novodataset));
+    // console.log('novodataset: ' + novodataset);
+    // console.log('JSON.stringify(novodataset): ' + JSON.stringify(novodataset));
 
-    if (typeof(novodataset) === 'string') { novodataset = JSON.parse(novodataset); }
+    if (typeof(novodataset) === 'string' && novodataset !== '') {
+      novodataset = JSON.parse(novodataset);
+      this.reloadDataSet(novodataset);
+    }
 
-    this.reloadDataSet(novodataset);
+  }
+
+  visibleColumns() {
+
+    return this.columns.filter(col => col.visible).length;
 
   }
 
