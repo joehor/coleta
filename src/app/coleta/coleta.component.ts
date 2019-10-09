@@ -13,6 +13,9 @@ export class ColetaComponent implements OnInit {
   @Input() rootdataset: any[] = [];
   @Input() colsearch: string;
   @Input() canfilter = true;
+  @Input() rootElement = '';
+  @Input() canProgress = true;
+  @Input() canColet = true;
   searchText: string;
   searchKey: string;
   filterdataset: any[] = [];
@@ -45,7 +48,8 @@ export class ColetaComponent implements OnInit {
 
   reloadDataSet(dataset: any) {
 
-    console.log('Tipo de dataset: ' + typeof(dataset));
+    // console.log('Tipo de dataset: ' + typeof(dataset));
+    if (this.rootElement && this.rootElement !== '') { dataset = dataset[this.rootElement || 0]; }
 
     if (dataset.length > 0) {
       this.rootdataset = dataset;
@@ -68,10 +72,12 @@ export class ColetaComponent implements OnInit {
     let columns: any;
     let column: any;
     let cap: string;
+    let vis: boolean;
 
     columns = cols.map((col, i) => {
       cap = col.substr(0, 1).toUpperCase() + col.substr(1).toLocaleLowerCase();
-      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col]), sort: 0, visible: true};
+      vis = col.substr(0, 1) !== '_';
+      column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col]), sort: 0, visible: vis};
       return column;
     });
 
@@ -159,6 +165,9 @@ export class ColetaComponent implements OnInit {
       novodataset = JSON.parse(novodataset);
       this.reloadDataSet(novodataset);
     }
+
+    this.reloadProgressBar();
+    this.modalRef.hide();
 
   }
 

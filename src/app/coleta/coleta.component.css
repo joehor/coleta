@@ -2,6 +2,11 @@ button {
   margin-right: 3px;
 }
 
+th div {
+  display: flex;
+  justify-content: space-between;
+}
+
 table td {
   transition: background-color 1s;
     transition-property: background-color;

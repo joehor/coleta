@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-8">
+  <div class="col-8" *ngIf="canColet">
     <div class="input-group mb-3">
       <input type="text"
         class="form-control"
@@ -20,27 +20,37 @@
   <div class="col-md">
     <table class="table table-sm table-bordered">
       <thead class="thead-dark">
+        <tr *ngIf="canfilter">
+          <th [attr.colspan]="visibleColumns()">
+            <div class="row">
+              <div class="col-8">
+                <span style="margin-right: 10px;">Filtro:</span>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText" placeholder="Informe parte da pesquisa por ({{searchKey || 'qualquer campo'}})" (change)="reloadProgressBar()">
+              </div>
+              <div class="col-4">
+                  <select name="lsFilter" id="idFilter" class="form-control form-control-sm" [(ngModel)]="searchKey">
+                      <option *ngFor="let col of columns | filter : 'true' : 'visible'" value="{{col.name}}" [selected]="col.name===searchKey">{{ col.caption }}</option>
+                    </select>
+              </div>
+            </div>
+          </th>
+        </tr>
         <tr>
           <th scope="col"
            *ngFor="let col of columns | filter : 'true' : 'visible'"
-           [ngClass]="{'txcenter': col.type=='boolean', 'txright':col.type=='number', 'txhighlight':col.name==colsearch}"
+           [ngClass]="{'txhighlight':col.name==colsearch}"
            (click)="ordenar(col.name, col.sort)">
+           <div>
            {{ col.caption }}
-           <fa name="sort-up" *ngIf="col.sort === -1"></fa>
-           <fa name="sort-down" *ngIf="col.sort === 1"></fa>
-           <fa name="sort" *ngIf="col.sort === 0"></fa>
-          </th>
-        </tr>
-        <tr *ngIf="canfilter">
-          <th [attr.colspan]="visibleColumns()">
-            <div class="form-group form-control-sm">
-              <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText" placeholder="Informe parte da pesquisa por {{searchKey || 'qualquer campo'}}" (change)="reloadProgressBar()">
-            </div>
+             <fa name="sort-up" *ngIf="col.sort === -1"></fa>
+             <fa name="sort-down" *ngIf="col.sort === 1"></fa>
+             <fa name="sort" *ngIf="col.sort === 0"></fa>
+           </div>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngIf="canProgress">
           <td [attr.colspan]="visibleColumns()">
               <progressbar [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
           </td>
@@ -78,6 +88,16 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-5">
+          Elemento root
+      </div>
+      <div class="col-7">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="rootElement">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5">
           Campo para Coleta
       </div>
       <div class="col-7">
@@ -95,8 +115,38 @@
       <div class="col-7">
         <div class="form-group">
           <select name="lsFilter" id="idFilter" class="form-control form-control-sm" [(ngModel)]="searchKey">
-            <option *ngFor="let col of columns" value="{{col.name}}" [selected]="col.name===searchKey">{{ col.caption }}</option>
+            <option *ngFor="let col of columns | filter : 'true' : 'visible'" value="{{col.name}}" [selected]="col.name===searchKey">{{ col.caption }}</option>
           </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5">
+          Habilitar filtro
+      </div>
+      <div class="col-7">
+        <div class="form-group">
+          <input type="checkbox" [(ngModel)]="canfilter">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5">
+          Habilitar Progress Bar
+      </div>
+      <div class="col-7">
+        <div class="form-group">
+          <input type="checkbox" [(ngModel)]="canProgress">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5">
+          Habilitar Coleta
+      </div>
+      <div class="col-7">
+        <div class="form-group">
+          <input type="checkbox" [(ngModel)]="canColet">
         </div>
       </div>
     </div>
