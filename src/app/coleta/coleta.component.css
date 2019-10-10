@@ -7,12 +7,30 @@ th div {
   justify-content: space-between;
 }
 
+th fa {
+  cursor: pointer;
+}
+
+.spacebetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 table td {
   transition: background-color 1s;
     transition-property: background-color;
     transition-duration: 1s;
     transition-timing-function: ease;
     transition-delay: 0s;
+}
+
+.thfooter {
+  background-color: lightgrey;
+}
+
+.thfilter {
+  background-color: darkcyan !important;
 }
 
 .bglightgreen {
@@ -33,4 +51,15 @@ table td {
 
 .txhighlight {
   background-color: darkcyan !important;
+}
+
+.paginator {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+.searchpos {
+  margin-top: 3px;
+  margin-right: 3px;
 }

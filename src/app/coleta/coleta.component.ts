@@ -16,6 +16,8 @@ export class ColetaComponent implements OnInit {
   @Input() rootElement = '';
   @Input() canProgress = true;
   @Input() canColet = true;
+  urlapi = '';
+  token = '';
   searchText: string;
   searchKey: string;
   filterdataset: any[] = [];
@@ -24,6 +26,8 @@ export class ColetaComponent implements OnInit {
   columns: any[] = [];
   search = '';
   pcol = 0;
+  page = 0;
+  pagecount = 0;
 
   constructor(public toastService: ToastService, private modalService: BsModalService) { }
 
@@ -51,6 +55,14 @@ export class ColetaComponent implements OnInit {
     // console.log('Tipo de dataset: ' + typeof(dataset));
     if (this.rootElement && this.rootElement !== '') { dataset = dataset[this.rootElement || 0]; }
 
+    // se tem colunas _page e _pagecount assume paginação ...
+    if (Object.keys(dataset[0]).filter(key => key === '_page').length > 0) { this.page = dataset[0]['_page']; }
+    if (Object.keys(dataset[0]).filter(key => key === '_pagecount').length > 0) { this.pagecount = dataset[0]['_pagecount']; }
+
+    console.log('page: ' + dataset[0]['_page']);
+    console.log('pagecount: ' + dataset[0]['_pagecount']);
+    console.log('dataset: ' + JSON.stringify(dataset));
+
     if (dataset.length > 0) {
       this.rootdataset = dataset;
       // adiciona o campo check no json...
@@ -74,9 +86,9 @@ export class ColetaComponent implements OnInit {
     let cap: string;
     let vis: boolean;
 
-    columns = cols.map((col, i) => {
+    columns = cols.map((col: any, i: number) => {
       cap = col.substr(0, 1).toUpperCase() + col.substr(1).toLocaleLowerCase();
-      vis = col.substr(0, 1) !== '_';
+      vis = col.substr(0, 1) !== '_'; // remove os campos que iniciam com undeline ...
       column = {id: i, name: col, caption: cap, type: typeof(this.dataset[0][col]), sort: 0, visible: vis};
       return column;
     });
@@ -87,7 +99,7 @@ export class ColetaComponent implements OnInit {
     columns.unshift({id: -1, name: '', caption: '-- Todos --', type: 'string', sort: 0, visible: false});
     //  | filter : 'true' : 'visible'
 
-    console.log('columns: ' + JSON.stringify(columns));
+    // console.log('columns: ' + JSON.stringify(columns));
 
     return columns;
 
@@ -117,7 +129,7 @@ export class ColetaComponent implements OnInit {
 
   reloadProgressBar() {
 
-    console.log('Recalculando filterdataset: ' + this.filterdataset.length.toString());
+    // console.log('Recalculando filterdataset: ' + this.filterdataset.length.toString());
     this.pcol = Math.round( (this.dataset.filter(row => row.check).length * 100) / this.dataset.length );
 
   }
@@ -148,7 +160,7 @@ export class ColetaComponent implements OnInit {
 
     this.colsearch = campo;
 
-    console.log('Mudou para o campo: ' + campo);
+    // console.log('Mudou para o campo: ' + campo);
 
   }
 
@@ -159,7 +171,6 @@ export class ColetaComponent implements OnInit {
   mudaDataSet(novodataset: any) {
 
     // console.log('novodataset: ' + novodataset);
-    // console.log('JSON.stringify(novodataset): ' + JSON.stringify(novodataset));
 
     if (typeof(novodataset) === 'string' && novodataset !== '') {
       novodataset = JSON.parse(novodataset);
@@ -175,6 +186,10 @@ export class ColetaComponent implements OnInit {
 
     return this.columns.filter(col => col.visible).length;
 
+  }
+
+  getFromAPI() {
+    return [{id: 1}];
   }
 
 }
