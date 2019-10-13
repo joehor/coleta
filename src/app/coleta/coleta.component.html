@@ -6,14 +6,23 @@
         class="form-control"
         [(ngModel)]="search"
         (keyup.enter)="coletar(search, true)"/>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" class="btn btn-primary" ngbTooltip="htmlContent" (click)="coletar(search, true)"> Coletar </button>
+      <!--<div class="input-group-append">-->
+        <div class="btn-group dropdown">
+          <button [disabled]="search===''" class="btn btn-primary" type="button" tooltip="Marca como coletado" (click)="coletar(search, true)"> Coletar </button>
+          <button id="button-split"
+            type="button" dropdownToggle
+            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+            aria-controls="dropdown-split">
+          <!--<span class="caret"></span>-->
+          <!--<span class="sr-only">Split button!</span>-->
+        </button>
+        <!--</div>-->
       </div>
       <progressbar class="searchpos" [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
     </div>
   </div>
   <div class="col-4">
-    <button type="button" class="btn btn-primary btn-sm" (click)="openModal(template)">Propriedades</button>
+    <!--<button type="button" class="btn btn-primary btn-sm" (click)="openModal(template)">Propriedades</button>-->
   </div>
 </div>
 
@@ -27,7 +36,26 @@
             <div class="row">
               <div class="col-12 spacebetween">
                 <span style="margin-right: 10px;">Filtro:</span>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText" placeholder="Informe parte da pesquisa por ({{searchKey || 'qualquer campo'}})" (change)="reloadProgressBar()">
+                <div class="input-group">
+                  <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Informe parte da pesquisa por ({{searchKey || 'qualquer campo'}})" (change)="reloadProgressBar()">
+                  <div class="input-group-append">
+                    <div class="btn-group dropdown">
+                      <button id="button-basic" dropdownToggle
+                        type="button"
+                        class="btn btn-info dropdown-toggle"
+                        aria-controls="dropdown-basic"
+                        style="border-top-left-radius: 0;border-bottom-left-radius: 0;"
+                        tooltip="Selecione a coluna par ao flitro">
+                        <fa name="filter"></fa>
+                      </button>
+                      <ul id="dropdown-basic" dropdownMenu class="dropdown-menu"
+                        role="menu" aria-labelledby="button-basic">
+                        <li role="menuitem"><a href="#" class="dropdown-item">Código</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
                 <select name="lsFilter" id="idFilter" class="form-control form-control-sm" [(ngModel)]="searchKey" cols="10">
                   <option *ngFor="let col of columns | filter : 'true' : 'visible'" value="{{col.name}}" [selected]="col.name===searchKey">{{ col.caption }}</option>
                 </select>
@@ -78,7 +106,12 @@
           <td [attr.colspan]="visibleColumns()" class="thfooter">
             <div class="spacebetween">
               {{ this.dataset.length }} registros encontrados
-              <fa name="cog" style="cursor: pointer;" (click)="openModal(template)"></fa>
+              <button id="button-basic"
+                type="button"
+                class="btn btn-info"
+                tooltip="Propredades">
+                <fa name="cog" (click)="openModal(template)"></fa>
+              </button>
             </div>
           </td>
         </tr>
