@@ -1,0 +1,68 @@
+<div class="col-md">
+
+  <div class="input-group" style="padding-bottom: 5px;">
+
+    <input type="text" class="form-control"
+      [(ngModel)]="pesquisa"
+      placeholder="Informe parte código ou parte ">
+    <button [disabled]="(pesquisa==='' && !apisuccess)"
+      class="btn btn-primary btnpesquisa"
+      type="button"
+      tooltip="Pesquisa"
+      (click)="pesquisar()">
+       Pesquisar
+    </button>
+
+  </div>
+
+  <table class="table table-sm table-bordered">
+
+    <thead class="thead-dark">
+
+      <tr>
+        <th *ngFor="let col of datacolumns | filter : 'true' : 'visible'">
+          <div>
+            {{ col.caption }}
+            <fa name="sort-up" *ngIf="col.sort === -1" (click)="ordenar(col.name, col.sort)"></fa>
+            <fa name="sort-down" *ngIf="col.sort === 1" (click)="ordenar(col.name, col.sort)"></fa>
+            <fa name="sort" *ngIf="col.sort === 0" (click)="ordenar(col.name, col.sort)"></fa>
+          </div>
+        </th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let row of datasource">
+        <td *ngFor="let col of datacolumns | filter : 'true' : 'visible'">{{ row[col.name] }}</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <div *ngIf="pagecount > 1">
+    <td [attr.colspan]="visiblecolumns()">
+      <div class="spacebetween">
+        <pagination
+          [disabled]="!apisuccess"
+          [(ngModel)]="currentPage"
+          [totalItems]="pagecount * 10"
+          [rotate]="true"
+          [maxSize]="3"
+          previousText="Anterior"
+          nextText="Próxima"
+          style="margin-right: 10px;"
+          (pageChanged)="pageChanged($event)">
+        </pagination>
+        <span>Página {{ page }} de {{ pagecount }}</span>
+      </div>
+    </td>
+  </div>
+
+</div>
+
+{{ datasource | json }}
+
+colunas visiveis: {{ visiblecolumns() }}

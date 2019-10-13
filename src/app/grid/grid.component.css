@@ -1,0 +1,20 @@
+th div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spacebetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+th fa {
+  cursor: pointer;
+}
+
+.pesquisa {
+  display: flex;
+  justify-content: flex-start;
+  height: 25px;
+}
