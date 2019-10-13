@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "https://servicos.idelli.com.br/GrupoK1/api",
+    "secure": false,
+    "pathRewrite": {"^/api" : ""},
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
