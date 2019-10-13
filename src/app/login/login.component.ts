@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from 'node_modules/@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { LoginService } from '../services/auth/login.service';
 import { AuthService } from '../services/auth/auth.service';
+import { LoginService } from '../services/auth/login.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
     private authservice: AuthService,
     private loginservice: LoginService,
     private formbuilder: FormBuilder,
-    private route: Router) { }
+    // private route: Router
+    ) { }
 
   ngOnInit() {
     this.criaForm();
@@ -70,7 +71,7 @@ export class LoginComponent implements OnInit {
       this.token = token;
       // salvando o token
       console.log('getToken::salvando o token');
-      this.authservice.sendToken(this.token.token);
+      this.authservice.sendToken(this.token.TokenAccess);
       if (!redUrl) {
         console.log('Login Ok dashboard!');
         // this.route.navigate(['/dashboard']);
