@@ -18,3 +18,7 @@ th fa {
   justify-content: flex-start;
   height: 25px;
 }
+
+.footer {
+  background-color: lightgrey;
+}

@@ -1,17 +1,23 @@
 <div class="col-md">
 
-  <div class="input-group" style="padding-bottom: 5px;">
+  <div class="input-group" role="group" style="padding-bottom: 5px;">
 
     <input type="text" class="form-control"
       [(ngModel)]="pesquisa"
-      placeholder="Informe parte código ou parte ">
-    <button [disabled]="(pesquisa==='' && !apisuccess)"
-      class="btn btn-primary btnpesquisa"
-      type="button"
-      tooltip="Pesquisa"
-      (click)="pesquisar()">
-       Pesquisar
-    </button>
+      placeholder="Informe parte código ou parte da descrição"
+      (change)="resetapesquisa()">
+    <div class="input-group-append">
+      <button [disabled]="(pesquisa==='' && !apierror)"
+        class="btn btn-primary btnpesquisa"
+        type="button"
+        tooltip="Pesquisa"
+        placement="left"
+        (click)="pesquisar()">
+        Pesquisar
+        <fa name="search" *ngIf="!pesquisando"></fa>
+        <fa name="spinner" animation="pulse" *ngIf="pesquisando"></fa>
+      </button>
+    </div>
 
   </div>
 
@@ -38,6 +44,10 @@
         <td *ngFor="let col of datacolumns | filter : 'true' : 'visible'">{{ row[col.name] }}</td>
       </tr>
 
+      <tr class="footer">
+        <td [attr.colspan]="visiblecolumns()">{{ (!datasource ? 0 : --datasource.length) }} registros encontrados</td>
+      </tr>
+
     </tbody>
 
   </table>
@@ -46,7 +56,7 @@
     <td [attr.colspan]="visiblecolumns()">
       <div class="spacebetween">
         <pagination
-          [disabled]="!apisuccess"
+          [disabled]="apierror"
           [(ngModel)]="currentPage"
           [totalItems]="pagecount * 10"
           [rotate]="true"
@@ -61,8 +71,9 @@
     </td>
   </div>
 
+  <alert type="danger" *ngIf="apierror">
+    <fa name="bomb"></fa>
+    Falha na requisição. A aplicação retornou erro: <strong>"{{ (!httperror ? '' : httperror).mensagem || 'Erro desconhecido!' }}"</strong>
+  </alert>
+
 </div>
-
-{{ datasource | json }}
-
-colunas visiveis: {{ visiblecolumns() }}
