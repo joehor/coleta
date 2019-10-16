@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DataLookupService } from '../services/data-lookup.service';
+import { NONE_TYPE } from '@angular/compiler/src/output/output_ast';
 
 interface Httpcodes {
   code: number;
@@ -19,6 +20,10 @@ export class GridComponent implements OnInit {
   @Input() datasource: any[] = [];
   @Input() apiroute: string;
   @Input() inputcolumns: string[];
+  @Input() pagesize = 10;
+
+  // evento que emite o item slecionado...
+  @Output() emitDataSelected = new EventEmitter<any>();
 
   // datasource padrão...
   datanotfound: any[] = [{Aviso: 'Nenhum registro encontrado'}];
@@ -119,7 +124,11 @@ export class GridComponent implements OnInit {
   // busca os dados da API...
   pesquisar() {
 
-    this.getDataFromApi(this.apiroute, this.pesquisa, 1, 10);
+    if (this.pesquisaalterada) {
+      this.page = 1;
+      this.currentPage = 1;
+    }
+    this.getDataFromApi(this.apiroute, this.pesquisa, 1, this.pagesize);
 
   }
 
@@ -133,10 +142,9 @@ export class GridComponent implements OnInit {
   // alterando a página deve refazer a busca na API...
   pageChanged(event: any) {
 
-    if (this.page !== this.currentPage) {
-      this.page = this.currentPage;
-      this.getDataFromApi(this.apiroute, this.pesquisa, this.page, 10);
-    }
+    console.log('event: ' + JSON.stringify(event));
+    this.page = event.page;
+    this.getDataFromApi(this.apiroute, this.pesquisa, event.page, this.pagesize);
 
   }
 
@@ -163,7 +171,7 @@ export class GridComponent implements OnInit {
           this.pesquisando = false;
           this.datasource = data.Data;
           this.apierror = !data.Success;
-          this.pagecount = --data.Paginas.PageCount;
+          this.pagecount = data.Paginas.PageCount;
         }
         this.addcolumns(data.Data);
       },
@@ -174,6 +182,41 @@ export class GridComponent implements OnInit {
         if (error.code === 401) { this.httperror.mensagem = 'Falha na autenticação, efetue novo logon'; }
       }
     );
+  }
+
+  // impprime a tabela
+  printDataset() {
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    const printContent = document.getElementById('tabledataset');
+    // tslint:disable-next-line: max-line-length
+    let printTemplate = '<html><head>';
+
+    printTemplate += '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>';
+
+    printTemplate += '<style>';
+    printTemplate += '.footer {';
+    printTemplate += '  display: none;';
+    printTemplate += '}';
+    printTemplate += '</style>';
+
+    printTemplate += '</head><body><bodycontent></body></html>';
+
+    // prepara o body substituindo o <bodycontent> pelo conteúdo da table ...
+    const body = printTemplate.replace('<bodycontent>', printContent.innerHTML);
+
+    WindowPrt.document.write(body);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    // WindowPrt.print();
+    // WindowPrt.close();
+  }
+
+  // emite a informação do item selecionado...
+  selectdata(datasel: any) {
+
+    // envia o dado para quem quiser pegar...
+    this.emitDataSelected.emit(datasel);
+
   }
 
 }

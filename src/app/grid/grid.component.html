@@ -7,7 +7,7 @@
       placeholder="Informe parte código ou parte da descrição"
       (change)="resetapesquisa()">
     <div class="input-group-append">
-      <button [disabled]="(pesquisa==='' && !apierror)"
+      <button [disabled]="(!pesquisando && pesquisa==='')"
         class="btn btn-primary btnpesquisa"
         type="button"
         tooltip="Pesquisa"
@@ -15,13 +15,14 @@
         (click)="pesquisar()">
         Pesquisar
         <fa name="search" *ngIf="!pesquisando"></fa>
-        <fa name="spinner" animation="pulse" *ngIf="pesquisando"></fa>
+        <fa name="refresh" animation="spin" *ngIf="pesquisando"></fa>
       </button>
     </div>
 
   </div>
 
-  <table class="table table-sm table-bordered">
+  <div id="tabledataset">
+  <table class="table table-sm table-hover table-bordered">
 
     <thead class="thead-dark">
 
@@ -41,18 +42,80 @@
     <tbody>
 
       <tr *ngFor="let row of datasource">
-        <td *ngFor="let col of datacolumns | filter : 'true' : 'visible'">{{ row[col.name] }}</td>
+        <td style="cursor: pointer;" [ngClass]="(col.type === 'number' ? 'txright' : '')" *ngFor="let col of datacolumns | filter : 'true' : 'visible'" (dblclick)="selectdata(row)">{{ row[col.name] }}</td>
       </tr>
 
       <tr class="footer">
-        <td [attr.colspan]="visiblecolumns()">{{ (!datasource ? 0 : --datasource.length) }} registros encontrados</td>
+        <td [attr.colspan]="visiblecolumns()">
+          <div class="spacebetween">
+          {{ (!datasource ? 0 : --datasource.length) }} registros encontrados
+          <div>
+            <div class="btn-group" dropdown [dropup]="true">
+              <button id="button-basic"
+                type="button"
+                class="btn btn-info"
+                tooltip="Propredades">
+                <!--<fa name="cog" (click)="openModal(template)"></fa>-->
+                <fa name="cog"></fa>
+              </button>
+
+              <button id="button-split"
+                type="button"
+                dropdownToggle
+                class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                aria-controls="dropdown-split">
+              </button>
+              <ul id="dropdown-split"
+                *dropdownMenu
+                class="dropdown-menu dropdown-menu-right"
+                role="menu"
+                aria-labelledby="button-split">
+
+                <li role="menuitem">
+                  <div class="input-group" role="group" style="padding-right: 10px;padding-left: 10px;">
+                    Registros:
+                    <input type="text"
+                    class="form-control"
+                    placeholder="10">
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-info"
+                        type="button"
+                        tooltip="Salvar"
+                        placement="left">
+                        Ok
+                      </button>
+                    </div>
+                  </div>
+                </li>
+
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="printDataset()">
+                    Imprimir
+                  </a>
+                </li>
+                <li class="divider dropdown-divider"></li>
+                <li role="menuitem" *ngFor="let col of datacolumns">
+                  <a class="dropdown-item">
+                    <label for="ckcoleta">
+                    {{col.visible ? 'Ocultar' : 'Mostrar'}} coluna <strong>"{{ col.caption }}"</strong>
+                    <input id="ckcoleta" type="checkbox" [(ngModel)]="col.visible" style="visibility: hidden;">
+                    </label>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          </div>
+        </td>
       </tr>
 
     </tbody>
 
   </table>
+  </div>
 
-  <div *ngIf="pagecount > 1">
+  <div *ngIf="pagecount > 0">
     <td [attr.colspan]="visiblecolumns()">
       <div class="spacebetween">
         <pagination
@@ -77,3 +140,5 @@
   </alert>
 
 </div>
+
+{{ datacolumns | json }}

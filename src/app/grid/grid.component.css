@@ -3,6 +3,18 @@ th div {
   justify-content: space-between;
 }
 
+.txcenter {
+  text-align: center;
+}
+
+.txleft {
+  text-align: left;
+}
+
+.txright {
+  text-align: right;
+}
+
 .spacebetween {
   display: flex;
   justify-content: space-between;
@@ -21,4 +33,8 @@ th fa {
 
 .footer {
   background-color: lightgrey;
+}
+
+.dropdown-item {
+  cursor: pointer;
 }
