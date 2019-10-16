@@ -12,6 +12,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "preserveSymlinks": true,
           "options": {
             "outputPath": "dist/Coleta",
             "index": "src/index.html",
