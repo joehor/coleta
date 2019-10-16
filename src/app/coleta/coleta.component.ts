@@ -115,7 +115,7 @@ export class ColetaComponent implements OnInit {
 
   coletar(chave: string, check: boolean) {
 
-    const reg = this.dataset.find(row => row[this.colsearch] == chave);
+    const reg = this.dataset.find(row => row[this.colsearch].toString() === chave);
     if (reg) { reg.check = check; }
 
     const lidos = this.dataset.filter(row => row.check).length;
@@ -136,12 +136,12 @@ export class ColetaComponent implements OnInit {
 
   ordenar(campo: string, sort: number) {
 
-    const nsort = ((sort == 0) ? 1 : ((sort == 1) ? -1 : 1));
+    const nsort = ((sort === 0) ? 1 : ((sort === 1) ? -1 : 1));
     const isAsc = sort === 1;
 
     // marca a coluna ordenada...
     this.columns.map(col => {
-      if (col.name == campo) { col.sort = nsort; } else { col.sort = 0; }
+      if (col.name === campo) { col.sort = nsort; } else { col.sort = 0; }
     });
 
     this.dataset.sort((a, b) => {

@@ -1,28 +1,45 @@
 <div class="row">
-  <div class="col-8" *ngIf="canColet">
+  <div class="col-12" *ngIf="canColet">
     <div class="input-group mb-3">
       <input type="text"
         placeholder="Coleta por ({{ colsearch }})"
         class="form-control"
         [(ngModel)]="search"
         (keyup.enter)="coletar(search, true)"/>
-      <!--<div class="input-group-append">-->
-        <div class="btn-group dropdown">
-          <button [disabled]="search===''" class="btn btn-primary" type="button" tooltip="Marca como coletado" (click)="coletar(search, true)"> Coletar </button>
-          <button id="button-split"
-            type="button" dropdownToggle
-            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-            aria-controls="dropdown-split">
-          <!--<span class="caret"></span>-->
-          <!--<span class="sr-only">Split button!</span>-->
-        </button>
-        <!--</div>-->
+        <div class="btn-group">
+          <button [disabled]="search===''"
+            class="btn btn-primary"
+            type="button"
+            tooltip="Marca como coletado"
+            style="border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;"
+            (click)="coletar(search, true)">
+            Coletar
+          </button>
+          <div class="btn-group" dropdown>
+              <button id="button-split"
+                type="button"
+                dropdownToggle
+                class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                aria-controls="dropdown-split">
+                <span class="caret"></span>
+                <span class="sr-only">Split button!</span>
+              </button>
+              <ul id="dropdown-split"
+                *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                role="menu"
+                aria-labelledby="button-split">
+                <li role="menuitem"
+                  *ngFor="let col of columns | filter : 'true' : 'visible'"
+                  value="{{col.name}}">
+                  <a class="dropdown-item" (click)="colsearch = col.name">
+                    {{ col.caption }}
+                  </a>
+                </li>
+              </ul>
+            </div>
       </div>
       <progressbar class="searchpos" [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
     </div>
-  </div>
-  <div class="col-4">
-    <!--<button type="button" class="btn btn-primary btn-sm" (click)="openModal(template)">Propriedades</button>-->
   </div>
 </div>
 
@@ -37,28 +54,33 @@
               <div class="col-12 spacebetween">
                 <span style="margin-right: 10px;">Filtro:</span>
                 <div class="input-group">
-                  <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Informe parte da pesquisa por ({{searchKey || 'qualquer campo'}})" (change)="reloadProgressBar()">
-                  <div class="input-group-append">
-                    <div class="btn-group dropdown">
-                      <button id="button-basic" dropdownToggle
+                  <input type="text"
+                    class="form-control"
+                    [(ngModel)]="searchText"
+                    placeholder="Informe parte da pesquisa por ({{searchKey || 'qualquer campo'}})"
+                    (change)="reloadProgressBar()">
+
+                  <div class="btn-group" dropdown>
+                      <button id="button-split"
                         type="button"
-                        class="btn btn-info dropdown-toggle"
-                        aria-controls="dropdown-basic"
-                        style="border-top-left-radius: 0;border-bottom-left-radius: 0;"
-                        tooltip="Selecione a coluna par ao flitro">
-                        <fa name="filter"></fa>
+                        dropdownToggle
+                        class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                        aria-controls="dropdown-split">
+                        <span class="caret"></span>
+                        <span class="sr-only">Split button!</span>
                       </button>
-                      <ul id="dropdown-basic" dropdownMenu class="dropdown-menu"
-                        role="menu" aria-labelledby="button-basic">
-                        <li role="menuitem"><a href="#" class="dropdown-item">Código</a></li>
+                      <ul id="dropdown-split" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                          role="menu" aria-labelledby="button-split">
+                        <li role="menuitem"
+                          *ngFor="let col of columns | filter : 'true' : 'visible'"
+                          value="{{col.name}}">
+                          <a class="dropdown-item" (click)="searchKey = col.name">
+                            {{ col.caption }}
+                          </a>
+                        </li>
                       </ul>
                     </div>
-                  </div>
                 </div>
-
-                <select name="lsFilter" id="idFilter" class="form-control form-control-sm" [(ngModel)]="searchKey" cols="10">
-                  <option *ngFor="let col of columns | filter : 'true' : 'visible'" value="{{col.name}}" [selected]="col.name===searchKey">{{ col.caption }}</option>
-                </select>
               </div>
             </div>
           </th>
@@ -106,12 +128,46 @@
           <td [attr.colspan]="visibleColumns()" class="thfooter">
             <div class="spacebetween">
               {{ this.dataset.length }} registros encontrados
-              <button id="button-basic"
-                type="button"
-                class="btn btn-info"
-                tooltip="Propredades">
-                <fa name="cog" (click)="openModal(template)"></fa>
-              </button>
+              <div>
+                <div class="btn-group" dropdown>
+                  <button id="button-basic"
+                    type="button"
+                    class="btn btn-info"
+                    tooltip="Propredades">
+                    <fa name="cog" (click)="openModal(template)"></fa>
+                  </button>
+
+                  <button id="button-split"
+                    type="button"
+                    dropdownToggle
+                    class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                    aria-controls="dropdown-split">
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                  </button>
+                  <ul id="dropdown-split"
+                    *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                    role="menu"
+                    aria-labelledby="button-split">
+                    <li role="menuitem">
+                      <a class="dropdown-item">
+                        <label for="ckcoleta">
+                        {{canColet ? 'Desabilitar' : 'Habilitar'}} coleta
+                        <input id="ckcoleta" type="checkbox" [(ngModel)]="canColet" style="visibility: hidden;">
+                        </label>
+                      </a>
+                    </li>
+                    <li role="menuitem">
+                      <a class="dropdown-item">
+                        <label for="ckfiltro">
+                        {{canfilter ? 'Desabilitar' : 'Habilitar'}} filtro
+                        <input id="ckfiltro" type="checkbox" [(ngModel)]="canfilter" style="visibility: hidden;">
+                        </label>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </td>
         </tr>
@@ -210,16 +266,6 @@
       <div class="col-7">
         <div class="form-group">
           <input type="checkbox" [(ngModel)]="canfilter">
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-5">
-          Habilitar Progress Bar
-      </div>
-      <div class="col-7">
-        <div class="form-group">
-          <input type="checkbox" [(ngModel)]="canProgress">
         </div>
       </div>
     </div>
