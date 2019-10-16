@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RepresentantesLookupService } from '../services/representantes-lookup.service';
 
 @Component({
   selector: 'app-representantes-lookup',
@@ -8,25 +7,9 @@ import { RepresentantesLookupService } from '../services/representantes-lookup.s
 })
 export class RepresentantesLookupComponent implements OnInit {
 
-  data: any;
-
-  constructor( private repres: RepresentantesLookupService ) { }
+  constructor( ) { }
 
   ngOnInit() {
-
-    this.getRepres();
-
-  }
-
-  getRepres() {
-
-    console.log('getRepres: ' + JSON.stringify(this.repres.getData('j', 1, 10)));
-
-    this.repres.getData('j', 1, 10).subscribe(
-      data => {
-        this.data = data.Data;
-      }
-    );
 
   }
 
