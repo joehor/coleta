@@ -1,21 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule , FormsModule, FormBuilder } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// ngx-bootstrap...
 import { ProgressbarModule
   , PaginationModule
   , TooltipModule
   , ModalModule
   , AlertModule
   , AlertConfig
-  // , BsDropdownModule
+  , BsDropdownModule
+  , BsDropdownDirective
+  , BsDropdownConfig
 } from 'ngx-bootstrap';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -51,14 +54,18 @@ import { GridComponent } from './grid/grid.component';
     FormsModule,
     HttpClientModule,
 
-    // BsDropdownModule.forRoot(),
+    AngularFontAwesomeModule,
 
+    // ngx-bootstrap...
     AlertModule,
     ModalModule.forRoot(),
-    AngularFontAwesomeModule,
+    BsDropdownModule.forRoot(),
     ProgressbarModule.forRoot(),
     PaginationModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+
+    // ngx-bootstrap - toast
+    ToastrModule.forRoot()
   ],
   providers: [
     {
@@ -70,6 +77,8 @@ import { GridComponent } from './grid/grid.component';
     FormBuilder,
     AlertConfig,
     HttpParams,
+    BsDropdownDirective,
+    BsDropdownConfig
   ],
   bootstrap: [AppComponent]
 })
