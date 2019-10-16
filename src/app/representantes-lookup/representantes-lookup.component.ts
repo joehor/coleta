@@ -13,4 +13,10 @@ export class RepresentantesLookupComponent implements OnInit {
 
   }
 
+  onSelectData(event: any) {
+
+    console.log('representantes-lookup(onSelectData): ' + JSON.stringify(event));
+
+  }
+
 }

@@ -1,2 +1,2 @@
 
-<app-grid [apiroute]="'Representantes/Lookup'"></app-grid>
+<app-grid [apiroute]="'Representantes/Lookup'" [pagesize]="15" (emitDataSelected)="onSelectData($event)"></app-grid>
