@@ -1,0 +1,25 @@
+.centered {
+  background-color: lightyellow;
+  border-radius: 5px;
+  width: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.borderfont {
+  border: 2px solid lightblue;
+  border-radius: 5px;
+  font-size: 28px;
+  box-shadow: #CCCCCC 10px 10px 10px;
+}
+
+.borderfont fa {
+  padding-right: 20px;
+}
+
+.content {
+  padding: 20px;
+}
