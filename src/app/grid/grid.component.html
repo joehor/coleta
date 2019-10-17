@@ -30,6 +30,7 @@
         <th *ngFor="let col of datacolumns | filter : 'true' : 'visible'">
           <div>
             {{ col.caption }}
+            <fa name="minus-square" (click)="showhidecolumn(col)"></fa>
             <fa name="sort-up" *ngIf="col.sort === -1" (click)="ordenar(col.name, col.sort)"></fa>
             <fa name="sort-down" *ngIf="col.sort === 1" (click)="ordenar(col.name, col.sort)"></fa>
             <fa name="sort" *ngIf="col.sort === 0" (click)="ordenar(col.name, col.sort)"></fa>
@@ -55,8 +56,8 @@
                 type="button"
                 class="btn btn-info"
                 tooltip="Propredades">
-                <!--<fa name="cog" (click)="openModal(template)"></fa>-->
-                <fa name="cog"></fa>
+                <fa name="cog" (click)="openModal(template)"></fa>
+                <!--<fa name="cog"></fa>-->
               </button>
 
               <button id="button-split"
@@ -70,25 +71,6 @@
                 class="dropdown-menu dropdown-menu-right"
                 role="menu"
                 aria-labelledby="button-split">
-
-                <li role="menuitem">
-                  <div class="input-group" role="group" style="padding-right: 10px;padding-left: 10px;">
-                    Registros:
-                    <input type="text"
-                    class="form-control"
-                    placeholder="10">
-                    <div class="input-group-append">
-                      <button
-                        class="btn btn-info"
-                        type="button"
-                        tooltip="Salvar"
-                        placement="left">
-                        Ok
-                      </button>
-                    </div>
-                  </div>
-                </li>
-
                 <li role="menuitem">
                   <a class="dropdown-item" (click)="printDataset()">
                     Imprimir
@@ -99,7 +81,7 @@
                   <a class="dropdown-item">
                     <label for="ckcoleta">
                     {{col.visible ? 'Ocultar' : 'Mostrar'}} coluna <strong>"{{ col.caption }}"</strong>
-                    <input id="ckcoleta" type="checkbox" [(ngModel)]="col.visible" style="visibility: hidden;">
+                    <input id="ckcoleta" type="checkbox" (click)="showhidecolumn(col)" style="visibility: hidden;">
                     </label>
                   </a>
                 </li>
@@ -141,4 +123,24 @@
 
 </div>
 
-{{ datacolumns | json }}
+<!-- tela centralizada para aguardar resposta -->
+<app-loading aviso="Pesquisando..." *ngIf="pesquisando"></app-loading>
+
+<!-- Modal window -->
+<ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Propriedades</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Ok</button>
+    </div>
+  </ng-template>
+
+
+  {{ datacolumns | json }}

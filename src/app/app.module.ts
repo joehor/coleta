@@ -33,6 +33,7 @@ import { TokenInterceptor } from './services/auth/token.interceptor';
 import { AuthService } from './services/auth/auth.service';
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
 import { GridComponent } from './grid/grid.component';
+import { LoadingComponent } from './loading/loading.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { GridComponent } from './grid/grid.component';
     NavmenuComponent,
     FilterPipe,
     RepresentantesLookupComponent,
-    GridComponent
+    GridComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

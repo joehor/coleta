@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ChangeDetectorRef  } from '@angular/core';
 import { DataLookupService } from '../services/data-lookup.service';
-import { NONE_TYPE } from '@angular/compiler/src/output/output_ast';
+import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
+import { TabHeadingDirective } from 'ngx-bootstrap';
 
 interface Httpcodes {
   code: number;
@@ -16,6 +17,7 @@ interface Httpcodes {
 
 export class GridComponent implements OnInit {
 
+  modalRef: BsModalRef;
   // variáveis para injeção...
   @Input() datasource: any[] = [];
   @Input() apiroute: string;
@@ -42,7 +44,7 @@ export class GridComponent implements OnInit {
   // Event emitter...
   httperror: Httpcodes;
 
-  constructor( private datalookup: DataLookupService ) { }
+  constructor( private datalookup: DataLookupService, private modalService: BsModalService, private changeDetection: ChangeDetectorRef ) { }
 
   ngOnInit() {
 
@@ -148,6 +150,10 @@ export class GridComponent implements OnInit {
 
   }
 
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   // serviço que busca os dados da API...
   getDataFromApi(api: string, pesq: string, page: number, pagecount: number) {
 
@@ -216,6 +222,13 @@ export class GridComponent implements OnInit {
 
     // envia o dado para quem quiser pegar...
     this.emitDataSelected.emit(datasel);
+
+  }
+
+  showhidecolumn(col: any) {
+
+    col.visible = !col.visible;
+    this.changeDetection.detectChanges();
 
   }
 

@@ -9,3 +9,4 @@
 9- adicionado evento no click da table--ok
 10- ocultar colunas não está funcionando
 11- item editavel no dropdown não deixa mexer pois fecha o menu
+12- NavMenu não abre
