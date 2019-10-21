@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlApi: 'http://servicos.idelli.com.br/GrupoK1/api'
+  apptitile: 'Coleta',
+  urlApi: ''
 };
 
 /*

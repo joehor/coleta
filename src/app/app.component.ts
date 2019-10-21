@@ -7,9 +7,9 @@ import { setTheme } from 'ngx-bootstrap';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Coleta';
 
   constructor() {
     setTheme('bs4'); // bs3
   }
+
 }

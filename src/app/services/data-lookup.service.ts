@@ -1,38 +1,52 @@
-import { Injectable, Output, EventEmitter, Input } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse  } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
 import { DataApi } from './data-api';
-import { throwError, ArgumentOutOfRangeError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
-import { Httpcodes } from './httpcodes';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+// import { Httpcodes } from './httpcodes';
+import { environment } from '../../environments/environment';
+import { isDevMode } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class DataLookupService {
   httperror: any;
+  baseapi: string;
 
-  constructor( private httpclient: HttpClient, httpparams: HttpParams ) {
+  constructor( private httpclient: HttpClient ) {
+    // usando o ng build --configuration=production dá o erro:
+    // tslint:disable-next-line: max-line-length
+    // ERROR in : Can't resolve all parameters for HttpParams in C:/Developer/Angular/Coleta/node_modules/@angular/common/http/http.d.ts: (?).
+    if (isDevMode()) {
+      this.baseapi = '';
+    } else {
+      this.baseapi = 'http://servicos.idelli.com.br/GrupoK1/api';
+    }
   }
 
   getData(api: string, pesq: string, page: number, pagecnt: number) {
 
     console.log('Buscando dados...');
 
-    const params = new HttpParams()
-      .append('pesquisa', pesq)
-      .append('PageNumber', page.toString())
-      .append('PageSize', pagecnt.toString());
-    // params = params.append('pesquisa', pesq);
-    // params = params.append('PageNumber', page.toString());
-    // params = params.append('PageSize', pagecnt.toString());
+    const params = {
+      pesquisa: pesq,
+      PageNumber: page.toString(),
+      PageSize: pagecnt.toString()
+    };
+
+    const urlapi = `${this.baseapi}/api/${api}`;
+
+    console.log('urlapi: ' + urlapi);
+    console.log('envapi: ' + environment.urlApi);
+
 
     // console.log(JSON.stringify(this.httpclient.get(`/api/Authentication`, { params })));
 
     return this.httpclient
-      .get<DataApi>( `/api/${api}`, { params } )
+      .get<DataApi>( urlapi, { params } )
       .pipe(
-        retry( 2 ),
+        // retry( 2 ),
         catchError( this.handleError )
       );
 
@@ -60,10 +74,10 @@ export class DataLookupService {
         {code: 305, erro: 'Use Proxy', mensagem: 'Use Proxy'},
         {code: 306, erro: 'Proxy Switch', mensagem: 'Proxy Trocado'},
         {code: 400, erro: 'Bad Request', mensagem: 'Solicitação Inválida'},
-        {code: 401, erro: 'Unauthorized', mensagem: 'Não autorizado'},
+        {code: 401, erro: 'Unauthorized', mensagem: 'Acesso restrito ou usuário não autenticado'},
         {code: 402, erro: 'Payment Required', mensagem: 'Pagamento necessário'},
         {code: 403, erro: 'Forbidden', mensagem: 'Proibido'},
-        {code: 404, erro: 'Not Found', mensagem: 'Não encontrado'},
+        {code: 404, erro: 'Not Found', mensagem: 'Página ou recurso não encontrado'},
         {code: 405, erro: 'Method Not Allowed', mensagem: 'Método não permitido'},
         {code: 406, erro: 'Not Acceptable', mensagem: 'Não aceito'},
         {code: 407, erro: 'Proxy Authentication Required', mensagem: 'Autenticação de Proxy Necessária'},

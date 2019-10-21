@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   token: any;
   lastLogon = localStorage.getItem('lastLogon');
+  loginerror: any;
 
   constructor(
     private authservice: AuthService,
@@ -60,13 +61,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log('Dados: ' + usuario + ':' + senha);
+    console.log('Dados: ' + usuario + ':' + senha)
     // aqui
 
     this.loginservice
     .getToken(usuario, senha)
     // .pipe(first())
-    .subscribe(token => {
+    .subscribe(
+      token => {
       localStorage.setItem('lastLogon', usuario);
       this.token = token;
       // salvando o token
@@ -79,6 +81,10 @@ export class LoginComponent implements OnInit {
         console.log('Login Ok ' + redUrl + '!');
         // this.route.navigate([redUrl]);
       }
+    },
+    error => {
+      // envia o dado para quem quiser pegar...
+      this.loginerror = error;
     });
   }
 

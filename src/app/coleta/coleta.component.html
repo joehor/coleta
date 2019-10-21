@@ -1,53 +1,61 @@
 <div class="row">
-  <div class="col-12" *ngIf="canColet">
-    <div class="input-group mb-3">
-      <input type="text"
-        placeholder="Coleta por ({{ colsearch }})"
-        class="form-control"
-        [(ngModel)]="search"
-        (keyup.enter)="coletar(search, true)"/>
-        <div class="btn-group">
-          <button [disabled]="search===''"
-            class="btn btn-primary"
-            type="button"
-            tooltip="Marca como coletado"
-            style="border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;"
-            (click)="coletar(search, true)">
-            Coletar
-          </button>
-          <div class="btn-group" dropdown>
-              <button id="button-split"
-                type="button"
-                dropdownToggle
-                class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                aria-controls="dropdown-split">
-                <span class="caret"></span>
-                <span class="sr-only">Split button!</span>
-              </button>
-              <ul id="dropdown-split"
-                *dropdownMenu class="dropdown-menu dropdown-menu-right"
-                role="menu"
-                aria-labelledby="button-split">
-                <li role="menuitem"
-                  *ngFor="let col of columns | filter : 'true' : 'visible'"
-                  value="{{col.name}}">
-                  <a class="dropdown-item" (click)="colsearch = col.name">
-                    {{ col.caption }}
-                  </a>
-                </li>
-              </ul>
-            </div>
-      </div>
-      <progressbar class="searchpos" [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
-    </div>
-  </div>
-</div>
-
-<div class="row">
   <div class="col-md">
 
     <table class="table table-sm table-bordered">
-      <thead class="thead-dark">
+      <thead class="thead-gradient">
+
+
+      <tr *ngIf="canColet" class="bgsteelblue">
+          <th [attr.colspan]="visibleColumns()">
+            <div class="row">
+              <div class="col-12 spacebetween">
+                <span style="margin-right: 10px;">Coleta:</span>
+                <div class="input-group">
+                    <input type="text"
+                    placeholder="Coleta por ({{ colsearch }})"
+                    class="form-control"
+                    [(ngModel)]="search"
+                    (keyup.enter)="coletar(search, true)"/>
+                    <div class="btn-group">
+                      <button [disabled]="search===''"
+                        class="btn btn-primary"
+                        type="button"
+                        tooltip="Marca como coletado"
+                        style="border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;"
+                        (click)="coletar(search, true)">
+                        Coletar
+                      </button>
+
+                    <div class="btn-group" dropdown>
+                      <button id="button-split"
+                        type="button"
+                        dropdownToggle
+                        class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                        aria-controls="dropdown-split">
+                        <span class="caret"></span>
+                        <span class="sr-only">Split button!</span>
+                      </button>
+                      <ul id="dropdown-split"
+                        *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                        role="menu"
+                        aria-labelledby="button-split">
+                        <li role="menuitem"
+                          *ngFor="let col of columns | filter : 'true' : 'visible'"
+                          value="{{col.name}}">
+                          <a class="dropdown-item" (click)="colsearch = col.name">
+                            {{ col.caption }}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <progressbar class="searchpos" [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
+                </div>
+              </div>
+            </div>
+          </th>
+        </tr>
+
         <tr *ngIf="canfilter">
           <th [attr.colspan]="visibleColumns()" class="thfilter">
             <div class="row">
@@ -129,7 +137,7 @@
             <div class="spacebetween">
               {{ this.dataset.length }} registros encontrados
               <div>
-                <div class="btn-group" dropdown>
+                <div class="btn-group" dropdown [dropup]="true">
                   <button id="button-basic"
                     type="button"
                     class="btn btn-info"
@@ -140,7 +148,7 @@
                   <button id="button-split"
                     type="button"
                     dropdownToggle
-                    class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                    class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split"
                     aria-controls="dropdown-split">
                     <span class="caret"></span>
                     <span class="sr-only">Split button!</span>

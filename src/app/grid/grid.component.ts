@@ -23,6 +23,15 @@ export class GridComponent implements OnInit {
   @Input() apiroute: string;
   @Input() inputcolumns: string[];
   @Input() pagesize = 10;
+  @Input() colsearch: string;
+  @Input() canfilter = false; // opção para filtrar...
+  @Input() cancoleta = false; // opção para conferir...
+
+  search: string;
+  searchText: string;
+  searchKey: string;
+  pcol = 0; // total de colunas
+
 
   // evento que emite o item slecionado...
   @Output() emitDataSelected = new EventEmitter<any>();
@@ -89,6 +98,20 @@ export class GridComponent implements OnInit {
         };
       });
     }
+
+  }
+
+  coletar(chave: string, check: boolean) {
+
+    const reg = this.datasource.find(row => row[this.colsearch].toString() === chave);
+    if (reg) { reg.check = check; }
+
+    const lidos = this.datasource.filter(row => row.check).length;
+
+    // limpa o campo de busca...
+    this.search = '';
+
+    this.pcol = Math.round(((lidos * 100) / this.datasource.length));
 
   }
 
@@ -188,6 +211,13 @@ export class GridComponent implements OnInit {
         if (error.code === 401) { this.httperror.mensagem = 'Falha na autenticação, efetue novo logon'; }
       }
     );
+  }
+
+  reloadProgressBar() {
+
+    // console.log('Recalculando filterdataset: ' + this.filterdataset.length.toString());
+    this.pcol = Math.round( (this.datasource.filter(row => row.check).length * 100) / this.datasource.length );
+
   }
 
   // impprime a tabela

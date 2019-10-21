@@ -1,3 +1,4 @@
+
 th div {
   display: flex;
   justify-content: space-between;
@@ -29,10 +30,6 @@ th fa {
   display: flex;
   justify-content: flex-start;
   height: 25px;
-}
-
-.footer {
-  background-color: lightgrey;
 }
 
 .dropdown-item {

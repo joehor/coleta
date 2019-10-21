@@ -25,10 +25,6 @@ table td {
   background-color: lightgrey;
 }
 
-.thfilter {
-  background-color: darkcyan !important;
-}
-
 .bglightgreen {
   background-color: palegreen;
 }
@@ -56,8 +52,7 @@ table td {
 }
 
 .searchpos {
-  margin-top: 3px;
-  margin-right: 3px;
+  margin-top: 5px;
 }
 
 .dropdown-item {

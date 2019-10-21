@@ -16,6 +16,7 @@ import { ProgressbarModule
   , BsDropdownModule
   , BsDropdownDirective
   , BsDropdownConfig
+  , CarouselModule
 } from 'ngx-bootstrap';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -34,6 +35,9 @@ import { AuthService } from './services/auth/auth.service';
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
 import { GridComponent } from './grid/grid.component';
 import { LoadingComponent } from './loading/loading.component';
+import { AlertComponent } from './alert/alert.component';
+import { HomeComponent } from './home/home.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -46,7 +50,10 @@ import { LoadingComponent } from './loading/loading.component';
     FilterPipe,
     RepresentantesLookupComponent,
     GridComponent,
-    LoadingComponent
+    LoadingComponent,
+    AlertComponent,
+    HomeComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +72,7 @@ import { LoadingComponent } from './loading/loading.component';
     ProgressbarModule.forRoot(),
     PaginationModule.forRoot(),
     TooltipModule.forRoot(),
+    CarouselModule.forRoot(),
 
     // ngx-bootstrap - toast
     ToastrModule.forRoot()
