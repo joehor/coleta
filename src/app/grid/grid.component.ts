@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ChangeDetectorRef  } from '@angular/core';
 import { DataLookupService } from '../services/data-lookup.service';
 import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
-import { TabHeadingDirective } from 'ngx-bootstrap';
 
 interface Httpcodes {
   code: number;
@@ -19,19 +18,14 @@ export class GridComponent implements OnInit {
 
   modalRef: BsModalRef;
   // variáveis para injeção...
-  @Input() datasource: any[] = [];
-  @Input() apiroute: string;
+  @Input() inputdata: any[] = [];
   @Input() inputcolumns: string[];
+
+  @Input() apiroute: string;
   @Input() pagesize = 10;
   @Input() colsearch: string;
-  @Input() canfilter = false; // opção para filtrar...
-  @Input() cancoleta = false; // opção para conferir...
-
-  search: string;
-  searchText: string;
-  searchKey: string;
-  pcol = 0; // total de colunas
-
+  @Input() canfilter: boolean; // opção para filtrar...
+  @Input() cancoleta: boolean; // opção para conferir...
 
   // evento que emite o item slecionado...
   @Output() emitDataSelected = new EventEmitter<any>();
@@ -39,9 +33,17 @@ export class GridComponent implements OnInit {
   // datasource padrão...
   datanotfound: any[] = [{Aviso: 'Nenhum registro encontrado'}];
 
+  datasource: any[] = [];
+  datacolumns: any[] = [];
+
+  search: string;
+  searchText: string;
+  searchKey: string;
+  pcol = 0; // total de colunas
+
+
   // variaveis locais...
   columns: string[];
-  datacolumns: any[] = [];
   apierror = false;
   currentPage = 1;
   page = 1;
@@ -65,15 +67,13 @@ export class GridComponent implements OnInit {
 
     // se não trouxe nada mostra mensagem sem registro
     if (!this.datasource || this.datasource.length === 0) { this.datasource = this.datanotfound; }
-    // se não informou colunas pega do próprio dataset ...
+    // se não informou colunas pega do próprio dataset...
     if (!this.inputcolumns || this.inputcolumns.length === 0) { this.columns = Object.keys(this.datasource[0]); }
 
-    this.addcolumns(this.datasource);
+    // adiciona as colunas...
+    this.datacolumns = this.addcolumns(this.datasource);
 
-    // console.log('this.columns: ' + this.columns);
-    // console.log('this.columns.lenght: ' + this.columns.length);
-
-    // verifica se tem mais de uma página a ser exibida ...
+    // verifica se tem mais de uma página a ser exibida...
     this.addpagination();
 
   }
@@ -86,17 +86,26 @@ export class GridComponent implements OnInit {
   addcolumns(ds: any) {
 
     if (ds) {
+
+      // define a coluna a ser pesquisada..
+      if (!this.colsearch) {
+        this.colsearch = Object.keys(ds[0])[0];
+      }
+
       const cols = (!this.inputcolumns ? Object.keys(ds[0]) : this.inputcolumns);
-      this.datacolumns = cols.map((col, index) => {
-        return {
+      const acols: any[] = [];
+      cols.map((col, index) => {
+        if (index === 0 && this.colsearch === '') { this.colsearch = col; }
+        acols.push({
           id: index,
           name: col,
           caption: col.substr(0, 1).toUpperCase() + col.substr(1).toLowerCase(), // torna a letra inicial maiúscula
-          type: typeof(ds[0][col]),
+          type: typeof ds[0][col],
           sort: 0, // ordenação 0=nenhum; 1=ascendente; 2=descendente
           visible: (col.substr(0, 1) !== '_') // invisivel se iniciar com "_" (sublinhado)
-        };
+        });
       });
+      return acols;
     }
 
   }
@@ -194,15 +203,16 @@ export class GridComponent implements OnInit {
           this.datasource = this.datanotfound;
           this.apierror = true;
           this.pagecount = 0;
-          return [];
+          this.datasource = this.datanotfound;
         } else {
           console.log('Encontrado');
           this.pesquisando = false;
-          this.datasource = data.Data;
+          // this.datasource = data.Data;
+          this.datasource = this.addCheckField(data.Data);
           this.apierror = !data.Success;
           this.pagecount = data.Paginas.PageCount;
+          this.datacolumns = this.addcolumns(data.Data);
         }
-        this.addcolumns(data.Data);
       },
       error => {
         this.pesquisando = false;
@@ -262,4 +272,11 @@ export class GridComponent implements OnInit {
 
   }
 
+  addCheckField(dataset: any) {
+
+    return dataset.map(data => {
+      return {...data, check: false};
+    });
+
+  }
 }

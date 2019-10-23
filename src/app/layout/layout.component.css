@@ -1,0 +1,98 @@
+html {
+	height: 100%;
+}
+aside {
+  position: fixed;
+  height: 100%;
+  margin-left: -85px;
+  transition: margin-left 1s;
+    transition-property: margin-left;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+.slide {
+  margin-left: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+	display: block;
+}
+body {
+	font: 12px/18px Arial, sans-serif;
+	height: 100%;
+}
+.wrapper {
+	width: 100%;
+	min-width: 100px;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+}
+
+
+/* Header
+-----------------------------------------------------------------------------*/
+.header {
+	height: 75px;
+  background: #FFE680;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px !important;
+}
+
+.header ul li {
+  display: inline;
+  padding-left: 10x;
+}
+
+
+/* Middle
+-----------------------------------------------------------------------------*/
+.middle {
+	width: 100%;
+	padding: 0 0 100px;
+	position: relative;
+}
+.middle:after {
+	display: table;
+	clear: both;
+	content: '';
+}
+.container {
+	width: 100%;
+	float: left;
+	overflow: hidden;
+}
+.content {
+	padding: 0 0 0 270px;
+}
+
+
+/* Left Sidebar
+-----------------------------------------------------------------------------*/
+.left-sidebar {
+	/*float: left;*/
+	/*width: 250px;*/
+	/*margin-left: -100%;*/
+	/*position: relative;*/
+	background: #B5E3FF;
+}
+
+
+/* Footer
+-----------------------------------------------------------------------------*/
+.footer {
+	margin: -100px auto 0;
+	min-width: 100px;
+	height: 43px;
+	background: #BFF08E;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

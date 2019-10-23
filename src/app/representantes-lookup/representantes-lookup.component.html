@@ -2,7 +2,19 @@
 <app-grid
   [apiroute]="'Representantes/Lookup'"
   [pagesize]="15"
-  cancoleta="true"
-  canfilter
   (emitDataSelected)="onSelectData($event)">
 </app-grid>
+
+<!--
+<table style="width: 100%">
+  <tr>
+    <th class="thcoleta">thcoleta</th>
+  </tr>
+  <tr>
+    <th class="thfilter">thfilter</th>
+  </tr>
+  <tr>
+    <th class="thcolumns">thcolumns</th>
+  </tr>
+</table>
+-->

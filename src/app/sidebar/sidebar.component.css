@@ -1,0 +1,22 @@
+button {
+  margin-right: -27px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0;
+  opacity: 0.5;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {
+  background-color: red;
+}

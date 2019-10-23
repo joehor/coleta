@@ -38,6 +38,8 @@ import { LoadingComponent } from './loading/loading.component';
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     LoadingComponent,
     AlertComponent,
     HomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SidebarComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

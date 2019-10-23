@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   token: any;
   lastLogon = localStorage.getItem('lastLogon');
   loginerror: any;
+  logado = false;
+  error = false;
 
   constructor(
     private authservice: AuthService,
@@ -53,6 +55,11 @@ export class LoginComponent implements OnInit {
     const usuario = this.formLogin.value.usr;
     const senha = this.formLogin.value.pss;
 
+    // reseta variaveis
+    this.error = false;
+    this.logado = false;
+    this.loginerror = {};
+
     if (!usuario || !senha) {
       console.log('usuario: ' + usuario);
       console.log('senha: ' + senha);
@@ -76,15 +83,19 @@ export class LoginComponent implements OnInit {
       this.authservice.sendToken(this.token.TokenAccess);
       if (!redUrl) {
         console.log('Login Ok dashboard!');
+        this.logado = true;
         // this.route.navigate(['/dashboard']);
       } else {
         console.log('Login Ok ' + redUrl + '!');
+        this.logado = true;
         // this.route.navigate([redUrl]);
       }
     },
     error => {
       // envia o dado para quem quiser pegar...
       this.loginerror = error;
+      this.logado = false;
+      this.error = true;
     });
   }
 

@@ -22,6 +22,14 @@ th div {
   align-items: baseline;
 }
 
+table td {
+  transition: background-color 1s;
+    transition-property: background-color;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+
 th fa {
   cursor: pointer;
 }
@@ -35,3 +43,52 @@ th fa {
 .dropdown-item {
   cursor: pointer;
 }
+
+.bglightgreen {
+  background-color: palegreen;
+}
+
+
+/* TABELAS */
+.thead-gradient {
+  color: whitesmoke;
+}
+
+.thcoleta, .thcolumns, .thfilter {
+  color: whitesmoke;
+}
+
+.trhide {
+  display: none;
+}
+
+.thcoleta {
+  background-image: linear-gradient(steelblue, darkblue) !important;
+}
+
+.thcolumns {
+  background-image: linear-gradient(rgb(1, 155, 198), rgb(0, 68, 100));
+}
+
+.thfilter {
+  background-image: linear-gradient(darkseagreen, rgb(0, 90, 90)) !important;
+}
+
+.thfooter {
+  background-image: linear-gradient(rgb(210, 210, 210), #6c757d) !important;
+  font-weight: bold;
+}
+
+.thcoleta progressbar {
+  margin-top: 3px;
+}
+
+/* TABELAS (FIM) */
+
+/* BOTOES */
+
+.btn-info.dropdown-menu {
+  background-color: tomato !important;
+}
+
+/* BOTOES (FIM) */

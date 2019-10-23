@@ -1,3 +1,6 @@
+<app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!loginerror ? '' : loginerror.mensagem)"></app-alert>
+<app-alert *ngIf="logado" tipo='success' title="Ok!" mensagem="Usuário autenticado com Sucesso!"></app-alert>
+
 <form [formGroup]="formLogin">
   <div class="form-group">
     <label for="login">Usuário</label>
@@ -13,7 +16,3 @@
   </div>
   <button type="submit" class="btn btn-primary" (click)="getToken()">Entrar</button>
 </form>
-
-<app-alert tipo='danger' title="K-rai! Deu ruim" [mensagem]="(!loginerror ? '' : loginerror.mensagem)"></app-alert>
-
-loginerror: {{loginerror | json}}

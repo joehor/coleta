@@ -1,33 +1,20 @@
+<!-- tela centralizada para aguardar resposta -->
+<app-loading aviso="Pesquisando..." *ngIf="pesquisando"></app-loading>
+
 <div class="col-md">
 
-  <div class="input-group" role="group" style="padding-bottom: 5px;">
-
-    <input type="text" class="form-control"
-      [(ngModel)]="pesquisa"
-      placeholder="Informe parte código ou parte da descrição"
-      (change)="resetapesquisa()">
-    <div class="input-group-append">
-      <button [disabled]="(!pesquisando && pesquisa==='')"
-        class="btn btn-primary btnpesquisa"
-        type="button"
-        tooltip="Pesquisa"
-        placement="left"
-        (click)="pesquisar()">
-        Pesquisar
-        <fa name="search" *ngIf="!pesquisando"></fa>
-        <fa name="refresh" animation="spin" *ngIf="pesquisando"></fa>
-      </button>
-    </div>
-
-  </div>
+  <alert type="danger" *ngIf="apierror">
+    <fa name="bomb"></fa>
+    Falha na requisição. A aplicação retornou erro: <strong>"{{ (!httperror ? '' : httperror).mensagem || 'Erro desconhecido!' }}"</strong>
+  </alert>
 
   <div id="tabledataset">
   <table class="table table-sm table-hover table-bordered">
 
-    <thead class="thead-gradient">
+    <thead>
 
-      <tr *ngIf="cancoleta" class="bgsteelblue">
-        <th [attr.colspan]="visiblecolumns()">
+      <tr [hidden]="!cancoleta">
+        <th [attr.colspan]="visiblecolumns()" class="thcoleta">
           <div class="row">
             <div class="col-12 spacebetween">
               <span style="margin-right: 10px;">Coleta:</span>
@@ -60,8 +47,9 @@
                       *dropdownMenu class="dropdown-menu dropdown-menu-right"
                       role="menu"
                       aria-labelledby="button-split">
+
                       <li role="menuitem"
-                        *ngFor="let col of columns | filter : 'true' : 'visible'"
+                        *ngFor="let col of datacolumns | filter : 'true' : 'visible'"
                         value="{{col.name}}">
                         <a class="dropdown-item" (click)="colsearch = col.name">
                           {{ col.caption }}
@@ -70,7 +58,12 @@
                     </ul>
                   </div>
                 </div>
-                <progressbar class="searchpos" [value]="(pcol)" [type]="(pcol == 100 ? 'success' : 'primary')">{{ pcol }}%</progressbar>
+                <progressbar
+                  class="searchpos"
+                  [value]="(pcol)"
+                  [type]="(pcol == 100 ? 'success' : 'primary')">
+                  {{ pcol }}%
+                </progressbar>
               </div>
             </div>
           </div>
@@ -101,7 +94,7 @@
                     <ul id="dropdown-split" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                         role="menu" aria-labelledby="button-split">
                       <li role="menuitem"
-                        *ngFor="let col of columns | filter : 'true' : 'visible'"
+                        *ngFor="let col of datacolumns | filter : 'true' : 'visible'"
                         value="{{col.name}}">
                         <a class="dropdown-item" (click)="searchKey = col.name">
                           {{ col.caption }}
@@ -116,10 +109,34 @@
       </tr>
 
       <tr>
-        <th *ngFor="let col of datacolumns | filter : 'true' : 'visible'">
+        <th [attr.colspan]="visiblecolumns()">
+            <div class="input-group" role="group" style="padding-bottom: 5px;">
+
+                <input type="text" class="form-control input-sm"
+                  [(ngModel)]="pesquisa"
+                  placeholder="Informe parte código ou parte da descrição"
+                  (change)="resetapesquisa()">
+                <div class="input-group-append">
+                  <button [disabled]="(!pesquisando && pesquisa==='')"
+                    class="btn btn-sm btn-primary btnpesquisa"
+                    type="button"
+                    tooltip="Pesquisa"
+                    placement="left"
+                    (click)="pesquisar()">
+                    Pesquisar
+                    <fa name="search" *ngIf="!pesquisando"></fa>
+                    <fa name="refresh" animation="spin" *ngIf="pesquisando"></fa>
+                  </button>
+                </div>
+              </div>
+        </th>
+      </tr>
+
+      <tr>
+        <th *ngFor="let col of (datacolumns ? datacolumns : []) | filter : 'true' : 'visible'" class="thcolumns">
           <div>
             {{ col.caption }}
-            <fa name="minus-square" (click)="showhidecolumn(col)"></fa>
+            <!--<fa name="minus-square" (click)="showhidecolumn(col)"></fa>-->
             <fa name="sort-up" *ngIf="col.sort === -1" (click)="ordenar(col.name, col.sort)"></fa>
             <fa name="sort-down" *ngIf="col.sort === 1" (click)="ordenar(col.name, col.sort)"></fa>
             <fa name="sort" *ngIf="col.sort === 0" (click)="ordenar(col.name, col.sort)"></fa>
@@ -132,27 +149,30 @@
     <tbody>
 
       <tr *ngFor="let row of datasource">
-        <td style="cursor: pointer;" [ngClass]="(col.type === 'number' ? 'txright' : '')" *ngFor="let col of datacolumns | filter : 'true' : 'visible'" (dblclick)="selectdata(row)">{{ row[col.name] }}</td>
+        <td *ngFor="let col of datacolumns | filter : 'true' : 'visible'"
+          [ngClass]="{'bglightgreen': (row['check']===true), 'txcenter': (col.name==='check'), 'txright': (col.type === 'number')}"
+          (dblclick)="selectdata(row)">
+            {{ row[col.name] }}
+        </td>
       </tr>
 
       <tr class="thfooter">
         <td [attr.colspan]="visiblecolumns()">
           <div class="spacebetween">
-          {{ (!datasource ? 0 : --datasource.length) }} registros encontrados
+          {{ (!datasource ? 0 : datasource.length) }} registro{{((datasource && datasource.length > 1) ? 's' : '')}} encontrado{{((datasource && datasource.length > 1) ? 's' : '')}}
           <div>
             <div class="btn-group" dropdown [dropup]="true">
               <button id="button-basic"
                 type="button"
-                class="btn btn-info"
+                class="btn btn-sm btn-info"
                 tooltip="Propredades">
                 <fa name="cog" (click)="openModal(template)"></fa>
-                <!--<fa name="cog"></fa>-->
               </button>
 
               <button id="button-split"
                 type="button"
                 dropdownToggle
-                class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split"
                 aria-controls="dropdown-split">
               </button>
               <ul id="dropdown-split"
@@ -160,6 +180,23 @@
                 class="dropdown-menu dropdown-menu-right"
                 role="menu"
                 aria-labelledby="button-split">
+                <li role="menuitem">
+                  <a class="dropdown-item">
+                    <label for="ckcoleta">
+                    {{cancoleta ? 'Desabilitar' : 'Habilitar'}} coleta
+                    <input id="ckcoleta" type="checkbox" [(ngModel)]="cancoleta" style="visibility: hidden;">
+                    </label>
+                  </a>
+                </li>
+                <li role="menuitem">
+                  <a class="dropdown-item">
+                    <label for="ckfiltro">
+                    {{canfilter ? 'Desabilitar' : 'Habilitar'}} filtro
+                    <input id="ckfiltro" type="checkbox" [(ngModel)]="canfilter" style="visibility: hidden;">
+                    </label>
+                  </a>
+                </li>
+                <li class="divider dropdown-divider"></li>
                 <li role="menuitem">
                   <a class="dropdown-item" (click)="printDataset()">
                     Imprimir
@@ -186,7 +223,7 @@
   </table>
   </div>
 
-  <div *ngIf="pagecount > 0">
+  <div *ngIf="pagecount > 1">
     <td [attr.colspan]="visiblecolumns()">
       <div class="spacebetween">
         <pagination
@@ -195,8 +232,8 @@
           [totalItems]="pagecount * 10"
           [rotate]="true"
           [maxSize]="3"
-          previousText="Anterior"
-          nextText="Próxima"
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
           style="margin-right: 10px;"
           (pageChanged)="pageChanged($event)">
         </pagination>
@@ -204,16 +241,7 @@
       </div>
     </td>
   </div>
-
-  <alert type="danger" *ngIf="apierror">
-    <fa name="bomb"></fa>
-    Falha na requisição. A aplicação retornou erro: <strong>"{{ (!httperror ? '' : httperror).mensagem || 'Erro desconhecido!' }}"</strong>
-  </alert>
-
 </div>
-
-<!-- tela centralizada para aguardar resposta -->
-<app-loading aviso="Pesquisando..." *ngIf="pesquisando"></app-loading>
 
 <!-- Modal window -->
 <ng-template #template>
@@ -231,5 +259,5 @@
     </div>
   </ng-template>
 
-
-  {{ datacolumns | json }}
+  {{datacolumns | json}} <br>
+  {{datasource | json}}
