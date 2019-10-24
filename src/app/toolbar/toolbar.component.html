@@ -1,0 +1,16 @@
+<div class="toolbar">
+  <div class="toolbarleft">
+    <!--<fa name="bars" class="sidebarcollapse" (click)="sidemenuopen = !sidemenuopen"></fa>-->
+    <fa id="btnsidemenu" name="bars" (click)="onBtnSlideClick()"></fa>
+  </div>
+  <div class="toolbarcenter">
+    Grupo K1 App
+  </div>
+  <div class="toolbarright">
+    <fa name="user" *ngIf="useractive"></fa>
+    <fa name="user-times" *ngIf="!useractive" [routerLink]="['/login']" routerLinkActive="router-link-active" ></fa>
+    <fa name="bell"></fa><span class="badge">15</span>
+    <fa name="bell-slash"></fa>
+    <fa name="cog"></fa>
+  </div>
+</div>

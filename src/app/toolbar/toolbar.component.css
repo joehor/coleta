@@ -1,0 +1,42 @@
+.toolbar {
+  background-color: rebeccapurple;
+  color: whitesmoke;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+  line-height: 40px;
+}
+.toolbar fa {
+  cursor: pointer;
+  font-size: 22px;
+  color: whitesmoke;
+  padding: 15px;
+}
+.toolbar fa:hover {
+  background-color: mediumpurple
+}
+
+.toolbarcenter {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.badge{
+  position: relative;
+  margin-left: -21px;
+  top: -12px;
+  background-color: darkred;
+  border-radius: 50px;
+}
+
+
+/* media querys */
+@media only screen and (max-width: 600px) {
+  #btnsidemenu {visibility: visible;}
+  .toolbarcenter {font-size: 26px;}
+}
+
+@media only screen and (max-width: 400px) {
+  .toolbarcenter {font-size: 14px;}
+}
