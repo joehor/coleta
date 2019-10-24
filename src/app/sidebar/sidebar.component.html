@@ -1,13 +1,14 @@
-<ul>
+
+<div class="logo">
+  <img src="../../assets/images/logotipoPortal.png">
+</div>
+
+<div class="divider"></div>
+
+<ul (click)="onSelectItem()">
+  <li [routerLink]="['/home']" routerLinkActive="router-link-active" ><fa name="home"></fa>Home</li>
+  <li [routerLink]="['/coleta']" routerLinkActive="router-link-active" >Coleta</li>
+  <li [routerLink]="['/represlookup']" routerLinkActive="router-link-active" >Lista Representante</li>
   <li>Item 1</li>
   <li>Item 2</li>
-  <li>Item 3</li>
-  <li>Item 4</li>
-  <li>Item 5</li>
 </ul>
-<button
-  class="btn btn-sm btn-info"
-  (click)="onSlide($event)">
-  <fa name="chevron-right" *ngIf="!open"></fa>
-  <fa name="chevron-left" *ngIf="open"></fa>
-</button>

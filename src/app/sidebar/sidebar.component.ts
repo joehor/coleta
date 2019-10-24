@@ -21,4 +21,9 @@ export class SidebarComponent implements OnInit {
     console.log('sidebar onSlide: ' + this.open);
   }
 
+  onSelectItem() {
+    this.open = false;
+    this.emitSlide.emit(false);
+  }
+
 }

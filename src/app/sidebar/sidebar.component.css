@@ -1,16 +1,20 @@
-button {
-  margin-right: -27px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left: 0;
-  opacity: 0.5;
+* {
+  margin: 0;
+  padding: 0;;
+  background-color: rebeccapurple;
+  transition: background-color 0.5s;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
-button:hover {
-  opacity: 1;
+.logo {
+  padding: 15px;
+}
+
+.divider {
+  border-bottom: 1px solid grey;
 }
 
 ul {
@@ -18,5 +22,22 @@ ul {
 }
 
 ul li {
-  background-color: red;
+  border-bottom: 1px solid silver;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: whitesmoke;
+}
+
+ul li fa {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+ul li:hover {
+  background-color: mediumpurple;
+}
+
+ul li:hover fa {
+  background-color: mediumpurple;
 }
