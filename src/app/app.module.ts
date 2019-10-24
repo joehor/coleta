@@ -40,6 +40,8 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout/layout.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { LayoutComponent } from './layout/layout.component';
     HomeComponent,
     PageNotFoundComponent,
     SidebarComponent,
-    LayoutComponent
+    LayoutComponent,
+    ToolbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
