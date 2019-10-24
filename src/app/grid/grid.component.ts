@@ -100,7 +100,8 @@ export class GridComponent implements OnInit {
           id: index,
           name: col,
           caption: col.substr(0, 1).toUpperCase() + col.substr(1).toLowerCase(), // torna a letra inicial maiúscula
-          type: typeof ds[0][col],
+          // tslint:disable-next-line: radix
+          type: (isNaN(parseInt(ds[0][col])) ? typeof(ds[0][col]) : 'number'),
           sort: 0, // ordenação 0=nenhum; 1=ascendente; 2=descendente
           visible: (col.substr(0, 1) !== '_') // invisivel se iniciar com "_" (sublinhado)
         });
@@ -135,7 +136,7 @@ export class GridComponent implements OnInit {
   ordenar(campo: string, sort: number) {
 
     const nsort = ((sort === 0) ? 1 : ((sort === 1) ? -1 : 1));
-    const isAsc = sort === 1;
+    const isAsc = (nsort === 1);
 
     // marca a coluna ordenada...
     this.datacolumns.map(col => {

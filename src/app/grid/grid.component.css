@@ -22,12 +22,17 @@ th div {
   align-items: baseline;
 }
 
+table {
+  background-color: white;
+}
+
 table td {
   transition: background-color 1s;
     transition-property: background-color;
     transition-duration: 1s;
     transition-timing-function: ease;
     transition-delay: 0s;
+    cursor: pointer;
 }
 
 th fa {
