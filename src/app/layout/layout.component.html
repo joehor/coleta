@@ -1,30 +1,38 @@
-<div class="wrapper">
+<div class="main">
 
-	<header class="header">
-    put header here
-    <ul>
-      <li>Home</li>
-      <li>Coleta</li>
-      <li>Repres</li>
-    </ul>
-	</header><!-- .header-->
+  <!--header-->
+  <div class="header">
+    <div class="toolbar">
 
-	<div class="middle">
+      <app-toolbar (emitSidemenu)="slide($event)"></app-toolbar>
 
-		<div class="container">
-			<main class="content">
-				<router-outlet></router-outlet>
-			</main><!-- .content -->
-		</div><!-- .container-->
+    </div>
+  </div>
 
-		<aside class="left-sidebar" [ngClass]="{'slide': sidemenuopen}">
-			<app-sidebar (emitSlide)="slide($event)"></app-sidebar>
-		</aside><!-- .left-sidebar -->
+  <!--content-->
+  <div class="content">
 
-	</div><!-- .middle-->
+    <!--sidebar-->
+    <!--<div [ngClass]="(sidemenuopen ? 'sidebar sidebarshow' : 'sidebar')">-->
+    <div class="sidebar" [ngClass]="(sidemenuopen ? 'sidebarshow' : '')">
 
-</div><!-- .wrapper -->
+      <app-sidebar></app-sidebar>
 
-<footer class="footer">
-	put footer here
-</footer><!-- .footer -->
+    </div>
+    <!--router-->
+    <div class="router">
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+  </div>
+
+  <!--footer-->
+  <div class="footer">
+
+    <app-footer></app-footer>
+
+  </div>
+
+</div>

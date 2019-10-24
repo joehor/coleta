@@ -1,0 +1,30 @@
+<div class="wrapper">
+
+	<header class="header">
+    put header here
+    <ul>
+      <li>Home</li>
+      <li>Coleta</li>
+      <li>Repres</li>
+    </ul>
+	</header><!-- .header-->
+
+	<div class="middle">
+
+		<div class="container">
+			<main class="content">
+				<router-outlet></router-outlet>
+			</main><!-- .content -->
+		</div><!-- .container-->
+
+		<aside class="left-sidebar" [ngClass]="{'slide': sidemenuopen}">
+			<app-sidebar (emitSlide)="slide($event)"></app-sidebar>
+		</aside><!-- .left-sidebar -->
+
+	</div><!-- .middle-->
+
+</div><!-- .wrapper -->
+
+<footer class="footer">
+	put footer here
+</footer><!-- .footer -->

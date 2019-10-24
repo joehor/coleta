@@ -10,7 +10,6 @@ export class LayoutComponent implements OnInit {
   sidemenuopen = false;
 
   constructor() { }
-
   ngOnInit() {
   }
 
