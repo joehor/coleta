@@ -1,18 +1,26 @@
 <app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!loginerror ? '' : loginerror.mensagem)"></app-alert>
 <app-alert *ngIf="logado" tipo='success' title="Ok!" mensagem="Usuário autenticado com Sucesso!"></app-alert>
 
-<form [formGroup]="formLogin">
-  <div class="form-group">
-    <label for="login">Usuário</label>
-    <input type="email" class="form-control" id="login" placeholder="Seu usuário" formControlName="usr">
+
+<div class="card">
+  <div class="body">
+    <div class="title">
+      <h5>Área Restrita</h5>
+        <form [formGroup]="formLogin">
+          <div class="form-group">
+            <label for="login">Usuário</label>
+            <input type="email" class="form-control" id="login" placeholder="Seu usuário" formControlName="usr">
+          </div>
+          <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" class="form-control" id="password" placeholder="Senha" formControlName="pss">
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="salvasenha">
+            <label class="form-check-label" for="salvasenha">Salvar Senha</label>
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="getToken()">Entrar</button>
+        </form>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="password">Senha</label>
-    <input type="password" class="form-control" id="password" placeholder="Senha" formControlName="pss">
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="salvasenha">
-    <label class="form-check-label" for="salvasenha">Salvar Senha</label>
-  </div>
-  <button type="submit" class="btn btn-primary" (click)="getToken()">Entrar</button>
-</form>
+</div>
