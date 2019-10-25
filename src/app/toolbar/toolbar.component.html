@@ -9,8 +9,8 @@
   <div class="toolbarright">
     <fa name="user" *ngIf="useractive"></fa>
     <fa name="user-times" *ngIf="!useractive" [routerLink]="['/login']" routerLinkActive="router-link-active" ></fa>
-    <fa name="bell"></fa><span class="badge">15</span>
-    <fa name="bell-slash"></fa>
+    <fa name="bell" *ngIf="useractive"></fa><span class="badge" *ngIf="useractive">15</span>
+    <fa name="bell-slash" *ngIf="!useractive"></fa>
     <fa name="cog"></fa>
   </div>
 </div>

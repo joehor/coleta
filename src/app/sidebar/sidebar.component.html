@@ -1,14 +1,22 @@
 
 <div class="logo">
-  <img src="../../assets/images/logotipoPortal.png">
+  <img src="../../assets/images/LogoPortalUZ.png">
 </div>
 
-<div class="divider"></div>
+<hr>
 
 <ul (click)="onSelectItem()">
+  <li *ngFor="let menu of datasource"
+    [routerLink]="[menu.action]"
+    routerLinkActive="router-link-active">
+    <fa name="{{menu.icon}}"></fa>
+    {{menu.caption}}
+  </li>
+  <!--
   <li [routerLink]="['/home']" routerLinkActive="router-link-active" ><fa name="home"></fa>Home</li>
   <li [routerLink]="['/coleta']" routerLinkActive="router-link-active" >Coleta</li>
   <li [routerLink]="['/represlookup']" routerLinkActive="router-link-active" >Lista Representante</li>
   <li>Item 1</li>
   <li>Item 2</li>
+  -->
 </ul>

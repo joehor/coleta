@@ -1,3 +1,11 @@
+* {
+  transition: background-color 0.5s;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
+
 .main {
   background-color: silver;
 }
@@ -56,3 +64,13 @@
 @media only screen and (max-width: 600px) {
   .sidebar {margin-left: -350px;}
 }
+
+/*
+half-icons...
+@media only screen and (max-width: 1200px) {
+  .sidebar {width: 64px;}
+  .logo img {width: 35px;}
+  app-sidebar.sidebar ul li fa {font-size: 40px;}
+  ul li:last-child {visibility: hidden;}
+}
+*/

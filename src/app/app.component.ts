@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { setTheme } from 'ngx-bootstrap';
 
 @Component({
@@ -7,6 +7,7 @@ import { setTheme } from 'ngx-bootstrap';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @Output() title = 'Grupo K1 App';
 
   constructor() {
     setTheme('bs4'); // bs3
