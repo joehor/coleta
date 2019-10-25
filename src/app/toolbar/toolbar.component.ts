@@ -11,16 +11,26 @@ export class ToolbarComponent implements OnInit {
   useractive = false;
   sidmenu = false;
 
-  constructor( private auth: AuthService ) { }
+  constructor( private auth: AuthService ) {
+
+    this.auth.emitisLoggin.subscribe(ok => this.useractive = ok);
+
+  }
 
   ngOnInit() {
-    this.useractive = this.auth.isAuthenticated();
   }
 
   onBtnSlideClick() {
 
     this.sidmenu = !this.sidmenu;
     this.emitSidemenu.emit(this.sidmenu);
+
+  }
+
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnDestroy() {
+
+    this.auth.emitisLoggin.unsubscribe();
 
   }
 
