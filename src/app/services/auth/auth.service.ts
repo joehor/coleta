@@ -1,22 +1,31 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 // import decode from 'jwt-decode';
 // import { tokenNotExpired } from 'angular2-jwt';
 
 
 @Injectable()
 export class AuthService {
+  @Output() emitisLoggin: EventEmitter<any> = new EventEmitter();
 
   public sendToken(token: string) {
+
+    this.emitisLoggin.emit(token !== '' && token !== null);
     return sessionStorage.setItem('userToken', token);
+
   }
 
   public getToken(): string {
+
     return sessionStorage.getItem('userToken');
+
   }
 
   public logout() {
+
     console.log('Usuário desconectou-se');
     sessionStorage.removeItem('userToken');
+    this.emitisLoggin.emit(false);
+
   }
 
   // TODO rever essa parte pois dá erro na função tokenNotExpired ...
