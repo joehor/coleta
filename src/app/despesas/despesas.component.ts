@@ -1,7 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataPostService } from '../services/data-post.service';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+
+interface DespesasFrm {
+  id: number;
+  Usuario: string;
+  Roteiro: string;
+  Data_Saida: Date;
+  Data_Retorno: Date;
+  Observacoes: string;
+  UsuarioAssociado: string;
+  Id_Evento: number;
+  Inclusao: Date;
+}
+
 
 @Component({
   selector: 'app-despesas',
@@ -12,6 +24,7 @@ export class DespesasComponent implements OnInit {
 
   formDespesa: FormGroup;
   error: any;
+  selected: any;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -19,18 +32,30 @@ export class DespesasComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.selected = {
+      id: '0',
+      Usuario: '',
+      Roteiro: '',
+      Data_Saida: Date,
+      Data_Retorno: Date,
+      Observacoes: '',
+      UsuarioAssociado: '',
+      Id_Evento: 0,
+      Inclusao: Date
+    };
+
     this.criaForm();
   }
 
   criaForm() {
     this.formDespesa = this.formbuilder.group({
-      Id: [0, Validators.compose([Validators.required])],
-      Data_Saida: ['', Validators.compose([Validators.required])],
-      Data_Retorno: ['', Validators.compose([Validators.required])],
-      Roteiro: ['', Validators.compose([Validators.required])],
-      Observacoes: ['', Validators.compose([Validators.required])],
-      UsuarioAssociado: ['', Validators.compose([Validators.required])],
-      id_Evento: ['', Validators.compose([Validators.required])]
+      Id: [this.selected.id, Validators.compose([Validators.required])],
+      Data_Saida: [this.selected.Data_Saida || Date, Validators.compose([Validators.required])],
+      Data_Retorno: [this.selected.Data_Retorno || Date, Validators.compose([Validators.required])],
+      Roteiro: [this.selected.Roteiro, Validators.compose([Validators.required])],
+      Observacoes: [this.selected.Observacoes, Validators.compose([Validators.required])],
+      UsuarioAssociado: [this.selected.UsuarioAssociado, Validators.compose([Validators.required])],
+      id_Evento: [this.selected.Id_Evento, Validators.compose([Validators.required])]
     });
   }
 
@@ -40,6 +65,7 @@ export class DespesasComponent implements OnInit {
       .updateData( 'Representantes/Despesas/Insert', this.formDespesa.value )
       .subscribe(ret => {
         // this.formDespesa.controls[0].value = ret.id;
+        console.log('despesas=ret: ' + JSON.stringify(ret));
       },
       error => {
         this.error = error;
@@ -50,6 +76,16 @@ export class DespesasComponent implements OnInit {
   cancelar() {
 
     console.log('cancelando...');
+
+  }
+
+  onSelectData(event: any) {
+
+    console.log('despesas-lookup(onSelectData): ' + JSON.stringify(event));
+    this.selected = event;
+    // this.formDespesa.setValue(this.selected);
+    this.formDespesa.patchValue(this.selected);
+
 
   }
 

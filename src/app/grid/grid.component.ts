@@ -22,6 +22,7 @@ export class GridComponent implements OnInit {
   @Input() inputcolumns: string[];
 
   @Input() apiroute: string;
+  @Input() pesquisa = '';
   @Input() pagesize = 10;
   @Input() colsearch: string;
   @Input() canfilter: boolean; // opção para filtrar...
@@ -48,7 +49,6 @@ export class GridComponent implements OnInit {
   currentPage = 1;
   page = 1;
   pagecount = 1;
-  pesquisa = '';
   pesquisaalterada = false;
   pesquisando = false;
 
@@ -75,6 +75,12 @@ export class GridComponent implements OnInit {
 
     // verifica se tem mais de uma página a ser exibida...
     this.addpagination();
+
+    if (this.pesquisa && this.pesquisa !== '') {
+
+      this.pesquisar();
+
+    }
 
   }
 

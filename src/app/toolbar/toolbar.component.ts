@@ -12,10 +12,16 @@ export class ToolbarComponent implements OnInit {
   useractive = false;
   sidmenu = false;
   notifylist: any[] = [];
+  theme = 'purple';
 
   constructor( private themeservice: ThemeService, private auth: AuthService ) {
 
     this.useractive = this.auth.isAuthenticated();
+    // aplica o tema salvo...
+    this.theme = localStorage.getItem('colortheme');
+    if (this.theme) {
+      this.themeservice.setTheme( this.theme );
+    }
 
   }
 

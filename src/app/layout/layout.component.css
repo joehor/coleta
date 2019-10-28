@@ -16,7 +16,6 @@
 }
 
 .content {
-  background-color: blue;
   display: flex;
   justify-content: flex-start;
   position: fixed;
@@ -24,7 +23,6 @@
   width: 100%;
 }
 .sidebar {
-  background-color: darkorchid;
   width: 350px;
   margin-left: 0;
   transition: margin-left 1s;

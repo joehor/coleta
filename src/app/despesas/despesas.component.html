@@ -1,7 +1,18 @@
 <app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
 
-<tabset>
-  <tab heading="Despesas" customClass="customClass">
+<tabset [justified]="true">
+  <tab heading="Relação de Despesas">
+
+      <app-grid
+      [apiroute]="'Representantes/Despesas/Lookup'"
+      [pagesize]="5"
+      [pesquisa]="'SAO'"
+      (emitDataSelected)="onSelectData($event)">
+    </app-grid>
+
+  </tab>
+
+  <tab heading="Despesa [{{this.selected.id}}]">
 
     <form [formGroup]="formDespesa">
       <div class="form-group">
@@ -56,6 +67,9 @@
       </div>
     </form>
 
+    form valid: {{formDespesa.valid}} <br/>
+    form data: {{this.formDespesa.value | json}}
+
   </tab>
 
   <tab heading="Lançamentos" customClass="customClass">
@@ -64,6 +78,4 @@
 
 </tabset>
 
-form valid: {{formDespesa.valid}} <br/>
-form data: {{this.formDespesa.value | json}}
 
