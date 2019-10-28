@@ -6,6 +6,7 @@ import { ColetainjetadaComponent } from './coletainjetada/coletainjetada.compone
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { DespesasComponent } from './despesas/despesas.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'coleta', component: ColetaComponent },
   { path: 'represlookup', component: RepresentantesLookupComponent },
   { path: 'coletainject', component: ColetainjetadaComponent },
+  { path: 'despesas', component: DespesasComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }];
 
