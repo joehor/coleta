@@ -5,8 +5,12 @@
 <div class="card">
   <div class="body">
     <div class="title">
-      <h5>Área Restrita</h5>
-        <form [formGroup]="formLogin">
+
+      <div class="user">
+        <h5><fa name="user"></fa>Área Restrita</h5>
+      </div>
+
+      <form [formGroup]="formLogin">
           <div class="form-group">
             <label for="login">Usuário</label>
             <input type="email" class="form-control" id="login" placeholder="Seu usuário" formControlName="usr">
@@ -19,8 +23,9 @@
             <input type="checkbox" class="form-check-input" id="salvasenha">
             <label class="form-check-label" for="salvasenha">Salvar Senha</label>
           </div>
-          <button type="submit" class="btn btn-primary" (click)="getToken()">Entrar</button>
+          <button type="submit" class="btn btn-primary entrar" (click)="getToken()">Entrar</button>
         </form>
+
     </div>
   </div>
 </div>

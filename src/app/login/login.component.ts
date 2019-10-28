@@ -16,7 +16,8 @@ export class LoginComponent implements OnInit {
   token: any;
   lastLogon = localStorage.getItem('lastLogon');
   loginerror: any;
-  logado = false;
+  // logado = sessionStorage.getItem('userToken') !== '' && sessionStorage.getItem('userToken') !== null;
+  logado = this.authservice.isAuthenticated();
   error = false;
 
   constructor(
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log('Dados: ' + usuario + ':' + senha)
+    console.log('Dados: ' + usuario + ':' + senha);
     // aqui
 
     this.loginservice
