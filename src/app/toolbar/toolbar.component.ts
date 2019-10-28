@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
-import { getLocaleEraNames } from '@angular/common';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -13,7 +13,7 @@ export class ToolbarComponent implements OnInit {
   sidmenu = false;
   notifylist: any[] = [];
 
-  constructor( private auth: AuthService ) {
+  constructor( private themeservice: ThemeService, private auth: AuthService ) {
 
     this.useractive = this.auth.isAuthenticated();
 
@@ -44,6 +44,12 @@ export class ToolbarComponent implements OnInit {
   ngOnDestroy() {
 
     this.auth.emitisLoggin.unsubscribe();
+
+  }
+
+  changeTheme(theme: string) {
+
+    this.themeservice.setTheme(theme);
 
   }
 

@@ -84,5 +84,17 @@ export class SidebarComponent implements OnInit {
     );
   }
 
-
+/*
+-- tentando colocar no styles.css
+  changeTheme(theme: number) {
+    if (theme === 1) {
+      document.documentElement.style.setProperty('--main-bgcolor', 'red');
+      document.documentElement.style.setProperty('--main-bgcolor-hover', 'lightblue');
+    }
+    if (theme === 2) {
+      document.documentElement.style.setProperty('--main-bgcolor', 'gray');
+      document.documentElement.style.setProperty('--main-bgcolor-hover', 'silver');
+    }
+  }
+*/
 }

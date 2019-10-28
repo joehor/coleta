@@ -1,7 +1,15 @@
+/*
+-- tentando colocar no styles.css
+:root {
+  --main-bgcolor: rebeccapurple;
+  --main-bgcolor-hover: mediumpurple;
+}
+*/
+
 * {
   margin: 0;
   padding: 0;;
-  background-color: rebeccapurple;
+  background-color: var(--main-bgcolor);
 }
 
 .progress {
@@ -37,11 +45,11 @@ ul li fa {
 }
 
 ul li:hover {
-  background-color: mediumpurple;
+  background-color: var(--main-bgcolor-hover);
 }
 
 ul li:hover fa {
-  background-color: mediumpurple;
+  background-color: var(--main-bgcolor-hover);
 }
 
 ul li.submenu {

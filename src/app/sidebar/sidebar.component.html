@@ -29,8 +29,17 @@
     </ul>-->
   </li>
   <li [routerLink]="['/despesas']" routerLinkActive="router-link-active" >
-    <fa name="paw"></fa>
+    <fa name="child"></fa>
     Natália e Marina
+  </li>
+
+  <li (click)="changeTheme(1)">
+    <fa name="color"></fa>
+    Cor Padrão
+  </li>
+  <li (click)="changeTheme(2)">
+    <fa name="color"></fa>
+    Cor Cinza
   </li>
   <!--
   <li [routerLink]="['/home']" routerLinkActive="router-link-active" ><fa name="home"></fa>Home</li>

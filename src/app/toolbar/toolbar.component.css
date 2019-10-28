@@ -1,5 +1,9 @@
+.dropdown-menu li {
+  cursor: pointer;
+}
+
 .toolbar {
-  background-color: rebeccapurple;
+  background-color: var(--main-bgcolor);
   color: whitesmoke;
   display: flex;
   justify-content: space-between;
@@ -11,7 +15,7 @@
   padding: 15px;
 }
 .toolbar fa:hover {
-  background-color: mediumpurple
+  background-color: var(--main-bgcolor-hover);
 }
 
 .toolbarcenter {
