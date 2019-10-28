@@ -1,16 +1,45 @@
 <div class="toolbar">
   <div class="toolbarleft">
-    <!--<fa name="bars" class="sidebarcollapse" (click)="sidemenuopen = !sidemenuopen"></fa>-->
-    <fa id="btnsidemenu" name="bars" (click)="onBtnSlideClick()"></fa>
+    <div class="btn-group">
+      <!--<fa name="bars" class="sidebarcollapse" (click)="sidemenuopen = !sidemenuopen"></fa>-->
+      <fa id="btnsidemenu" name="bars" (click)="onBtnSlideClick()"></fa>
+    </div>
   </div>
   <div class="toolbarcenter">
     Grupo K1 App
   </div>
   <div class="toolbarright">
-    <fa name="user" *ngIf="useractive"></fa>
+<!--
+    <div class="btn-group" dropdown placement="bottom right">
+        <fa name="user" *ngIf="useractive"></fa>
+    </div>
+-->
     <fa name="user-times" *ngIf="!useractive" [routerLink]="['/login']" routerLinkActive="router-link-active" ></fa>
-    <fa name="bell" *ngIf="useractive"></fa><span class="badge" *ngIf="useractive">15</span>
     <fa name="bell-slash" *ngIf="!useractive"></fa>
-    <fa name="cog"></fa>
+
+    <div class="btn-group btn-sm" dropdown placement="bottom right">
+      <fa name="bell" *ngIf="useractive" dropdownToggle class="dropdown-toggle" aria-controls="dropdown-basic"></fa><span class="badge" *ngIf="useractive">15</span>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+          <li *ngFor="let item of notifylist">
+            <div class="dropdown-item">
+              <input type="checkbox" id="check_{{item.id}}"/>
+              <label for="check_{{item.id}}">{{item.assunto}}</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    <div class="btn-group btn-sm" dropdown placement="bottom right">
+      <fa name="cog" id="button-basic" dropdownToggle class="dropdown-toggle" aria-controls="dropdown-basic"></fa>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>
