@@ -2,10 +2,7 @@
   background-color: rebeccapurple;
   color: whitesmoke;
   display: flex;
-  width: 100%;
   justify-content: space-between;
-  text-align: center;
-  line-height: 40px;
 }
 .toolbar fa {
   cursor: pointer;
@@ -24,10 +21,14 @@
 
 .badge{
   position: relative;
-  margin-left: -21px;
-  top: -12px;
-  background-color: darkred;
+  margin-left: -20px;
+  top: 8px;
   border-radius: 50px;
+  display: inline-table;
+}
+
+.btn-group {
+  padding: 0;
 }
 
 

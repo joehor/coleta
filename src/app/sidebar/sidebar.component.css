@@ -4,6 +4,10 @@
   background-color: rebeccapurple;
 }
 
+.progress {
+  margin: 3px;
+}
+
 .logo {
   padding: 15px;
   text-align: center;
@@ -16,6 +20,7 @@
 
 ul {
   list-style: none;
+  overflow: auto;
 }
 
 ul li {
@@ -37,4 +42,8 @@ ul li:hover {
 
 ul li:hover fa {
   background-color: mediumpurple;
+}
+
+ul li.submenu {
+  font-size: 10px;
 }

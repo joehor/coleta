@@ -20,13 +20,29 @@ export class SidebarComponent implements OnInit {
   datasource: any[] = [];
   // Event emitter...
   httperror: Httpcodes;
+  loading = false;
 
-  constructor( private dataLookup: DataLookupService, private auth: AuthService ) { }
+  constructor( private dataLookup: DataLookupService, private auth: AuthService ) {
+
+    console.log('slidemenu:construtor');
+    if (this.auth.isAuthenticated()) {
+      this.getDataFromApi('Representantes/Menus', '...', 1, 100);
+    }
+
+  }
 
   ngOnInit() {
 
+    this.auth.emitisLoggin.subscribe(ok => {
+      if (ok) {
+        console.log('Buscando menus auth : ' + ok);
+        this.getDataFromApi('Representantes/Menus', '...', 1, 100);
+      }
+    });
+
     if (!this.auth.isAuthenticated) {
       // busca os menus ..
+      console.log('Buscando menus init');
       this.getDataFromApi('Representantes/Menus', '...', 1, 100);
     } else {
       this.datasource.push({id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''});
@@ -47,20 +63,23 @@ export class SidebarComponent implements OnInit {
 
   // serviço que busca os dados da API...
   getDataFromApi(api: string, pesq: string, page: number, pagecount: number) {
-
+    this.loading = true;
     this.dataLookup.getData(api, pesq, page, pagecount)
       .subscribe(
       data => {
         if (!data.Data) {
           console.log('Não encontrado!');
           // this.datasource = this.datanotfound;
+          this.loading = false;
         } else {
           console.log('Encontrado');
           this.datasource = data.Data;
+          this.loading = false;
         }
       },
       error => {
         if (error.code === 401) { this.httperror.mensagem = 'Falha na autenticação, efetue novo logon'; }
+        this.loading = false;
       }
     );
   }

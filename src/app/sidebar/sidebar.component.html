@@ -1,16 +1,36 @@
 
 <div class="logo">
-  <img src="../../assets/images/LogoPortalUZ.png">
+  <img src="../../assets/images/logoPortalK1.png">
 </div>
 
 <hr>
+
+<div class="progress" *ngIf="loading">
+  <div class="progress-bar progress-bar-striped progress-bar-animated"
+    role="progressbar"
+    aria-valuenow="100"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    style="width: 100%">
+  </div>
+</div>
 
 <ul (click)="onSelectItem()">
   <li *ngFor="let menu of datasource"
     [routerLink]="[menu.action]"
     routerLinkActive="router-link-active">
-    <fa name="{{menu.icon}}"></fa>
+    <fa name="{{menu.icon}}" *ngIf="menu.icon"></fa>
     {{menu.caption}}
+
+    <!--<ul class="submenu">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>-->
+  </li>
+  <li [routerLink]="['/despesas']" routerLinkActive="router-link-active" >
+    <fa name="paw"></fa>
+    Natália e Marina
   </li>
   <!--
   <li [routerLink]="['/home']" routerLinkActive="router-link-active" ><fa name="home"></fa>Home</li>
@@ -20,3 +40,5 @@
   <li>Item 2</li>
   -->
 </ul>
+
+<!--Menu: {{datasource | json}}-->
