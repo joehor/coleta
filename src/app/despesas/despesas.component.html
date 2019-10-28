@@ -1,0 +1,69 @@
+<app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
+
+<tabset>
+  <tab heading="Despesas" customClass="customClass">
+
+    <form [formGroup]="formDespesa">
+      <div class="form-group">
+
+        <div class="row">
+          <div class="col-sm">
+            <label for="datainicio">Data Saída</label>
+            <input type="date" class="form-control" id="datainicio" placeholder="Saida" formControlName="Data_Saida">
+          </div>
+
+          <div class="col-sm">
+            <label for="usuarioassociado">Data Retorno</label>
+            <input type="date" class="form-control" id="usuarioassociado" placeholder="Retorno" formControlName="Data_Retorno">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <label for="roteiro">Roteiro</label>
+            <textarea class="form-control" id="roteiro" placeholder="Informe o roteiro da viagem" formControlName="Roteiro"></textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <label for="observacoes">Observações</label>
+            <textarea class="form-control" id="observacoes" placeholder="Informe observações sobre a viagem" formControlName="Observacoes"></textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <label for="usuarioassociado">Usuário</label>
+            <input type="text" class="form-control" id="usuarioassociado" placeholder="Informe o usuário" formControlName="UsuarioAssociado">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <label for="id_evento">Usuário</label>
+            <input type="text" class="form-control" id="id_evento" placeholder="Informe o evento" formControlName="id_Evento">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <button type="submit" class="btn btn-primary" (click)="salvar()">Salvar</button>
+          <button type="submit" class="btn btn-info" (click)="cancelar()">Cancelar</button>
+        </div>
+      </div>
+    </form>
+
+  </tab>
+
+  <tab heading="Lançamentos" customClass="customClass">
+    Em desenvolvimento..
+  </tab>
+
+</tabset>
+
+form valid: {{formDespesa.valid}} <br/>
+form data: {{this.formDespesa.value | json}}
+
