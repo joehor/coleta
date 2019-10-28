@@ -17,6 +17,7 @@ import { ProgressbarModule
   , BsDropdownDirective
   , BsDropdownConfig
   , CarouselModule
+  , TabsModule
 } from 'ngx-bootstrap';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -42,6 +43,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { GaugeComponent } from './componentes/gauge/gauge.component';
+import { DespesasComponent } from './despesas/despesas.component';
 
 
 @NgModule({
@@ -61,7 +64,9 @@ import { FooterComponent } from './footer/footer.component';
     SidebarComponent,
     LayoutComponent,
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    GaugeComponent,
+    DespesasComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +86,7 @@ import { FooterComponent } from './footer/footer.component';
     PaginationModule.forRoot(),
     TooltipModule.forRoot(),
     CarouselModule.forRoot(),
+    TabsModule.forRoot(),
 
     // ngx-bootstrap - toast
     ToastrModule.forRoot()
