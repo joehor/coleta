@@ -1,6 +1,6 @@
 # Coleta
 
-<img src="./blob/master/src/assets/images/screenshot.png">
+<img src="./src/assets/images/screenshot.png">
 
 ## Development server
 
