@@ -1,6 +1,6 @@
 # Coleta
 
-<img src="https://github.com/joehor/coleta/tree/master/src/assets/images/screenshot.png">
+<img src="./blob/master/src/assets/images/screenshot.png">
 
 ## Development server
 
