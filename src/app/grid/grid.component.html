@@ -142,6 +142,7 @@
             <fa name="sort" *ngIf="col.sort === 0" (click)="ordenar(col.name, col.sort)"></fa>
           </div>
         </th>
+        <th *ngIf="canedit || candelete" class="thcolumns"></th>
       </tr>
 
     </thead>
@@ -154,13 +155,22 @@
           (dblclick)="selectdata(row)">
             {{ row[col.name] }}
         </td>
+        <td *ngIf="canedit || candelete">
+          <div class="actionbuttons">
+            <button class="btn btn-success btn-sm" title="Editar" *ngIf="canedit"><fa name="pencil" (click)="editar(row)"></fa></button>
+            <button class="btn btn-danger btn-sm" title="Deletar" *ngIf="candelete"><fa name="trash" (click)="excluir(row)"></fa></button>
+          </div>
+        </td>
       </tr>
 
       <tr class="thfooter">
         <td [attr.colspan]="visiblecolumns()">
           <div class="spacebetween">
           {{ (!datasource ? 0 : datasource.length) }} registro{{((datasource && datasource.length > 1) ? 's' : '')}} encontrado{{((datasource && datasource.length > 1) ? 's' : '')}}
-          <div>
+          <div class="actionfooter">
+            <div class="novo" *ngIf="caninsert">
+              <button class="btn btn-sm btn-primary" title="Novo registro" (click)="novo()"><fa name="plus"></fa></button>
+            </div>
             <div class="btn-group" dropdown [dropup]="true">
               <button id="button-basic"
                 type="button"

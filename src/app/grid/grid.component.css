@@ -4,6 +4,14 @@ th div {
   justify-content: space-between;
 }
 
+.actionbuttons {
+  white-space: nowrap;
+}
+
+.actionbuttons button {
+  margin-right: 3px;
+}
+
 .txcenter {
   text-align: center;
 }
@@ -86,6 +94,14 @@ th fa {
 
 .thcoleta progressbar {
   margin-top: 3px;
+}
+
+.actionfooter {
+  display: inline-flex;
+}
+
+.novo {
+  margin-right: 3px;
 }
 
 /* TABELAS (FIM) */

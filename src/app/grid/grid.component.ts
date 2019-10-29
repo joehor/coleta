@@ -27,9 +27,15 @@ export class GridComponent implements OnInit {
   @Input() colsearch: string;
   @Input() canfilter: boolean; // opção para filtrar...
   @Input() cancoleta: boolean; // opção para conferir...
+  @Input() canedit: boolean; // opção para editar...
+  @Input() candelete: boolean; // opção para deletar...
+  @Input() caninsert: boolean; // opção para inserir...
 
   // evento que emite o item slecionado...
   @Output() emitDataSelected = new EventEmitter<any>();
+  @Output() emitEdit = new EventEmitter<any>();
+  @Output() emitDelete = new EventEmitter<any>();
+  @Output() emitNovo = new EventEmitter<any>();
 
   // datasource padrão...
   datanotfound: any[] = [{Aviso: 'Nenhum registro encontrado'}];
@@ -135,7 +141,7 @@ export class GridComponent implements OnInit {
   visiblecolumns() {
     return this.datacolumns.filter(col => {
       return col.visible;
-    }).length;
+    }).length + (this.canedit || this.candelete ? 1 : 0);
   }
 
   // função que ordena as colunas...
@@ -284,6 +290,31 @@ export class GridComponent implements OnInit {
     return dataset.map(data => {
       return {...data, check: false};
     });
+
+  }
+
+  editar(row: any) {
+
+    console.log('Editando... [' + JSON.stringify(row) + ']');
+    this.emitEdit.emit(row);
+
+  }
+
+  excluir(row: any) {
+
+    if (confirm('Deseja realmente excluir este registro?')) {
+      console.log('Excluindo... [' + JSON.stringify(row) + ']');
+      this.emitDelete.emit(row);
+    } else {
+      console.log('Cancelou a exclusão.');
+    }
+
+  }
+
+  novo() {
+
+    console.log('novo registro...');
+    this.emitNovo.emit(true);
 
   }
 }
