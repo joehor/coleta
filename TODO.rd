@@ -10,3 +10,4 @@
 10- ocultar colunas não está funcionando
 11- item editavel no dropdown não deixa mexer pois fecha o menu
 12- corrigir erro na gravação da despesa
+13- adicionado o campo monitor para sinalizar dar prints, alterar em todos os componentes
