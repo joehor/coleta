@@ -27,7 +27,9 @@ export class DataLookupService {
 
   getData(api: string, pesq: string, page: number, pagecnt: number) {
 
-    console.log('Buscando dados...');
+    if (environment.monitor) {
+      console.log('Buscando dados...');
+    }
 
     const params = {
       pesquisa: pesq,
@@ -37,8 +39,10 @@ export class DataLookupService {
 
     const urlapi = `${this.baseapi}/api/${api}`;
 
-    console.log('urlapi: ' + urlapi);
-    console.log('envapi: ' + environment.urlApi);
+    if (environment.monitor) {
+      console.log('urlapi: ' + urlapi);
+      console.log('envapi: ' + environment.urlApi);
+    }
 
 
     // console.log(JSON.stringify(this.httpclient.get(`/api/Authentication`, { params })));

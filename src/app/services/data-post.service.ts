@@ -25,12 +25,16 @@ export class DataPostService {
 
   updateData(api: string, data: any) {
 
-    console.log('Atualizando dados...');
+    if (environment.monitor) {
+      console.log('Atualizando dados...');
+    }
 
     const urlapi = `${this.baseapi}/api/${api}`;
 
-    console.log('urlapi: ' + urlapi);
-    console.log('envapi: ' + environment.urlApi);
+    if (environment.monitor) {
+      console.log('urlapi: ' + urlapi);
+      console.log('envapi: ' + environment.urlApi);
+    }
 
     // console.log(JSON.stringify(this.httpclient.get(`/api/Authentication`, { params })));
 
