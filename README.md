@@ -1,6 +1,6 @@
 # Coleta
 
-<img src="./src/assets/images/screenshot.png">
+<img src="./src/assets/images/screenshot2.png">
 
 ## Development server
 
