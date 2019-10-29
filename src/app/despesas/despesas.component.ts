@@ -34,14 +34,12 @@ export class DespesasComponent implements OnInit {
   ngOnInit() {
     this.selected = {
       id: '0',
-      Usuario: '',
-      Roteiro: '',
       Data_Saida: Date,
       Data_Retorno: Date,
+      Roteiro: '',
       Observacoes: '',
       UsuarioAssociado: '',
-      Id_Evento: 0,
-      Inclusao: Date
+      Id_Evento: 0
     };
 
     this.criaForm();
@@ -49,9 +47,9 @@ export class DespesasComponent implements OnInit {
 
   criaForm() {
     this.formDespesa = this.formbuilder.group({
-      Id: [this.selected.id, Validators.compose([Validators.required])],
-      Data_Saida: [this.selected.Data_Saida || Date, Validators.compose([Validators.required])],
-      Data_Retorno: [this.selected.Data_Retorno || Date, Validators.compose([Validators.required])],
+      id: [this.selected.id, Validators.compose([Validators.required])],
+      Data_Saida: [this.selected.Data_Saida, Validators.compose([Validators.required])],
+      Data_Retorno: [this.selected.Data_Retorno, Validators.compose([Validators.required])],
       Roteiro: [this.selected.Roteiro, Validators.compose([Validators.required])],
       Observacoes: [this.selected.Observacoes, Validators.compose([Validators.required])],
       UsuarioAssociado: [this.selected.UsuarioAssociado, Validators.compose([Validators.required])],

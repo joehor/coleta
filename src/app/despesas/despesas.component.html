@@ -6,7 +6,10 @@
       <app-grid
       [apiroute]="'Representantes/Despesas/Lookup'"
       [pagesize]="5"
-      [pesquisa]="'SAO'"
+      [pesquisa]="'...'"
+      [canedit]="true"
+      [candelete]="true"
+      [caninsert]="true"
       (emitDataSelected)="onSelectData($event)">
     </app-grid>
 
@@ -52,7 +55,7 @@
 
         <div class="row">
           <div class="col-sm">
-            <label for="id_evento">Usuário</label>
+            <label for="id_evento">Evento</label>
             <input type="text" class="form-control" id="id_evento" placeholder="Informe o evento" formControlName="id_Evento">
           </div>
         </div>
@@ -77,5 +80,7 @@
   </tab>
 
 </tabset>
+
+
 
 
