@@ -27,7 +27,7 @@
   stroke-linecap: round;
   transition: all;
   animation: progress;
-  animation-duration: 1s;
+  animation-duration: 2s;
   animation-timing-function: ease;
   animation-delay: 0s;
   animation-name: progress;
