@@ -33,6 +33,7 @@ export class GridComponent implements OnInit {
 
   // evento que emite o item slecionado...
   @Output() emitDataSelected = new EventEmitter<any>();
+  @Output() emitFireData = new EventEmitter<any>();
   @Output() emitEdit = new EventEmitter<any>();
   @Output() emitDelete = new EventEmitter<any>();
   @Output() emitNovo = new EventEmitter<any>();
@@ -279,6 +280,15 @@ export class GridComponent implements OnInit {
     this.emitDataSelected.emit(datasel);
 
     console.log('selectdata: ' + JSON.stringify(this.dataselected));
+
+  }
+
+
+  firedata(datasel: any) {
+
+    this.dataselected = datasel;
+    // envia o dado para quem quiser pegar...
+    this.emitFireData.emit(datasel);
 
   }
 

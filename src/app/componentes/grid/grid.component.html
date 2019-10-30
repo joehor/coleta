@@ -151,7 +151,8 @@
       <tr *ngFor="let row of datasource" [ngClass]="{'selected': (row===dataselected)}">
         <td *ngFor="let col of datacolumns | filter : 'true' : 'visible'"
           [ngClass]="{'bglightgreen': (row['check']===true), 'txcenter': (col.name==='check'), 'txright': (col.type === 'number')}"
-          (click)="selectdata(row)">
+          (click)="selectdata(row)"
+          (dblclick)="firedata(row)">
             {{ row[col.name] }}
         </td>
         <td *ngIf="canedit || candelete">
