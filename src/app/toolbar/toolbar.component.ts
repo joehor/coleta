@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { ThemeService } from '../services/theme.service';
+import { SlideComponent } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-toolbar',
@@ -19,9 +20,7 @@ export class ToolbarComponent implements OnInit {
     this.useractive = this.auth.isAuthenticated();
     // aplica o tema salvo...
     this.theme = localStorage.getItem('colortheme');
-    if (this.theme) {
-      this.themeservice.setTheme( this.theme );
-    }
+    if (this.theme) { this.themeservice.setTheme( this.theme ); }
 
   }
 
@@ -41,6 +40,7 @@ export class ToolbarComponent implements OnInit {
 
   onBtnSlideClick() {
 
+    console.log('onBtnSlideClick...');
     this.sidmenu = !this.sidmenu;
     this.emitSidemenu.emit(this.sidmenu);
 

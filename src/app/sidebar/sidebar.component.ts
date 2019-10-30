@@ -58,6 +58,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onSelectItem() {
+    console.log('onSelectItem!');
     this.open = false;
     this.emitSlide.emit(false);
   }
