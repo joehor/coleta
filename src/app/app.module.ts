@@ -34,7 +34,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule, HttpParams, HttpRequest, HttpHandl
 import { TokenInterceptor } from './services/auth/token.interceptor';
 import { AuthService } from './services/auth/auth.service';
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
-import { GridComponent } from './grid/grid.component';
+import { GridComponent } from './componentes/grid/grid.component';
 import { LoadingComponent } from './loading/loading.component';
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
@@ -45,6 +45,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { GaugeComponent } from './componentes/gauge/gauge.component';
 import { DespesasComponent } from './despesas/despesas.component';
+import { InputLookupComponent } from './componentes/input-lookup/input-lookup.component';
+import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-grid-lookup.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { DespesasComponent } from './despesas/despesas.component';
     ToolbarComponent,
     FooterComponent,
     GaugeComponent,
-    DespesasComponent
+    DespesasComponent,
+    InputLookupComponent,
+    ModalGridLookupComponent
   ],
   imports: [
     BrowserModule,
