@@ -2,19 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataPostService } from '../services/data-post.service';
 
-interface DespesasFrm {
-  id: number;
-  Usuario: string;
-  Roteiro: string;
-  Data_Saida: Date;
-  Data_Retorno: Date;
-  Observacoes: string;
-  UsuarioAssociado: string;
-  Id_Evento: number;
-  Inclusao: Date;
-}
-
-
 @Component({
   selector: 'app-despesas',
   templateUrl: './despesas.component.html',
@@ -25,6 +12,7 @@ export class DespesasComponent implements OnInit {
   formDespesa: FormGroup;
   error: any;
   selected: any;
+  lookupevento = {id: 0, descricao: ''};
 
   constructor(
     private formbuilder: FormBuilder,
@@ -39,7 +27,7 @@ export class DespesasComponent implements OnInit {
       Roteiro: '',
       Observacoes: '',
       UsuarioAssociado: '',
-      Id_Evento: 0
+      id_Evento: 0
     };
 
     this.criaForm();
@@ -53,7 +41,7 @@ export class DespesasComponent implements OnInit {
       Roteiro: [this.selected.Roteiro, Validators.compose([Validators.required])],
       Observacoes: [this.selected.Observacoes, Validators.compose([Validators.required])],
       UsuarioAssociado: [this.selected.UsuarioAssociado, Validators.compose([Validators.required])],
-      id_Evento: [this.selected.Id_Evento, Validators.compose([Validators.required])]
+      id_Evento: [this.selected.id_Evento, Validators.compose([Validators.required])]
     });
   }
 
@@ -84,6 +72,10 @@ export class DespesasComponent implements OnInit {
     // this.formDespesa.setValue(this.selected);
     this.formDespesa.patchValue(this.selected);
 
+    this.lookupevento.id = this.selected.id_Evento;
+
+    // console.log('this.selected.Id_Evento: ' + this.selected.id_Evento);
+    // console.log('this.lookupevento: ' + JSON.stringify(this.lookupevento));
 
   }
 
