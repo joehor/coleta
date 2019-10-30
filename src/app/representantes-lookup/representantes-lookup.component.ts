@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GridComponent } from '../componentes/grid/grid.component';
 
 @Component({
   selector: 'app-representantes-lookup',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RepresentantesLookupComponent implements OnInit {
 
-  constructor( ) { }
+  constructor() {}
 
   ngOnInit() {
 
