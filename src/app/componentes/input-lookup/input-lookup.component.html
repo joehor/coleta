@@ -1,11 +1,11 @@
 <div class="row">
 
     <div class="col col-4 col-sm-2">
-      <input class="form-control" type="number" name="id" id="id" placeholder="Id" [(ngModel)]="inputid" />
+      <input class="form-control" type="number" name="id" id="id" placeholder="Id" [(ngModel)]="lookupselected.id" (blur)="getDataById(lookupselected.id)"/>
     </div>
     <div class="col col-8 col-sm-10">
       <div class="input-group">
-        <input class="form-control" type="text" name="name" id="name" placeholder="Name" [(ngModel)]="inputname">
+        <input class="form-control" type="text" name="name" id="name" placeholder="Descricao" [(ngModel)]="lookupselected.descricao">
         <div class="input-group-append">
           <button class="btn btn-primary" type="button" (click)="openModal(template)"><fa name="search"></fa></button>
         </div>
@@ -27,7 +27,7 @@
           [apiroute]="apiroute"
           [pagesize]="pagesize"
           [title]="title"
-          [pesquisa]="inputname || inputid || ''"
+          [pesquisa]="lookupselected.id || lookupselected.descricao || ''"
           (emitDataSelected)="onSelectData($event)"
           (emitFireData)="confirm()">
         </app-grid>
@@ -35,6 +35,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!selected">Selecionar</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!lookupselected">Selecionar</button>
       </div>
     </ng-template>
+
+    lookupselected: {{lookupselected | json}}

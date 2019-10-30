@@ -1,6 +1,12 @@
-import { Component, OnInit, TemplateRef, Input } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { GridComponent } from '../grid/grid.component';
+import { DataLookupService } from '../../services/data-lookup.service';
+
+interface Httpcodes {
+  code: number;
+  erro: string;
+  mensagem: string;
+}
 
 @Component({
   selector: 'app-input-lookup',
@@ -8,36 +14,90 @@ import { GridComponent } from '../grid/grid.component';
   styleUrls: ['./input-lookup.component.css']
 })
 
-export class InputLookupComponent implements OnInit {
+export class InputLookupComponent implements OnInit, OnChanges {
   @Input() apiroute: string;
+  @Input() inputid: number;
+  @Input() inputname: string;
   @Input() title = 'Não Informado';
   @Input() pagesize = 10;
+  @Input() lookupselected = {id: 0, descricao: ''};
 
   modalRef: BsModalRef;
-  inputid: number;
-  inputname: string;
-  selected: any;
-  constructor(private modalService: BsModalService) { }
+  apierror = false;
+  pesquisando = false;
+  httperror: Httpcodes;
+
+  constructor(private modalService: BsModalService, private datalookup: DataLookupService) { }
 
   ngOnInit() {
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.selected = null;
-    this.modalRef = this.modalService.show(template);
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('mudou algo');
+    if (changes['lookupselected']) {
+      console.log('mudou lookupselected');
+
+      this.getDataFromApi(this.apiroute, this.lookupselected.id.toString(), 1, 10);
+
+    }
+
   }
 
+  openModal(template: TemplateRef<any>) {
+
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+  // grid dispara esse evento ao selecionar um registro
   onSelectData(event: any) {
 
-    this.selected = event;
+    this.lookupselected = event;
     console.log('representantes-lookup(onSelectData): ' + JSON.stringify(event));
 
   }
 
   confirm() {
-    console.log('Selecionado o item: ' + JSON.stringify(this.selected));
-    this.inputid = this.selected['id'];
-    this.inputname = this.selected['nome'];
+
+    console.log('Selecionado o item: ' + JSON.stringify(this.lookupselected));
     this.modalRef.hide();
+
+  }
+
+  getDataById(id: number) {
+    if (this.inputid !== this.lookupselected.id) {
+      this.getDataFromApi(this.apiroute, id.toString(), 1, 10);
+    }
+  }
+
+  // serviço que busca os dados da API...
+  getDataFromApi(api: string, pesq: string, page: number, pagecount: number) {
+
+    this.datalookup.getData(api, pesq, page, pagecount)
+      .subscribe(
+      data => {
+        if (!data.Data) {
+          console.log('Não encontrado!');
+          this.pesquisando = false;
+          this.inputid = 0;
+        } else {
+          console.log('Encontrado');
+          this.pesquisando = false;
+          this.apierror = false;
+          this.httperror = null;
+          // this.lookupselected = {id: data.Data[Object.keys(data.Data)[0]], descricao: data.Data[Object.keys(data.Data)[1]]};
+          this.lookupselected = data.Data[0];
+          // this.inputid = this.lookupselected.id;
+          // this.confirm();
+        }
+      },
+      error => {
+        this.pesquisando = false;
+        this.inputid = 0;
+        this.apierror = true;
+        this.httperror = error;
+        if (error.code === 401) { this.httperror.mensagem = 'Falha na autenticação, efetue novo logon'; }
+      }
+    );
   }
 }
