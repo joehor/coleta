@@ -1,12 +1,18 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { GridComponent } from '../grid/grid.component';
 
 @Component({
   selector: 'app-input-lookup',
   templateUrl: './input-lookup.component.html',
   styleUrls: ['./input-lookup.component.css']
 })
+
 export class InputLookupComponent implements OnInit {
+  @Input() apiroute: string;
+  @Input() title = 'Não Informado';
+  @Input() pagesize = 10;
+
   modalRef: BsModalRef;
   inputid: number;
   inputname: string;

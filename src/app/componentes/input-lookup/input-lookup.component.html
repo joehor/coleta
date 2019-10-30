@@ -17,17 +17,19 @@
   <!--modal para busca-->
   <ng-template #template>
       <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
+        <h4 class="modal-title pull-left">{{title}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <app-grid
-          [apiroute]="'Representantes/Lookup'"
-          [pagesize]="15"
+          [apiroute]="apiroute"
+          [pagesize]="pagesize"
+          [title]="title"
           [pesquisa]="inputname || inputid || ''"
-          (emitDataSelected)="onSelectData($event)">
+          (emitDataSelected)="onSelectData($event)"
+          (emitFireData)="confirm()">
         </app-grid>
 
       </div>
