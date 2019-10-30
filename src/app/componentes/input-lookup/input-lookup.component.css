@@ -1,0 +1,10 @@
+input[type=number] {
+  text-align:right;
+}
+.row {
+  margin: 0;
+}
+.col {
+  padding-right: 2px !important;
+  padding-left: 2px !important;
+}
