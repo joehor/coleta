@@ -1,15 +1,38 @@
 <div class="row">
 
     <div class="col col-4 col-sm-2">
-      <input class="form-control" type="number" name="id" id="id" placeholder="Id"/>
+      <input class="form-control" type="number" name="id" id="id" placeholder="Id" [(ngModel)]="inputid" />
     </div>
     <div class="col col-8 col-sm-10">
       <div class="input-group">
-        <input class="form-control" type="text" name="name" id="name" placeholder="Name">
+        <input class="form-control" type="text" name="name" id="name" placeholder="Name" [(ngModel)]="inputname">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="submit"><fa name="search"></fa></button>
+          <button class="btn btn-primary" type="button" (click)="openModal(template)"><fa name="search"></fa></button>
         </div>
       </div>
     </div>
 
   </div>
+
+  <!--modal para busca-->
+  <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-grid
+          [apiroute]="'Representantes/Lookup'"
+          [pagesize]="15"
+          [pesquisa]="inputname"
+          (emitDataSelected)="onSelectData($event)">
+        </app-grid>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">Selecionar</button>
+      </div>
+    </ng-template>
