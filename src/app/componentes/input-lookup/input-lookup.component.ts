@@ -17,6 +17,7 @@ export class InputLookupComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
+    this.selected = null;
     this.modalRef = this.modalService.show(template);
   }
 

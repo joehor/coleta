@@ -26,13 +26,13 @@
         <app-grid
           [apiroute]="'Representantes/Lookup'"
           [pagesize]="15"
-          [pesquisa]="inputname"
+          [pesquisa]="inputname || inputid || ''"
           (emitDataSelected)="onSelectData($event)">
         </app-grid>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()">Selecionar</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!selected">Selecionar</button>
       </div>
     </ng-template>
