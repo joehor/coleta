@@ -57,6 +57,7 @@ export class GridComponent implements OnInit {
   pagecount = 1;
   pesquisaalterada = false;
   pesquisando = false;
+  dataselected: any;
 
   // Event emitter...
   httperror: Httpcodes;
@@ -273,8 +274,11 @@ export class GridComponent implements OnInit {
   // emite a informação do item selecionado...
   selectdata(datasel: any) {
 
+    this.dataselected = datasel;
     // envia o dado para quem quiser pegar...
     this.emitDataSelected.emit(datasel);
+
+    console.log('selectdata: ' + JSON.stringify(this.dataselected));
 
   }
 

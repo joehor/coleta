@@ -12,6 +12,11 @@ th div {
   margin-right: 3px;
 }
 
+.selected {
+  background-color: lightseagreen !important;
+  color: white;
+}
+
 .txcenter {
   text-align: center;
 }
