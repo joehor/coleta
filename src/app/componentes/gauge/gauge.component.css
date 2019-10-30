@@ -1,0 +1,59 @@
+:root {
+  --dashstart: 300;
+  --dashend: 100;
+  --stroke-color: #4CAF50;
+}
+
+.progress__svg {
+  transform: rotate(-90deg);
+}
+
+.progress__svg text {
+  font-size: 32px;
+  font-weight: bold;
+  transform: rotate(90deg);
+}
+
+.progress__meter,
+.progress__value {
+  fill: none;
+}
+
+.progress__meter {
+  stroke: #ccc;
+}
+
+.progress__value {
+  stroke-linecap: round;
+  transition: all;
+  animation: progress;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-name: progress;
+}
+
+.progress_color_red {
+  stroke: lightcoral
+}
+.progress_color_blue {
+  stroke: steelblue
+}
+.progress_color_green {
+  stroke: #4CAF50;
+}
+
+@keyframes progress {
+  from {
+    stroke-dashoffset: var(--dashstart);
+  }
+  to {
+    stroke-dashoffset: var(--dashend);
+  }
+}
+
+@keyframes strokecolor {
+  to {
+    stroke: green;
+  }
+}

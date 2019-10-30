@@ -26,6 +26,7 @@ export class SidebarComponent implements OnInit {
 
     console.log('slidemenu:construtor');
     if (this.auth.isAuthenticated()) {
+      console.log('Buscando menus constructor');
       this.getDataFromApi('Representantes/Menus', '...', 1, 100);
     }
 
