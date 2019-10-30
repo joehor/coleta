@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ChangeDetectorRef  } from '@angular/core';
-import { DataLookupService } from '../services/data-lookup.service';
+import { DataLookupService } from '../../services/data-lookup.service';
 import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
 
 interface Httpcodes {
