@@ -14,3 +14,4 @@
 12- corrigir erro na gravação da despesa
 13- adicionado o campo monitor para sinalizar dar prints, alterar em todos os componentes
 14- Resolver erro ao carregar o sidemenu na primeira vez, sempre dá erro de autenticação
+15- Cor errada nos icones do menu toolbar
