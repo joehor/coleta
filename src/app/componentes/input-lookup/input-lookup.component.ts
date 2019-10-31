@@ -39,7 +39,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('mudou algo');
-    if (changes['inputid']) {
+    if (changes[this.inputid]) {
       console.log('mudou inputid: ' + this.inputid);
       console.log('mudou lookupselected: ' + JSON.stringify(this.lookupselected));
 
