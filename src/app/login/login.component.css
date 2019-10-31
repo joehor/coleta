@@ -25,3 +25,6 @@ form {
 .alerts {
   margin: 15px;
 }
+.modal-footer button fa {
+  float: right;
+}
