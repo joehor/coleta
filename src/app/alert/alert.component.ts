@@ -10,8 +10,8 @@ export class AlertComponent implements OnInit {
   @Input() title: string;
   @Input() mensagem: string;
   @Input() detalhes: any;
-  dismissible = true;
-  timeout = 3000;
+  @Input() timeout = 5000;
+  @Input() dismissible = true;
 
   constructor() { }
 
