@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { ThemeService } from '../services/theme.service';
-import { SlideComponent } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,7 +15,7 @@ export class ToolbarComponent implements OnInit {
   notifylist: any[] = [];
   theme = 'purple';
 
-  constructor( private themeservice: ThemeService, private auth: AuthService ) {
+  constructor( private themeservice: ThemeService, private auth: AuthService, private route: Router ) {
 
     this.useractive = this.auth.isAuthenticated();
     // aplica o tema salvo...
@@ -56,6 +56,13 @@ export class ToolbarComponent implements OnInit {
   changeTheme(theme: string) {
 
     this.themeservice.setTheme(theme);
+
+  }
+
+  logout() {
+
+    this.auth.logout();
+    this.route.navigate(['/home']);
 
   }
 
