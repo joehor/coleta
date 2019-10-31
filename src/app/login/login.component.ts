@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth/auth.service';
@@ -10,8 +11,11 @@ import { LoginService } from '../services/auth/login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('template', {static: true}) templateRef: TemplateRef<any>;
+
+  modalRef: BsModalRef;
   formLogin: FormGroup;
   token: any;
   lastLogon = localStorage.getItem('lastLogon');
@@ -21,14 +25,43 @@ export class LoginComponent implements OnInit {
   error = false;
 
   constructor(
+    private modalService: BsModalService,
     private authservice: AuthService,
     private loginservice: LoginService,
     private formbuilder: FormBuilder,
+    private route: Router
     // private route: Router
-    ) { }
+    ) {
+
+      this.modalService.onHide.subscribe(() => {
+
+        console.log('modalclose: usuario autenticado? ' + this.authservice.isAuthenticated);
+
+        if (this.authservice.isAuthenticated()) {
+
+          this.route.navigate(['/despesas']);
+
+        } else {
+
+          this.route.navigate(['/home']);
+
+        }
+
+      });
+
+    }
 
   ngOnInit() {
     this.criaForm();
+  }
+
+  ngAfterViewInit() {
+    const user = {
+        login: this.lastLogon
+      };
+    this.modalRef = this.modalService.show(this.templateRef, {
+      initialState : user
+    });
   }
 
   criaForm() {
@@ -91,6 +124,7 @@ export class LoginComponent implements OnInit {
         this.logado = true;
         // this.route.navigate([redUrl]);
       }
+      this.closeModal();
     },
     error => {
       // envia o dado para quem quiser pegar...
@@ -98,6 +132,18 @@ export class LoginComponent implements OnInit {
       this.logado = false;
       this.error = true;
     });
+  }
+
+  openModal(template: TemplateRef<any>) {
+
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+  closeModal() {
+
+    this.modalRef.hide();
+
   }
 
 }

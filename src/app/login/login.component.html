@@ -1,6 +1,57 @@
+<!--modal para busca-->
+<ng-template #template>
+  <div class="modal-header">
+
+    <h5><fa name="user"></fa>Área Restrita</h5>
+
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+
+  <div class="modal-body">
+
+    <div class="title">
+
+      <form [formGroup]="formLogin">
+          <div class="form-group">
+            <label for="login">Usuário</label>
+            <input type="email" class="form-control" id="login" placeholder="Seu usuário" formControlName="usr">
+          </div>
+          <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" class="form-control" id="password" placeholder="Senha" formControlName="pss">
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="salvasenha">
+            <label class="form-check-label" for="salvasenha">Salvar Senha</label>
+          </div>
+        </form>
+
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+
+    <button type="submit" class="btn btn-primary entrar" (click)="getToken()">Entrar</button>
+
+  </div>
+
+  <div class="alerts">
+
+    <app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!loginerror ? '' : loginerror.mensagem)"></app-alert>
+    <app-alert *ngIf="logado" tipo='success' title="Ok!" mensagem="Usuário autenticado com Sucesso!"></app-alert>
+    <app-alert [timeout]="0" tipo='info' title="Aviso!" mensagem="Teste mensagem na tela de login!"></app-alert>
+
+  </div>
+
+</ng-template>
+
+<!--
 <app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!loginerror ? '' : loginerror.mensagem)"></app-alert>
 <app-alert *ngIf="logado" tipo='success' title="Ok!" mensagem="Usuário autenticado com Sucesso!"></app-alert>
-
 
 <div class="card">
   <div class="body">
@@ -29,3 +80,4 @@
     </div>
   </div>
 </div>
+-->
