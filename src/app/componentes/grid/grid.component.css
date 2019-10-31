@@ -16,6 +16,9 @@ th div {
   background-color: lightseagreen !important;
   color: white;
 }
+.selected:hover {
+  color: white;
+}
 
 .txcenter {
   text-align: center;

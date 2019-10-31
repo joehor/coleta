@@ -1,11 +1,11 @@
 <div class="row">
 
-    <div class="col col-4 col-sm-2">
-      <input class="form-control" type="number" name="id" id="id" placeholder="Id" [(ngModel)]="lookupselected.id" (blur)="getDataById(lookupselected.id)"/>
+  <div class="col col-4 col-sm-2">
+      <input class="form-control" type="number" name="id" id="id" placeholder="Id" [(ngModel)]="inputid" (blur)="getDataById(inputid)"/>
     </div>
     <div class="col col-8 col-sm-10">
       <div class="input-group">
-        <input class="form-control" type="text" name="name" id="name" placeholder="Descricao" [(ngModel)]="lookupselected.descricao">
+        <input class="form-control" type="text" name="name" id="name" placeholder="Descricao" [(ngModel)]="inputname">
         <div class="input-group-append">
           <button class="btn btn-primary" type="button" (click)="openModal(template)"><fa name="search"></fa></button>
         </div>
@@ -38,5 +38,7 @@
         <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!lookupselected">Selecionar</button>
       </div>
     </ng-template>
+
+    <fa name="spinner" animation="spin" class="loading" *ngIf="pesquisando"></fa>
 
     lookupselected: {{lookupselected | json}}

@@ -8,6 +8,11 @@ interface Httpcodes {
   mensagem: string;
 }
 
+interface Lookup {
+  id: number;
+  descricao: string;
+}
+
 @Component({
   selector: 'app-input-lookup',
   templateUrl: './input-lookup.component.html',
@@ -20,7 +25,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
   @Input() inputname: string;
   @Input() title = 'Não Informado';
   @Input() pagesize = 10;
-  @Input() lookupselected = {id: 0, descricao: ''};
+  @Input() lookupselected: Lookup = {id: 0, descricao: ''};
 
   modalRef: BsModalRef;
   apierror = false;
@@ -34,10 +39,11 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('mudou algo');
-    if (changes['lookupselected']) {
-      console.log('mudou lookupselected');
+    if (changes['inputid']) {
+      console.log('mudou inputid: ' + this.inputid);
+      console.log('mudou lookupselected: ' + JSON.stringify(this.lookupselected));
 
-      this.getDataFromApi(this.apiroute, this.lookupselected.id.toString(), 1, 10);
+      // this.getDataFromApi(this.apiroute, this.lookupselected.id.toString(), 1, 10);
 
     }
 
@@ -73,6 +79,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
   // serviço que busca os dados da API...
   getDataFromApi(api: string, pesq: string, page: number, pagecount: number) {
 
+    this.pesquisando = true;
     this.datalookup.getData(api, pesq, page, pagecount)
       .subscribe(
       data => {
@@ -86,8 +93,11 @@ export class InputLookupComponent implements OnInit, OnChanges {
           this.apierror = false;
           this.httperror = null;
           // this.lookupselected = {id: data.Data[Object.keys(data.Data)[0]], descricao: data.Data[Object.keys(data.Data)[1]]};
-          this.lookupselected = data.Data[0];
-          // this.inputid = this.lookupselected.id;
+          data.Data.map((row: Lookup) => {
+            this.lookupselected = {id: row.id, descricao: row.descricao};
+          });
+          this.inputid = this.lookupselected.id;
+          this.inputname = this.lookupselected.descricao;
           // this.confirm();
         }
       },

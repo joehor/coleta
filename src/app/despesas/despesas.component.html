@@ -62,8 +62,9 @@
             Evento:
             <app-input-lookup
               [apiroute]="'Representantes/DespesasEventos/Lookup'"
-              title="Despesas"
-              inputid="0"
+              title="Eventos"
+              [inputid]="lookupevento.id"
+              [inputname]="lookupevento.descricao"
               [lookupselected]="lookupevento">
             </app-input-lookup>
           </div>

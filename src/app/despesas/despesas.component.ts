@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataPostService } from '../services/data-post.service';
 
+interface Lookup {
+  id: number;
+  descricao: string;
+}
+
 @Component({
   selector: 'app-despesas',
   templateUrl: './despesas.component.html',
@@ -12,7 +17,7 @@ export class DespesasComponent implements OnInit {
   formDespesa: FormGroup;
   error: any;
   selected: any;
-  lookupevento = {id: 0, descricao: ''};
+  lookupevento: Lookup = {id: 0, descricao: ''};
 
   constructor(
     private formbuilder: FormBuilder,
@@ -27,7 +32,8 @@ export class DespesasComponent implements OnInit {
       Roteiro: '',
       Observacoes: '',
       UsuarioAssociado: '',
-      id_Evento: 0
+      id_Evento: 0,
+      LookupEvento: {id: 0, descricao: ''}
     };
 
     this.criaForm();
@@ -72,10 +78,10 @@ export class DespesasComponent implements OnInit {
     // this.formDespesa.setValue(this.selected);
     this.formDespesa.patchValue(this.selected);
 
-    this.lookupevento.id = this.selected.id_Evento;
+    this.lookupevento = this.selected.LookupEvento;
 
-    // console.log('this.selected.Id_Evento: ' + this.selected.id_Evento);
-    // console.log('this.lookupevento: ' + JSON.stringify(this.lookupevento));
+    console.log('this.selected.Id_Evento: ' + this.selected.id_Evento);
+    console.log('this.lookupevento: ' + JSON.stringify(this.lookupevento));
 
   }
 
