@@ -57,12 +57,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const user = {
-        login: this.lastLogon
-      };
-    this.modalRef = this.modalService.show(this.templateRef, {
-      initialState : user
-    });
+    const config = {
+      backdrop: true,
+      ignoreBackdropClick: true
+    };
+    this.modalRef = this.modalService.show(this.templateRef, config );
   }
 
   criaForm() {

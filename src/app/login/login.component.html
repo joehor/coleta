@@ -1,5 +1,5 @@
 <!--modal para busca-->
-<ng-template #template>
+<ng-template #template class="modal fade" backdrop="Disabled">
   <div class="modal-header">
 
     <h5><fa name="lock"></fa>Área Restrita</h5>
@@ -35,7 +35,7 @@
 
   <div class="modal-footer">
 
-    <button type="submit" class="btn btn-primary entrar" (click)="getToken()">
+    <button type="submit" class="btn btn-primary entrar" [disabled]="!formLogin.valid" (click)="getToken()">
       Entrar
       <fa name="spinner" animation="spin" class="loading" *ngIf="loading"></fa>
     </button>
