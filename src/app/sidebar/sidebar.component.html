@@ -3,6 +3,10 @@
   <img class="imglogo">
 </div>
 
+<div class="filtro">
+  <input type="text" class="form-control" [(ngModel)]="filtro" placeholder="Filtro">
+</div>
+
 <hr>
 
 <div class="progress" *ngIf="loading">
@@ -16,7 +20,7 @@
 </div>
 
 <ul (click)="onSelectItem()">
-  <li *ngFor="let menu of datasource"
+  <li *ngFor="let menu of datasource | filter : filtro : 'caption'"
     [routerLink]="[menu.action]"
     routerLinkActive="router-link-active">
     <fa name="{{menu.icon}}" *ngIf="menu.icon"></fa>

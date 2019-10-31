@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit {
   // Event emitter...
   httperror: Httpcodes;
   loading = false;
+  filtro = '';
 
   constructor( private dataLookup: DataLookupService, private auth: AuthService ) {
 
