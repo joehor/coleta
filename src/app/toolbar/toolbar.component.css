@@ -16,6 +16,7 @@
 }
 .toolbar fa:hover {
   background-color: var(--main-bgcolor-hover);
+  color: var(--main-color-hover);
 }
 
 .toolbarcenter {
@@ -34,7 +35,6 @@
 .btn-group {
   padding: 0;
 }
-
 
 /* media querys */
 @media only screen and (max-width: 600px) {
