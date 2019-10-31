@@ -36,7 +36,7 @@ import { AuthService } from './services/auth/auth.service';
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
 import { GridComponent } from './componentes/grid/grid.component';
 import { LoadingComponent } from './loading/loading.component';
-import { AlertComponent } from './alert/alert.component';
+import { AlertComponent } from './componentes/alert/alert.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
