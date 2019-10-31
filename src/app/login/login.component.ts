@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   // logado = sessionStorage.getItem('userToken') !== '' && sessionStorage.getItem('userToken') !== null;
   logado = this.authservice.isAuthenticated();
   error = false;
+  loading = false;
 
   constructor(
     private modalService: BsModalService,
@@ -83,6 +84,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   getToken() {
+
+    this.loading = true;
     console.log('getToken::');
     // se foi bloqueado pelo auth guard salva a rota para acessar logo que se logar ...
     const redUrl = localStorage.getItem('lockUrl');
@@ -99,6 +102,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       console.log('senha: ' + senha);
       // console.log('control: ' + JSON.stringify(this.formLogin.controls));
       // this._snackbarService.openSimpleSnack('Necessário informar o login e senha!');
+      this.loginerror = {mensagem: 'Necessário informar usuário e senha'};
+      this.loading = false;
+      this.error = true;
       return;
     }
 
@@ -118,10 +124,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
       if (!redUrl) {
         console.log('Login Ok dashboard!');
         this.logado = true;
+        this.loading = false;
         // this.route.navigate(['/dashboard']);
       } else {
         console.log('Login Ok ' + redUrl + '!');
         this.logado = true;
+        this.loading = false;
         // this.route.navigate([redUrl]);
       }
       this.closeModal();
@@ -130,6 +138,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       // envia o dado para quem quiser pegar...
       this.loginerror = error;
       this.logado = false;
+      this.loading = false;
       this.error = true;
     });
   }
