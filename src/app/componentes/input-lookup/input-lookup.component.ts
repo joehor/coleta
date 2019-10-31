@@ -51,7 +51,12 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   openModal(template: TemplateRef<any>) {
 
-    this.modalRef = this.modalService.show(template);
+    const config = {
+      backdrop: true,
+      ignoreBackdropClick: true
+    };
+
+    this.modalRef = this.modalService.show(template, config);
 
   }
 
