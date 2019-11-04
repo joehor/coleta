@@ -5,7 +5,24 @@
     </div>
     <div class="col col-8 col-sm-10">
       <div class="input-group">
-        <input class="form-control" type="text" name="name" id="name" placeholder="Descricao" [(ngModel)]="inputname">
+        <!--<input class="form-control" type="text" name="name" id="name" placeholder="Descricao" [(ngModel)]="inputname">-->
+
+        <!--<input [(ngModel)]="inputname"
+        [typeahead]="lista()"
+        typeaheadWaitMs="3000"
+        class="form-control">-->
+        <!--
+        <input class="form-control" type="search" (keypress)="onKeySearch()" list="listdata" [(ngModel)]="inputname">
+        <datalist id="listdata" (click)="datalistSelected()">
+          <option *ngFor="let item of apidata" [value]="item.descricao" data-id="item.id"></option>
+       </datalist>
+      -->
+      <input [(ngModel)]="inputname"
+       [typeahead]="apidata"
+       [isAnimated]="true"
+       class="form-control">
+
+
         <div class="input-group-append">
           <button class="btn btn-primary" type="button" (click)="openModal(template)"><fa name="search"></fa></button>
         </div>
