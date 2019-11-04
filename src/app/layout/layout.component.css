@@ -1,3 +1,7 @@
+:root {
+  --main-slidemenu-width: -350px;
+}
+
 * {
   transition: background-color 0.5s;
   transition-property: background-color;
@@ -24,7 +28,7 @@
 }
 .sidebar {
   width: 350px;
-  margin-left: 0;
+  margin-left: var(--main-slidemenu-width);
   transition: margin-left 1s;
     transition-property: margin-left;
     transition-duration: 1s;
@@ -32,7 +36,7 @@
     transition-delay: 0s;
 }
 .sidebarshow {
-  margin-left: 0 !important;
+  margin-left: var(--main-slidemenu-width) !important;
 }
 #btnsidemenu {
   visibility: hidden;

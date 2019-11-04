@@ -14,7 +14,14 @@
 
     <!--sidebar-->
     <!--<div [ngClass]="(sidemenuopen ? 'sidebar sidebarshow' : 'sidebar')">-->
+    <!--
     <div class="sidebar" [ngClass]="(sidemenuopen ? 'sidebarshow' : '')">
+
+      <app-sidebar (emitSlide)="sidemenuopen = !sidemenuopen"></app-sidebar>
+
+    </div>
+    -->
+    <div class="sidebar">
 
       <app-sidebar></app-sidebar>
 
