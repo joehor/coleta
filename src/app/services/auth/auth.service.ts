@@ -1,7 +1,4 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-// import decode from 'jwt-decode';
-// import { tokenNotExpired } from 'angular2-jwt';
-
 
 @Injectable()
 export class AuthService {
@@ -9,8 +6,9 @@ export class AuthService {
 
   public sendToken(token: string) {
 
+    const localsaved = sessionStorage.setItem('userToken', token);
     this.emitisLoggin.emit(token !== '' && token !== null);
-    return sessionStorage.setItem('userToken', token);
+    return localsaved;
 
   }
 

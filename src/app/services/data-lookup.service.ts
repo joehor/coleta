@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
 import { DataApi } from './data-api';
 import { throwError } from 'rxjs';
@@ -13,6 +13,10 @@ import { isDevMode } from '@angular/core';
 export class DataLookupService {
   httperror: any;
   baseapi: string;
+  @Output() emitUpdateStatus: EventEmitter<any> = new EventEmitter();
+  k1data: any;
+  userdata: any;
+  localuser: string;
 
   constructor( private httpclient: HttpClient ) {
     // usando o ng build --configuration=production dá o erro:
@@ -23,6 +27,121 @@ export class DataLookupService {
     } else {
       this.baseapi = 'http://servicos.idelli.com.br/GrupoK1/api';
     }
+    this.localuser = localStorage.getItem('lastLogon');
+    this.k1data = JSON.parse(localStorage.getItem('k1data'));
+    if (!this.k1data) { this.k1data = []; }
+    this.k1data
+      .filter( usu => {
+        if (usu.usuario === this.localuser) {
+          this.userdata = usu.Data;
+        }
+      });
+    if (!this.userdata) { this.userdata = []; }
+    console.log('inicio data.lookup');
+    console.log(this.userdata);
+  }
+
+  emptyuser() {
+    return {usuario: this.localuser, Data: []};
+  }
+  getRepresentantes() {
+    // if (this.userdata.Data.filter(rep => rep.representantes))
+    this.getData('representantes/lookup', '%', 1, 10000)
+      .subscribe(data => {
+        if (this.userdata.hasOwnProperty('representantes')) {
+          this.userdata.representantes = data.Data;
+        } else {
+          this.userdata.push({ representantes: [data.Data] });
+        }
+
+        this.salvak1data();
+
+      });
+  }
+  getClientes() {
+    this.getData('representantes/clientes/lookup', '%', 1, 10000)
+    .subscribe(data => {
+      if (this.userdata.hasOwnProperty('clientes')) {
+        this.userdata.clientes = data.Data;
+      } else {
+        this.userdata.push({ clientes: [data.Data] });
+      }
+
+      this.salvak1data();
+
+    });
+  }
+  getEmpresas() {
+    this.getData('representantes/empresas/lookup', '%', 1, 10000)
+    .subscribe(data => {
+      if (this.userdata.hasOwnProperty('empresas')) {
+        this.userdata.empresas = data.Data;
+      } else {
+        this.userdata.push({ empresas: [data.Data] });
+      }
+
+      this.salvak1data();
+
+    });
+  }
+  getTiposPedidos() {
+    this.getData('representantes/tipospedidos/lookup', '%', 1, 10000)
+    .subscribe(data => {
+      if (this.userdata.hasOwnProperty('tipospedidos')) {
+        this.userdata.tipospedidos = data.Data;
+      } else {
+        this.userdata.push({ tipospedidos: [data.Data] });
+      }
+
+      this.salvak1data();
+
+    });
+  }
+
+  updateK1Data() {
+
+    const totalUpdates = 5;
+
+    this.emitUpdateStatus.emit({step: 1, stepof: totalUpdates});
+    // verifica se tem salvo o K1data para este usuario
+    // this.k1data = JSON.parse(localStorage.getItem('k1data'));
+    // if (!this.k1data) { this.k1data = []; }
+
+    // verifica se tem o usuario salvo no k1data
+
+    if (this.userdata) {
+      console.log('Buscando empresas(1)...');
+      this.getEmpresas();
+      this.emitUpdateStatus.emit({step: 2, stepof: totalUpdates});
+      console.log('Buscando tipospedidos(2)...');
+      this.getTiposPedidos();
+      this.emitUpdateStatus.emit({step: 3, stepof: totalUpdates});
+      console.log('Buscando representantes(3)...');
+      this.getRepresentantes();
+      this.emitUpdateStatus.emit({step: 4, stepof: totalUpdates});
+      console.log('Buscando clientes(4)...');
+      this.getClientes();
+      this.emitUpdateStatus.emit({step: 5, stepof: totalUpdates});
+    }
+  }
+
+  salvak1data() {
+
+    if (this.k1data.length > 0) {
+      if (this.k1data.hasOwnProperty(this.localuser)) {
+        this.k1data.map(usu => {
+          if (usu.usuario === this.localuser) {
+            usu.Data = this.userdata;
+          }
+        });
+      }
+    } else {
+      this.k1data.push({usuario: this.localuser, Data: this.userdata});
+    }
+
+    const storedata = JSON.stringify(this.k1data);
+    localStorage.setItem('k1data', storedata);
+
   }
 
   getData(api: string, pesq: string, page: number, pagecnt: number) {
