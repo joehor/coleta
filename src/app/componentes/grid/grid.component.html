@@ -19,7 +19,8 @@
             <div class="col-12 spacebetween">
               <span style="margin-right: 10px;">Coleta:</span>
               <div class="input-group">
-                  <input type="text"
+                  <input class="form-control"
+                  type="search"
                   placeholder="Coleta por ({{ colsearch }})"
                   class="form-control"
                   [(ngModel)]="search"
@@ -76,8 +77,8 @@
             <div class="col-12 spacebetween">
               <span style="margin-right: 10px;">Filtro:</span>
               <div class="input-group">
-                <input type="text"
-                  class="form-control"
+                <input class="form-control"
+                  type="search"
                   [(ngModel)]="searchText"
                   placeholder="Informe parte da pesquisa por ({{searchKey || 'qualquer campo'}})"
                   (change)="reloadProgressBar()">
@@ -111,7 +112,8 @@
         <th [attr.colspan]="visiblecolumns()" class="thcolumns">
             <div class="input-group" role="group" style="padding-bottom: 5px;">
 
-                <input type="text" class="form-control input-sm"
+                <input type="search"
+                  class="form-control input-sm"
                   [(ngModel)]="pesquisa"
                   placeholder="Informe parte código ou parte da descrição"
                   (change)="resetapesquisa()">
