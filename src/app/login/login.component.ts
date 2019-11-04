@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
       this.modalService.onHide.subscribe(() => {
 
-        console.log('modalclose: usuario autenticado? ' + this.authservice.isAuthenticated);
+        console.log('modalclose: usuario autenticado? ' + this.authservice.isAuthenticated());
 
         if (this.authservice.isAuthenticated()) {
 
@@ -78,7 +78,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 Validators.required,
                 Validators.minLength(4)
               ])
-          ]
+          ],
+      savepss: [false]
     });
   }
 
@@ -90,6 +91,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     const redUrl = localStorage.getItem('lockUrl');
     const usuario = this.formLogin.value.usr;
     const senha = this.formLogin.value.pss;
+    const salva = this.formLogin.value.savepss;
 
     // reseta variaveis
     this.error = false;
@@ -115,32 +117,36 @@ export class LoginComponent implements OnInit, AfterViewInit {
     // .pipe(first())
     .subscribe(
       token => {
-      localStorage.setItem('lastLogon', usuario);
-      this.token = token;
-      // salvando o token
-      console.log('getToken::salvando o token');
-      this.authservice.sendToken(this.token.TokenAccess);
-      if (!redUrl) {
-        console.log('Login Ok dashboard!');
-        this.logado = true;
+        localStorage.setItem('lastLogon', usuario);
+        this.token = token;
+        // salvando o token
+        console.log('getToken::salvando o token');
+
+        this.authservice.sendToken(this.token.TokenAccess);
+        this.loginservice.updatek1data();
+
+
+        if (!redUrl) {
+          console.log('Login Ok dashboard!');
+          this.logado = true;
+          this.loading = false;
+          // this.route.navigate(['/dashboard']);
+        } else {
+          console.log('Login Ok ' + redUrl + '!');
+          this.logado = true;
+          this.loading = false;
+          // this.route.navigate([redUrl]);
+        }
+        this.closeModal();
+      },
+      error => {
+        // envia o dado para quem quiser pegar...
+        this.loginerror = error;
+        this.logado = false;
         this.loading = false;
-        // this.route.navigate(['/dashboard']);
-      } else {
-        console.log('Login Ok ' + redUrl + '!');
-        this.logado = true;
-        this.loading = false;
-        // this.route.navigate([redUrl]);
-      }
-      this.closeModal();
-    },
-    error => {
-      // envia o dado para quem quiser pegar...
-      this.loginerror = error;
-      this.logado = false;
-      this.loading = false;
-      this.error = true;
-    });
-  }
+        this.error = true;
+      });
+    }
 
   openModal(template: TemplateRef<any>) {
 
