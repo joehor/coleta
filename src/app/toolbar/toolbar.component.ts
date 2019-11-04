@@ -41,9 +41,13 @@ export class ToolbarComponent implements OnInit {
   onBtnSlideClick() {
 
     console.log('onBtnSlideClick...');
-    this.sidmenu = !this.sidmenu;
-    this.emitSidemenu.emit(this.sidmenu);
-
+    // this.sidmenu = !this.sidmenu;
+    // this.emitSidemenu.emit(this.sidmenu);
+    if (document.documentElement.style.getPropertyValue('--main-slidemenu-width') === '0') {
+      document.documentElement.style.setProperty('--main-slidemenu-width', '-350px');
+    } else {
+      document.documentElement.style.setProperty('--main-slidemenu-width', '0');
+    }
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
