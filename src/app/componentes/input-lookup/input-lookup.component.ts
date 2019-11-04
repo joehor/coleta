@@ -2,11 +2,7 @@ import { Component, OnInit, TemplateRef, Input, OnChanges, SimpleChanges } from 
 import { FormControl } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpClient } from '@angular/common/http';
-
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { DataLookupService } from '../../services/data-lookup.service';
-import { DataApi } from '../../services/data-api';
-import { TabHeadingDirective } from 'ngx-bootstrap';
 
 interface Httpcodes {
   code: number;
