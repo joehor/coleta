@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
 import { DataApi } from './data-api';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-// import { Httpcodes } from './httpcodes';
 import { environment } from '../../environments/environment';
 import { isDevMode } from '@angular/core';
 
@@ -11,12 +10,22 @@ import { isDevMode } from '@angular/core';
   providedIn: 'root'
 })
 export class DataLookupService {
+  @Output() emitUpdateStatus: EventEmitter<any> = new EventEmitter();
   httperror: any;
   baseapi: string;
-  @Output() emitUpdateStatus: EventEmitter<any> = new EventEmitter();
   k1data: any;
   userdata: any;
   localuser: string;
+  totalUpdates = 6;
+  step = 0;
+  // lista de atualizações
+  k1datalist = [
+    {id: 1, property: 'empresas', method: 'getEmpresas'},
+    {id: 2, property: 'tipospedidos', method: 'getTiposPedidos'},
+    {id: 3, property: 'representantes', method: 'getRepresentantes'},
+    {id: 4, property: 'clientes', method: 'getClientes'},
+    {id: 5, property: 'despesaseventos', method: 'getDespesasEventos'}
+  ];
 
   constructor( private httpclient: HttpClient ) {
     // usando o ng build --configuration=production dá o erro:
@@ -27,117 +36,94 @@ export class DataLookupService {
     } else {
       this.baseapi = 'http://servicos.idelli.com.br/GrupoK1/api';
     }
+
+    // prepara o k1data que contém todos os datasets necessários ...
     this.localuser = localStorage.getItem('lastLogon');
     this.k1data = JSON.parse(localStorage.getItem('k1data'));
-    if (!this.k1data) { this.k1data = []; }
-    this.k1data
-      .filter( usu => {
-        if (usu.usuario === this.localuser) {
-          this.userdata = usu.Data;
+
+    // se salvou o k1data, verifica se tem os dados para o usuário que se logou ...
+    if (this.k1data !== null) {
+      if (this.k1data.usuario.toUpperCase() !== this.localuser.toUpperCase()) {
+        this.k1data = this.emptyuser();
+      }
+    } else {
+      this.k1data = this.emptyuser();
+    }
+
+    console.log('k1data: ');
+    console.log(this.k1data);
+  }
+
+  updateK1Data() {
+
+    // roda todas as chamadas ...
+    this.k1datalist.map(element => {
+      // se existe o método ...
+      if (this[element.method]) {
+        // se ainda não tem a propriedade no objeto k1data
+        if (this.k1data.Data.filter(tab => tab.hasOwnProperty(element.property)).length === 0) {
+          this[element.method](false); // o parametro false é para salvar somente no último item da lista...
         }
-      });
-    if (!this.userdata) { this.userdata = []; }
-    console.log('inicio data.lookup');
-    console.log(this.userdata);
+      }
+    });
+
   }
 
   emptyuser() {
     return {usuario: this.localuser, Data: []};
   }
-  getRepresentantes() {
-    // if (this.userdata.Data.filter(rep => rep.representantes))
+  getRepresentantes(salva: boolean) {
     this.getData('representantes/lookup', '%', 1, 10000)
       .subscribe(data => {
-        if (this.userdata.hasOwnProperty('representantes')) {
-          this.userdata.representantes = data.Data;
-        } else {
-          this.userdata.push({ representantes: [data.Data] });
-        }
-
-        this.salvak1data();
-
+        this.k1data.Data.push({representantes: data.Data});
+        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Representantes', step: this.step++, stepof: this.totalUpdates});
+        // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
+        if (this.step === this.k1datalist.length) { salva = true; }
+        if (salva) { this.salvak1data(); }
       });
   }
-  getClientes() {
+  getClientes(salva: boolean) {
     this.getData('representantes/clientes/lookup', '%', 1, 10000)
-    .subscribe(data => {
-      if (this.userdata.hasOwnProperty('clientes')) {
-        this.userdata.clientes = data.Data;
-      } else {
-        this.userdata.push({ clientes: [data.Data] });
-      }
-
-      this.salvak1data();
-
-    });
+      .subscribe(data => {
+        this.k1data.Data.push({clientes: data.Data});
+        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de clientes', step: this.step++, stepof: this.totalUpdates});
+        // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
+        if (this.step === this.k1datalist.length) { salva = true; }
+        if (salva) { this.salvak1data(); }
+      });
   }
-  getEmpresas() {
+  getEmpresas(salva: boolean) {
     this.getData('representantes/empresas/lookup', '%', 1, 10000)
-    .subscribe(data => {
-      if (this.userdata.hasOwnProperty('empresas')) {
-        this.userdata.empresas = data.Data;
-      } else {
-        this.userdata.push({ empresas: [data.Data] });
-      }
-
-      this.salvak1data();
-
-    });
+      .subscribe(data => {
+        this.k1data.Data.push({empresas: data.Data});
+        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de empresas', step: this.step++, stepof: this.totalUpdates});
+        // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
+        if (this.step === this.k1datalist.length) { salva = true; }
+        if (salva) { this.salvak1data(); }
+      });
   }
-  getTiposPedidos() {
+  getTiposPedidos(salva: boolean) {
     this.getData('representantes/tipospedidos/lookup', '%', 1, 10000)
-    .subscribe(data => {
-      if (this.userdata.hasOwnProperty('tipospedidos')) {
-        this.userdata.tipospedidos = data.Data;
-      } else {
-        this.userdata.push({ tipospedidos: [data.Data] });
-      }
-
-      this.salvak1data();
-
-    });
+      .subscribe(data => {
+        this.k1data.Data.push({tipospedidos: data.Data});
+        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Tipos de Pedidos', step: this.step++, stepof: this.totalUpdates});
+        // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
+        if (this.step === this.k1datalist.length) { salva = true; }
+        if (salva) { this.salvak1data(); }
+      });
   }
-
-  updateK1Data() {
-
-    const totalUpdates = 5;
-
-    this.emitUpdateStatus.emit({step: 1, stepof: totalUpdates});
-    // verifica se tem salvo o K1data para este usuario
-    // this.k1data = JSON.parse(localStorage.getItem('k1data'));
-    // if (!this.k1data) { this.k1data = []; }
-
-    // verifica se tem o usuario salvo no k1data
-
-    if (this.userdata) {
-      console.log('Buscando empresas(1)...');
-      this.getEmpresas();
-      this.emitUpdateStatus.emit({step: 2, stepof: totalUpdates});
-      console.log('Buscando tipospedidos(2)...');
-      this.getTiposPedidos();
-      this.emitUpdateStatus.emit({step: 3, stepof: totalUpdates});
-      console.log('Buscando representantes(3)...');
-      this.getRepresentantes();
-      this.emitUpdateStatus.emit({step: 4, stepof: totalUpdates});
-      console.log('Buscando clientes(4)...');
-      this.getClientes();
-      this.emitUpdateStatus.emit({step: 5, stepof: totalUpdates});
-    }
+  getDespesasEventos(salva: boolean) {
+    this.getData('representantes/DespesasEventos/lookup', '%', 1, 10000)
+      .subscribe(data => {
+        this.k1data.Data.push({despesaseventos: data.Data});
+        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Eventos', step: this.step++, stepof: this.totalUpdates});
+        // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
+        if (this.step === this.k1datalist.length) { salva = true; }
+        if (salva) { this.salvak1data(); }
+      });
   }
 
   salvak1data() {
-
-    if (this.k1data.length > 0) {
-      if (this.k1data.hasOwnProperty(this.localuser)) {
-        this.k1data.map(usu => {
-          if (usu.usuario === this.localuser) {
-            usu.Data = this.userdata;
-          }
-        });
-      }
-    } else {
-      this.k1data.push({usuario: this.localuser, Data: this.userdata});
-    }
 
     const storedata = JSON.stringify(this.k1data);
     localStorage.setItem('k1data', storedata);
@@ -159,8 +145,8 @@ export class DataLookupService {
     const urlapi = `${this.baseapi}/api/${api}`;
 
     if (environment.monitor) {
-      console.log('urlapi: ' + urlapi);
-      console.log('envapi: ' + environment.urlApi);
+      // console.log('urlapi: ' + urlapi);
+      // console.log('envapi: ' + environment.urlApi);
     }
 
 
@@ -239,14 +225,14 @@ export class DataLookupService {
     // console.log('datalookup: ' + error.statusText);
     // console.log('this.httplisterror: ' + JSON.stringify(this.httplisterror));
 
-    console.log('Apierror!');
+    // console.log('Apierror!');
 
     let apiret = httplisterror.filter( err => (err.code === error.status) )[0];
 
-    console.log('Apierror depois!');
+    // console.log('Apierror depois!');
 
-    console.log('apiret: ' + JSON.stringify(apiret));
-    console.log(apiret.mensagem);
+    // console.log('apiret: ' + JSON.stringify(apiret));
+    // console.log(apiret.mensagem);
 
     if (!apiret) { apiret = {code: error.statusText, erro: error.message, mensagem: error.message}; }
 
