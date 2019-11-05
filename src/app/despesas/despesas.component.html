@@ -22,6 +22,12 @@
 
         <div class="row">
           <div class="col-sm">
+            <input placeholder="Daterangepicker" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
             <label for="datainicio">Data Saída</label>
             <input type="date" class="form-control" id="datainicio" placeholder="Saida" formControlName="Data_Saida">
           </div>
@@ -60,6 +66,7 @@
             <input type="text" class="form-control" id="id_evento" placeholder="Informe o evento" formControlName="id_Evento">
             -->
             Evento:
+            <!--
             <app-input-lookup
               [apiroute]="'Representantes/DespesasEventos/Lookup'"
               title="Eventos"
@@ -67,7 +74,15 @@
               [inputname]="lookupevento.descricao"
               [lookupselected]="lookupevento">
             </app-input-lookup>
+          -->
+          <input [(ngModel)]="seachevent"
+            [ngModelOptions]="{standalone: true}"
+            [typeahead]="datasource"
+            typeaheadOptionField="descricao"
+            (typeaheadOnSelect)="onSelectData($event)"
+            class="form-control">
           </div>
+
         </div>
 
       </div>
@@ -80,8 +95,11 @@
       </div>
     </form>
 
-    form valid: {{formDespesa.valid}} <br/>
-    form data: {{this.formDespesa.value | json}}
+     <br/>
+
+    <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid}}</pre>
+    <!--<pre class="card card-block card-header mb-3">datasource: {{datasource | json}}</pre>-->
+    <pre class="card card-block card-header mb-3">lookupevento: {{lookupevento | json}}</pre>
 
   </tab>
 

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataPostService } from '../services/data-post.service';
-
-interface Lookup {
-  id: number;
-  descricao: string;
-}
+import { DataLookupService } from '../services/data-lookup.service';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
 
 @Component({
   selector: 'app-despesas',
@@ -17,12 +14,17 @@ export class DespesasComponent implements OnInit {
   formDespesa: FormGroup;
   error: any;
   selected: any;
-  lookupevento: Lookup = {id: 0, descricao: ''};
+  datasource: any;
+  lookupevento: any;
+  seachevent: string;
 
   constructor(
     private formbuilder: FormBuilder,
-    private datapost: DataPostService
-    ) { }
+    private datapost: DataPostService,
+    private datalookup: DataLookupService
+    ) {
+      this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
+    }
 
   ngOnInit() {
     this.selected = {
@@ -71,17 +73,10 @@ export class DespesasComponent implements OnInit {
 
   }
 
-  onSelectData(event: any) {
+  onSelectData(event: TypeaheadMatch) {
 
     console.log('despesas-lookup(onSelectData): ' + JSON.stringify(event));
-    this.selected = event;
-    // this.formDespesa.setValue(this.selected);
-    this.formDespesa.patchValue(this.selected);
-
-    this.lookupevento = this.selected.LookupEvento;
-
-    console.log('this.selected.Id_Evento: ' + this.selected.id_Evento);
-    console.log('this.lookupevento: ' + JSON.stringify(this.lookupevento));
+    this.lookupevento = event;
 
   }
 
