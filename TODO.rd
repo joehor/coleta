@@ -8,10 +8,12 @@
  9- adicionado evento no click da table--ok
 14- ajustar o gauge--ok
 
- 7- adicionar funcionalidade para a pesquisa do navbar
+ 7- adicionar funcionalidade para a pesquisa do navbar--ok
 10- ocultar colunas não está funcionando
 11- item editavel no dropdown não deixa mexer pois fecha o menu
 12- corrigir erro na gravação da despesa
 13- adicionado o campo monitor para sinalizar dar prints, alterar em todos os componentes
 14- Resolver erro ao carregar o sidemenu na primeira vez, sempre dá erro de autenticação
 15- Cor errada nos icones do menu toolbar
+16- aprimorar o input-lookup para usar o typeahead
+17- não está salvando dados de um novo login
