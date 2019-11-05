@@ -19,6 +19,7 @@ import { ProgressbarModule
   , CarouselModule
   , TabsModule
   , TypeaheadModule
+  , BsDatepickerModule
 } from 'ngx-bootstrap';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -93,6 +94,7 @@ import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-
     CarouselModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
+    BsDatepickerModule .forRoot(),
 
     // ngx-bootstrap - toast
     ToastrModule.forRoot()
