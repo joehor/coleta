@@ -17,9 +17,11 @@
           <option *ngFor="let item of apidata" [value]="item.descricao" data-id="item.id"></option>
        </datalist>
       -->
-      <input [(ngModel)]="inputname"
+       <input [(ngModel)]="inputname"
+       [ngModelOptions]="{standalone: true}"
        [typeahead]="apidata"
-       [isAnimated]="true"
+       typeaheadOptionField="descricao"
+       (typeaheadOnSelect)="onSelectData($event)"
        class="form-control">
 
 
