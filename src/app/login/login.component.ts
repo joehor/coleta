@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
         if (this.authservice.isAuthenticated()) {
 
-          this.route.navigate(['/despesas']);
+          this.route.navigate(['/home']);
 
         } else {
 
@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 Validators.maxLength(100)
               ])
           ],
-      pss: ['',
+      pss: ['K13928',
               Validators.compose([
                 Validators.required,
                 Validators.minLength(4)
