@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GridComponent } from '../componentes/grid/grid.component';
+import { DataLookupService } from '../services/data-lookup.service';
 
 @Component({
   selector: 'app-representantes-lookup',
@@ -7,8 +7,12 @@ import { GridComponent } from '../componentes/grid/grid.component';
   styleUrls: ['./representantes-lookup.component.css']
 })
 export class RepresentantesLookupComponent implements OnInit {
+  datalookup: any;
 
-  constructor() {}
+  constructor( private data: DataLookupService ) {
+    this.datalookup = this.data.userdata.filter(dt => dt.hasOwnProperty('representantes'));
+    console.log(this.datalookup);
+  }
 
   ngOnInit() {
 
