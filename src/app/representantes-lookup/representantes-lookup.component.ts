@@ -10,7 +10,7 @@ export class RepresentantesLookupComponent implements OnInit {
   datalookup: any;
 
   constructor( private data: DataLookupService ) {
-    this.datalookup = this.data.userdata.filter(dt => dt.hasOwnProperty('representantes'));
+    this.datalookup = this.data.userdata.Data.filter(dt => dt.hasOwnProperty('representantes'));
     console.log(this.datalookup);
   }
 
