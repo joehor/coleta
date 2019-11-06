@@ -1,5 +1,5 @@
 :root {
-  --main-slidemenu-width: -350px;
+  --main-screen: 400;
 }
 
 * {
@@ -62,9 +62,31 @@
   width: 100%;
 }
 
-
 @media only screen and (max-width: 1200px) {
-  .sidebar {margin-left: -350px;}
+  /*.sidebar {margin-left: -350px !important}*/
+  :root{
+    --main-screen: 1200;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  :root{
+    --main-screen: 1000;
+  }
+}
+@media only screen and (max-width: 800px) {
+  :root{
+    --main-screen: 800;
+  }
+}
+@media only screen and (max-width: 600px) {
+  :root{
+    --main-screen: 600;
+  }
+}
+@media only screen and (max-width: 400px) {
+  :root{
+    --main-screen: 400;
+  }
 }
 
 /*
