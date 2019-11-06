@@ -12,6 +12,7 @@ export class AlertComponent implements OnInit {
   @Input() detalhes: any;
   @Input() timeout = 5000;
   @Input() dismissible = true;
+  @Input() show = false;
 
   constructor() { }
 
