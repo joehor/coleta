@@ -6,6 +6,11 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { isDevMode } from '@angular/core';
 
+interface UserData {
+  usuario: string;
+  Data: any[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,20 +19,32 @@ export class DataLookupService {
   httperror: any;
   baseapi: string;
   k1data: any;
-  userdata: any;
+  userdata: UserData;
   localuser: string;
   totalUpdates = 6;
   step = 0;
   // lista de atualizações
-  k1datalist = [
-    {id: 1, property: 'empresas', method: 'getEmpresas'},
-    {id: 2, property: 'tipospedidos', method: 'getTiposPedidos'},
-    {id: 3, property: 'representantes', method: 'getRepresentantes'},
-    {id: 4, property: 'clientes', method: 'getClientes'},
-    {id: 5, property: 'despesaseventos', method: 'getDespesasEventos'}
-  ];
+  k1datalist = [];
 
   constructor( private httpclient: HttpClient ) {
+
+    this.k1datalist = [
+      {id: 1, property: 'menus', route: '', method: 'getMenus', run: false, error: false, message: ''},
+      {id: 2, property: 'empresas', route: '', method: 'getEmpresas', run: false, error: false, message: ''},
+      {id: 3, property: 'tipospedidos', route: '', method: 'getTiposPedidos', run: false, error: false, message: ''},
+      {
+        id: 4,
+        property: 'representantes',
+        route: 'representantes/lookup',
+        method: 'getRepresentantes',
+        run: true,
+        error: false,
+        message: ''
+      },
+      {id: 5, property: 'clientes', route: '', method: 'getClientes', run: false, error: false, message: ''},
+      {id: 6, property: 'despesaseventos', route: '', method: 'getDespesasEventos', run: false, error: false, message: ''}
+    ];
+
     // usando o ng build --configuration=production dá o erro:
     // tslint:disable-next-line: max-line-length
     // ERROR in : Can't resolve all parameters for HttpParams in C:/Developer/Angular/Coleta/node_modules/@angular/common/http/http.d.ts: (?).
@@ -39,30 +56,44 @@ export class DataLookupService {
 
     // prepara o k1data que contém todos os datasets necessários ...
     this.localuser = localStorage.getItem('lastLogon');
-    this.k1data = JSON.parse(localStorage.getItem('k1data'));
-
-    // se salvou o k1data, verifica se tem os dados para o usuário que se logou ...
-    if (this.k1data !== null) {
-      if (this.k1data.usuario.toUpperCase() !== this.localuser.toUpperCase()) {
-        this.k1data = this.emptyuser();
-      }
-    } else {
-      this.k1data = this.emptyuser();
+    if (this.k1data === null || this.k1data === undefined) {
+      this.k1data = JSON.parse(localStorage.getItem('k1data'));
+    }
+    if (this.k1data === null || this.k1data === undefined) {
+      this.k1data = {Data: []}; // se não existe cria vazio ...
     }
 
-    console.log('k1data: ');
+    console.log('k1data<todos> ');
     console.log(this.k1data);
+
+    // verifica se existe o userdata ...
+    if (this.userdata === null || this.userdata === undefined) {
+      this.userdata = this.emptyuser(); // se não existe cria vazio ...
+    }
+
+    // posiciona no usuario correto se houver...
+    if (this.k1data.Data.filter(usu => usu.usuario === this.localuser).length > 0) {
+      this.userdata.Data.push(this.k1data.Data.filter(usu => usu.usuario === this.localuser));
+    }
+
+    console.log('userdata<novo> ');
+    console.log(this.userdata);
   }
 
   updateK1Data() {
 
-    // roda todas as chamadas ...
-    this.k1datalist.map(element => {
-      // se existe o método ...
-      if (this[element.method]) {
-        // se ainda não tem a propriedade no objeto k1data
-        if (this.k1data.Data.filter(tab => tab.hasOwnProperty(element.property)).length === 0) {
-          this[element.method](false); // o parametro false é para salvar somente no último item da lista...
+    console.log('userdata<novo> ');
+    console.log(this.userdata);
+
+    // dispara todos os métodos marcados como run ...
+    this.k1datalist.map(mtd => {
+      if (mtd.run) {
+        // se existe o método ...
+        if (this[mtd.method]) {
+          // se ainda não tem a propriedade no objeto k1data
+          if (this.k1data.Data.filter(tab => tab.hasOwnProperty(mtd.property)).length === 0) {
+            this[mtd.method](false); // o parametro false é para salvar somente no último item da lista...
+          }
         }
       }
     });
@@ -72,61 +103,200 @@ export class DataLookupService {
   emptyuser() {
     return {usuario: this.localuser, Data: []};
   }
+  emiteStatus(jsondata: any) {
+    this.emitUpdateStatus
+      .emit({
+        method: jsondata.method,
+        step: this.step++,
+        stepof: this.totalUpdates,
+        error: jsondata.error || false,
+        complete: jsondata.complete || false,
+        mensagem: jsondata.mensagem
+      });
+  }
   getRepresentantes(salva: boolean) {
+    const method = 'Representantes';
     this.getData('representantes/lookup', '%', 1, 10000)
       .subscribe(data => {
-        this.k1data.Data.push({representantes: data.Data});
-        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Representantes', step: this.step++, stepof: this.totalUpdates});
+        this.userdata.Data.push({representantes: data.Data});
+        // emite status de inicialização
+        this.emiteStatus({
+          method: 'get' + method,
+          mensagem: 'Atualizando ' + method
+        });
         // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
-        if (this.step === this.k1datalist.length) { salva = true; }
+        if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
         if (salva) { this.salvak1data(); }
-      });
+      },
+      error => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'get' + method) {
+            mtd.error = true;
+            mtd.message = error.message;
+          }});
+      },
+      () => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'get' + method) {
+            mtd.run = false;
+          }});
+        }
+      );
   }
   getClientes(salva: boolean) {
     this.getData('representantes/clientes/lookup', '%', 1, 10000)
       .subscribe(data => {
-        this.k1data.Data.push({clientes: data.Data});
+        this.userdata.Data.push({clientes: data.Data});
         this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de clientes', step: this.step++, stepof: this.totalUpdates});
         // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
-        if (this.step === this.k1datalist.length) { salva = true; }
+        if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
         if (salva) { this.salvak1data(); }
-      });
+      },
+      error => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'getRepresentantes') {
+            mtd.error = true;
+            mtd.message = error.message;
+          }});
+      },
+      () => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'getRepresentantes') {
+            mtd.run = false;
+          }});
+        }
+      );
   }
   getEmpresas(salva: boolean) {
     this.getData('representantes/empresas/lookup', '%', 1, 10000)
       .subscribe(data => {
-        this.k1data.Data.push({empresas: data.Data});
+        this.userdata.Data.push({empresas: data.Data});
         this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de empresas', step: this.step++, stepof: this.totalUpdates});
         // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
-        if (this.step === this.k1datalist.length) { salva = true; }
+        if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
         if (salva) { this.salvak1data(); }
-      });
+      },
+        error => {
+          this.k1datalist.map(mtd => {
+            if (mtd.method === 'getRepresentantes') {
+              mtd.error = true;
+              mtd.message = error.message;
+            }});
+      },
+        () => {
+          this.k1datalist.map(mtd => {
+            if (mtd.method === 'getRepresentantes') {
+              mtd.run = false;
+            }});
+          }
+        );
   }
   getTiposPedidos(salva: boolean) {
     this.getData('representantes/tipospedidos/lookup', '%', 1, 10000)
       .subscribe(data => {
-        this.k1data.Data.push({tipospedidos: data.Data});
+        this.userdata.Data.push({tipospedidos: data.Data});
         this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Tipos de Pedidos', step: this.step++, stepof: this.totalUpdates});
         // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
-        if (this.step === this.k1datalist.length) { salva = true; }
+        if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
         if (salva) { this.salvak1data(); }
-      });
+      },
+      error => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'getRepresentantes') {
+            mtd.error = true;
+            mtd.message = error.message;
+          }});
+      },
+      () => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'getRepresentantes') {
+            mtd.run = false;
+          }});
+        }
+      );
   }
   getDespesasEventos(salva: boolean) {
+    const method = 'DespesasEventos';
     this.getData('representantes/DespesasEventos/lookup', '%', 1, 10000)
       .subscribe(data => {
-        this.k1data.Data.push({despesaseventos: data.Data});
-        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Eventos', step: this.step++, stepof: this.totalUpdates});
+        this.userdata.Data.push({despesaseventos: data.Data});
+        // emite status de inicialização
+        this.emiteStatus({
+          method: 'get' + method,
+          mensagem: 'Atualizando ' + method
+        });
         // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
-        if (this.step === this.k1datalist.length) { salva = true; }
+        if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
         if (salva) { this.salvak1data(); }
-      });
+      },
+      error => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'get' + method) {
+            mtd.error = true;
+            mtd.message = error.message;
+            this.emiteStatus({
+              method: 'get' + method,
+              complete: mtd.run,
+              error: true,
+              mensagem: error.message
+            });
+          }});
+      },
+      () => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'get' + method) {
+            mtd.run = true;
+            mtd.message = 'Atualizado com sucesso';
+            this.emiteStatus({
+              method: 'get' + method,
+              complete: mtd.run,
+              mensagem: mtd.message
+            });
+          }});
+        }
+      );
+  }
+  getMenus(salva: boolean) {
+    this.getData('representantes/Menus', '%', 1, 10000)
+      .subscribe(data => {
+        this.userdata.Data.push({despesaseventos: data.Data});
+        this.emitUpdateStatus.emit({mensagem: 'Atualizando lista de Menus', step: this.step++, stepof: this.totalUpdates});
+        // se for o último método ou foi passado parametro para salvar, salva no localstorage ....
+        if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
+        if (salva) { this.salvak1data(); }
+      },
+      error => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'getMenus') {
+            mtd.error = true;
+            mtd.message = error.message;
+          }});
+      },
+      () => {
+        this.k1datalist.map(mtd => {
+          if (mtd.method === 'getMenus') {
+            mtd.run = false;
+          }});
+        }
+      );
   }
 
   salvak1data() {
 
-    const storedata = JSON.stringify(this.k1data);
-    localStorage.setItem('k1data', storedata);
+    // remonta o k1data com os dados do usuário logado ...
+    this.k1data.Data.map( user => {
+      if (user.usuario === this.localuser) {
+        user.Data = this.userdata.Data; // joga os dados locais para o k1data no usuario correto ...
+      }
+    });
+    if (this.k1data.Data.filter(user => user.usuario === this.localuser).length === 0) {
+      this.k1data.Data.push(this.userdata);
+    }
+    // const newdata = JSON.stringify(this.k1data);
+    // localStorage.setItem('k1data', newdata);
+    console.log(this.k1data);
+    console.log(this.userdata);
+    this.step = 0;
 
   }
 
