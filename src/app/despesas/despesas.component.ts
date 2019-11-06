@@ -14,16 +14,47 @@ export class DespesasComponent implements OnInit {
   formDespesa: FormGroup;
   error: any;
   selected: any;
-  datasource: any;
-  lookupevento: any;
+
   seachevent: string;
+  datasource: any;
+
+  seachrepres: string;
+  datarepres: any;
+
+  lookupevento: any;
+  loading = false;
+  loadmessage: string;
 
   constructor(
     private formbuilder: FormBuilder,
     private datapost: DataPostService,
     private datalookup: DataLookupService
     ) {
-      this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
+
+      // this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
+      this.datalookup.emitUpdateStatus.subscribe(data => {
+
+        this.loading = !data.complete;
+        this.loadmessage = data.mensagem;
+
+        if ((data.method === 'getDespesasEventos')) {
+          this.datasource = this.datalookup.userdata.Data.filter(dt => dt.despesaseventos)[0].despesaseventos;
+        }
+        if ((data.method === 'getRepresentantes')) {
+          this.datarepres = this.datalookup.userdata.Data.filter(dt => dt.representantes)[0].representantes;
+        }
+
+      });
+
+      if (this.datalookup.userdata.Data.filter(dt => dt.hasOwnProperty('despesaseventos')).length === 0) {
+        this.datalookup.k1datalist.map(mtd => {
+          if (mtd.method === 'getDespesasEventos') {
+            mtd.run = true;
+            this.datalookup.updateK1Data();
+          }
+        });
+      }
+
     }
 
   ngOnInit() {

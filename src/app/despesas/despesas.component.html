@@ -1,4 +1,5 @@
-<app-alert *ngIf="error" tipo='danger' title="Erro!" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
+<app-alert [show]="error" tipo='danger' title="Erro!" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
+<app-loading [show]="loading" [aviso]="loadmessage"></app-loading>
 
 <tabset [justified]="true">
   <tab heading="Relação de Despesas">
@@ -82,7 +83,17 @@
             (typeaheadOnSelect)="onSelectData($event)"
             class="form-control">
           </div>
+        </div>
 
+        <div class="row">
+          <div class="col-sm">
+              <input [(ngModel)]="seachrepres"
+              [ngModelOptions]="{standalone: true}"
+              [typeahead]="datarepres"
+              typeaheadOptionField="descricao"
+              (typeaheadOnSelect)="onSelectData($event)"
+              class="form-control">
+          </div>
         </div>
 
       </div>
