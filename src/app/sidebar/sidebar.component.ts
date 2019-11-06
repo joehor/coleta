@@ -42,13 +42,13 @@ export class SidebarComponent implements OnInit {
       }
     });
 
-    if (!this.auth.isAuthenticated) {
-      // busca os menus ..
-      console.log('Buscando menus init');
-      this.getDataFromApi('Representantes/Menus', '...', 1, 100);
-    } else {
-      this.datasource.push({id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''});
-    }
+    this.auth.emitisLoggin.subscribe(ok => {
+      if (ok) {
+        this.getDataFromApi('Representantes/Menus', '...', 1, 100);
+      } else {
+        this.datasource.push({id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''});
+      }
+    });
 
   }
 
