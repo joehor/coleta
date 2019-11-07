@@ -54,6 +54,8 @@ export class DespesasComponent implements OnInit {
 
       });
 
+      // chama os eventos que precisa atualizar ...
+      /*
       if (this.datalookup.userdata.Data.filter(dt => dt.hasOwnProperty('despesaseventos')).length === 0) {
         this.datalookup.k1datalist.map(mtd => {
           if (mtd.method === 'getDespesasEventos') {
@@ -62,7 +64,16 @@ export class DespesasComponent implements OnInit {
           }
         });
       }
+      */
+     // se não tem o dataset despesaseventos atualiza ...
+      console.log('despesas:construtor');
+      console.log(this.datalookup.userdata);
 
+      if (this.datalookup.userdata.Data.filter(dt => dt.hasOwnProperty('despesaseventos')).length === 0) {
+        this.datalookup.k1datalist.find(upd => upd.id = 0).updatelist.push('despesaseventos');
+      }
+
+      this.datalookup.updateK1Data();
     }
 
   ngOnInit() {

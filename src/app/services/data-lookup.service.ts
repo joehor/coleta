@@ -30,40 +30,51 @@ export class DataLookupService {
 
     this.k1datalist = [
       {
+        id: 0,
+        property: 'updates',
+        updatelist: []
+      },
+      {
         id: 1,
         property: 'menus',
         route: 'representantes/Menus',
-        method: 'getMenus', run: false, error: false, message: ''
+        method: 'getMenus', run: false, error: false, message: '',
+        lastupdate: ''
       },
       {
         id: 2,
         property: 'empresas',
         route: 'representantes/empresas/lookup',
-        method: 'getEmpresas', run: false, error: false, message: ''
+        method: 'getEmpresas', run: false, error: false, message: '',
+        lastupdate: ''
       },
       {
         id: 3,
         property: 'tipospedidos',
         route: 'representantes/tipospedidos/lookup',
-        method: 'getTiposPedidos', run: false, error: false, message: ''
+        method: 'getTiposPedidos', run: false, error: false, message: '',
+        lastupdate: ''
       },
       {
         id: 4,
         property: 'representantes',
         route: 'representantes/lookup',
-        method: 'getRepresentantes', run: true, error: false, message: ''
+        method: 'getRepresentantes', run: true, error: false, message: '',
+        lastupdate: ''
       },
       {
         id: 5,
         property: 'clientes',
         route: 'representantes/clientes/lookup',
-        method: 'getClientes', run: false, error: false, message: ''
+        method: 'getClientes', run: false, error: false, message: '',
+        lastupdate: ''
       },
       {
         id: 6,
         property: 'despesaseventos',
         route: 'representantes/DespesasEventos/lookup',
-        method: 'getDespesasEventos', run: false, error: false, message: ''
+        method: 'getDespesasEventos', run: false, error: false, message: '',
+        lastupdate: ''
       }
     ];
 
@@ -123,7 +134,22 @@ export class DataLookupService {
     });
     */
 
-    this.k1datalist.map(mtd => { if (mtd.run) { this.getk1Data(mtd, false); } });
+    // quantas atualizações foram solicitadas ? ...
+    const nupdates = this.k1datalist.find(upd => upd.id === 0).updatelist.length;
+
+    this.k1datalist
+      .find(upd => upd.id === 0).updatelist // = ['despesaseventos', 'empresas']
+      .map(li => { // 'despesaseventos'
+        this.k1datalist.map(mtd => { // [{id: 0, property: 'update...}]
+          if (mtd.property === li) { // {id: 6, property: 'despesaseventos', route: 'representantes/DespesasEventos/look...}
+            mtd.run = true;
+            // se bateu com o número de atualizações roda a atualização ...
+            if (nupdates === this.k1datalist.filter(nupd => nupd.run).length) {
+              this.k1datalist.map(met => { if (met.run) { this.getk1Data(met, false); } });
+            }
+          }
+        });
+    });
 
   }
 
