@@ -479,11 +479,12 @@ export class DataLookupService {
       this.emiteStatus({
         method: 'get' + mtd.property,
         complete: true,
-        mensagem: mtd.message
+        mensagem: mtd.message,
+        lastupdate: new Date()
       });
 
       // se for o último método ou foi passado parametro para salvar, salva no localStorage ....
-      // if (this.step === this.k1datalist.filter(mtd => mtd.run).length) { salva = true; }
+      if (this.k1datalist.filter(ult => ult.run).length === 0) { salva = true; }
       if (salva) { this.salvak1data(); }
     });
   }
@@ -512,6 +513,14 @@ export class DataLookupService {
 
     const newdata = JSON.stringify(this.k1data);
     localStorage.setItem('k1data', newdata);
+
+    const storelog = [];
+    if (JSON.parse(localStorage.getItem('k1datalog')) === undefined) {
+      storelog.push(JSON.parse(localStorage.getItem('k1datalog')));
+    }
+    storelog.push(this.k1datalist);
+    localStorage.setItem('k1datalist', JSON.stringify(storelog));
+
     console.log('salvak1data');
     console.log(this.k1data);
     console.log(this.userdata);

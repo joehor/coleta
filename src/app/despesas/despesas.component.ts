@@ -70,7 +70,7 @@ export class DespesasComponent implements OnInit {
       console.log(this.datalookup.userdata);
 
       if (this.datalookup.userdata.Data.filter(dt => dt.hasOwnProperty('despesaseventos')).length === 0) {
-        this.datalookup.k1datalist.find(upd => upd.id = 0).updatelist.push('despesaseventos');
+        this.datalookup.k1datalist.find(upd => upd.id === 0).updatelist.push('despesaseventos');
       }
 
       this.datalookup.updateK1Data();
