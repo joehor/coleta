@@ -8,6 +8,7 @@ import { DataLookupService } from '../services/data-lookup.service';
 })
 export class RepresentantesLookupComponent implements OnInit {
   datalookup: any;
+  testeaviso = 'Atualizando despesaseventos...';
 
   constructor( private data: DataLookupService ) {
     this.datalookup = this.data.userdata.Data.filter(dt => dt.hasOwnProperty('representantes'));

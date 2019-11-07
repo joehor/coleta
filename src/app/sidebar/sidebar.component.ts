@@ -25,9 +25,9 @@ export class SidebarComponent implements OnInit {
 
   constructor( private dataLookup: DataLookupService, private auth: AuthService ) {
 
-    console.log('slidemenu:construtor');
+    // console.log('slidemenu:construtor');
     if (this.auth.isAuthenticated()) {
-      console.log('Buscando menus constructor');
+      // console.log('Buscando menus constructor');
       this.getDataFromApi('Representantes/Menus', '...', 1, 100);
     }
 
@@ -55,11 +55,11 @@ export class SidebarComponent implements OnInit {
   onSlide() {
     this.open = !this.open;
     this.emitSlide.emit(this.open);
-    console.log('sidebar onSlide: ' + this.open);
+    // console.log('sidebar onSlide: ' + this.open);
   }
 
   onSelectItem() {
-    console.log('onSelectItem!');
+    // console.log('onSelectItem!');
     this.open = false;
     this.emitSlide.emit(false);
   }
@@ -71,11 +71,11 @@ export class SidebarComponent implements OnInit {
       .subscribe(
       data => {
         if (!data.Data) {
-          console.log('Não encontrado!');
+          // console.log('Não encontrado!');
           // this.datasource = this.datanotfound;
           this.loading = false;
         } else {
-          console.log('Encontrado');
+          // console.log('Encontrado');
           this.datasource = data.Data;
           this.loading = false;
         }

@@ -13,6 +13,7 @@ export class DespesasComponent implements OnInit {
 
   formDespesa: FormGroup;
   error: any;
+  success: any;
   selected: any;
 
   seachevent: string;
@@ -36,6 +37,13 @@ export class DespesasComponent implements OnInit {
 
         this.loading = !data.complete;
         this.loadmessage = data.mensagem;
+        if (data.complete) {
+          if (data.error) {
+            this.error = {title: 'Ops, deu merda!!!', mensagem: data.mensagem};
+          } else {
+            this.success = {mensagem: data.mensagem};
+          }
+        }
 
         if ((data.method === 'getDespesasEventos')) {
           this.datasource = this.datalookup.userdata.Data.filter(dt => dt.despesaseventos)[0].despesaseventos;
@@ -70,6 +78,10 @@ export class DespesasComponent implements OnInit {
     };
 
     this.criaForm();
+  }
+
+  showK1datalist() {
+    return this.datalookup.k1datalist.find(li => li.property === 'despesaseventos');
   }
 
   criaForm() {

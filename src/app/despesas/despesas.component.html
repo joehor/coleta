@@ -1,4 +1,5 @@
-<app-alert [show]="error" tipo='danger' title="Erro!" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
+<app-alert [show]="error" tipo='danger' [title]="(error ? error.title : '')" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
+<app-alert [show]="success" tipo='success' [title]="(success ? success.title : '')" [mensagem]="(!success ? '' : success.mensagem)"></app-alert>
 <app-loading [show]="loading" [aviso]="loadmessage"></app-loading>
 
 <tabset [justified]="true">
@@ -13,6 +14,8 @@
       [caninsert]="true"
       (emitDataSelected)="onSelectData($event)">
     </app-grid>
+
+    <pre class="card card-block card-header mb-3">k1datalist: {{(showK1datalist()) | json}}</pre>
 
   </tab>
 
