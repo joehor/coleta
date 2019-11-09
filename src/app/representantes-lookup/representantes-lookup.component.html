@@ -8,13 +8,13 @@
 </app-grid>
 -->
 
-Representante: <app-input-lookup [apiroute]="'Representantes/Lookup'" title="Representantes"></app-input-lookup>
+Representante: <app-input-lookup [apidata]="representantes" title="Representantes"></app-input-lookup>
 
 <br>
 
-<app-loading [aviso]="testeaviso" [show]="true"></app-loading>
-
-datalookup: {{datalookup | json}}
+<app-alert [show]="error" tipo='danger' [title]="(error ? error.title : '')" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
+<app-alert [show]="success" tipo='success' [title]="(success ? success.title : '')" [mensagem]="(!success ? '' : success.mensagem)"></app-alert>
+<app-loading [show]="loading" [aviso]="loadmessage"></app-loading>
 
 <!--
 <table style="width: 100%">
@@ -29,3 +29,6 @@ datalookup: {{datalookup | json}}
   </tr>
 </table>
 -->
+
+<pre class="card card-block card-header mb-3">representantes: {{representantes | json}}</pre>
+
