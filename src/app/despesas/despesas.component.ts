@@ -27,6 +27,9 @@ export class DespesasComponent implements OnInit {
   loading = false;
   loadmessage: string;
 
+  // testes
+  idrepres: number;
+
   constructor(
     private formbuilder: FormBuilder,
     private datapost: DataPostService,
@@ -36,8 +39,8 @@ export class DespesasComponent implements OnInit {
       // this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
       this.datalookup.emitUpdateStatus.subscribe(data => {
 
-        console.log('Emite status: ');
-        console.log(data);
+        // console.log('Emite status: ');
+        // console.log(data);
 
         this.loading = !data.complete;
         this.loadmessage = data.mensagem;
@@ -73,8 +76,8 @@ export class DespesasComponent implements OnInit {
       const newupdate = this.updatelist
         .filter( li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0] );
 
-      console.log('despesas:newupdate');
-      console.log(newupdate);
+      // console.log('despesas:newupdate');
+      // console.log(newupdate);
 
       // se ficou algo para atualizar passa para o data.lookup
       if (newupdate.length > 0) { this.datalookup.updateK1Data(newupdate); }
@@ -109,6 +112,7 @@ export class DespesasComponent implements OnInit {
     this.criaForm();
   }
 
+
   showK1datalist() {
     return {datalist: this.datalookup.k1datalist, k1data: this.datalookup.k1data, userdata: this.datalookup.userdata};
   }
@@ -123,6 +127,14 @@ export class DespesasComponent implements OnInit {
       UsuarioAssociado: [this.selected.UsuarioAssociado, Validators.compose([Validators.required])],
       id_Evento: [this.selected.id_Evento, Validators.compose([Validators.required])]
     });
+
+    console.log('this.formDespesa.controls.id_Evento.value: ');
+    console.log(this.formDespesa.controls.id_Evento.value);
+
+  }
+
+  verform() {
+    console.log(JSON.stringify(this.formDespesa.controls.value));
   }
 
   salvar() {
@@ -147,7 +159,7 @@ export class DespesasComponent implements OnInit {
 
   onSelectData(event: TypeaheadMatch) {
 
-    //console.log('despesas-lookup(onSelectData): ');
+    // console.log('despesas-lookup(onSelectData): ');
     // console.log(JSON.stringify(event));
     this.lookupevento = event;
 

@@ -69,40 +69,19 @@
 
         <div class="row">
           <div class="col-sm">
-            <!--
-            <label for="id_evento">Evento</label>
-            <input type="text" class="form-control" id="id_evento" placeholder="Informe o evento" formControlName="id_Evento">
-            -->
             Evento:
-            <!--
-            <app-input-lookup
-              [apiroute]="'Representantes/DespesasEventos/Lookup'"
-              title="Eventos"
-              [inputid]="lookupevento.id"
-              [inputname]="lookupevento.descricao"
-              [lookupselected]="lookupevento">
-            </app-input-lookup>
-          -->
-          <input [(ngModel)]="searcheventos"
-            [ngModelOptions]="{standalone: true}"
-            [typeahead]="despesaseventos"
-            typeaheadOptionField="descricao"
-            (typeaheadOnSelect)="onSelectData($event)"
-            class="form-control">
+            <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [(inputModelChange)]="inputid"></app-input-lookup>-->
+            <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="getInput($event)"></app-input-lookup>--><!--Este funciona-->
+            <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [inputModelChange]="idevento"></app-input-lookup>--><!--Este Não Funciona-->
+            <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="selected.id_Evento = $event"></app-input-lookup>--><!--Este Funciona-->
+            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="formDespesa.controls.id_Evento.value = $event"></app-input-lookup><!--Este Funciona-->
           </div>
         </div>
 
         <div class="row">
           <div class="col-sm">
-
             Representantes:
-
-              <input [(ngModel)]="searchrepres"
-              [ngModelOptions]="{standalone: true}"
-              [typeahead]="representantes"
-              typeaheadOptionField="descricao"
-              (typeaheadOnSelect)="onSelectData($event)"
-              class="form-control">
+            <app-input-lookup [apidata]="representantes" title="Representantes" (inputModelChange)="idrepres = $event"></app-input-lookup>
           </div>
         </div>
 
@@ -110,8 +89,9 @@
 
       <div class="row">
         <div class="col-sm">
-          <button type="submit" class="btn btn-primary" (click)="salvar()">Salvar</button>
-          <button type="submit" class="btn btn-info" (click)="cancelar()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="salvar()">Salvar</button>
+          <button type="button" class="btn btn-info" (click)="cancelar()">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="verform()">Print form</button>
         </div>
       </div>
     </form>
@@ -119,8 +99,12 @@
      <br/>
 
     <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid}}</pre>
+    <pre class="card card-block card-header mb-3">idrepres: {{idrepres}}</pre>
     <!--<pre class="card card-block card-header mb-3">datasource: {{datasource | json}}</pre>-->
-    <pre class="card card-block card-header mb-3">lookupevento: {{lookupevento | json}}</pre>
+    <!--<pre class="card card-block card-header mb-3">lookupevento: {{lookupevento | json}}</pre>-->
+    <!--<pre class="card card-block card-header mb-3">idevento: {{idevento}}</pre>-->
+    <!--<pre class="card card-block card-header mb-3">selected.id_Evento: {{selected.id_Evento}}</pre>-->
+    <pre class="card card-block card-header mb-3">value of id_evento form: {{formDespesa.controls['id_Evento'].value}}</pre>
 
   </tab>
 
