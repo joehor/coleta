@@ -94,7 +94,7 @@ import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-
     CarouselModule.forRoot(),
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
-    BsDatepickerModule .forRoot(),
+    BsDatepickerModule.forRoot(),
 
     // ngx-bootstrap - toast
     ToastrModule.forRoot()
