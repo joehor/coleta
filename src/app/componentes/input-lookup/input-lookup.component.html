@@ -1,22 +1,18 @@
 <div class="row">
 
   <div class="col col-4 col-sm-2">
-      <input class="form-control" type="number" name="id" id="id" placeholder="Id" [(ngModel)]="inputid" (blur)="getDataById(inputid)"/>
+      <input class="form-control"
+        type="number"
+        name="id"
+        id="id"
+        [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="inputid"
+        (change)="findById()"
+        (ngModelChange)="inputModelChange.emit(inputid)"/>
     </div>
     <div class="col col-8 col-sm-10">
       <div class="input-group">
-        <!--<input class="form-control" type="text" name="name" id="name" placeholder="Descricao" [(ngModel)]="inputname">-->
 
-        <!--<input [(ngModel)]="inputname"
-        [typeahead]="lista()"
-        typeaheadWaitMs="3000"
-        class="form-control">-->
-        <!--
-        <input class="form-control" type="search" (keypress)="onKeySearch()" list="listdata" [(ngModel)]="inputname">
-        <datalist id="listdata" (click)="datalistSelected()">
-          <option *ngFor="let item of apidata" [value]="item.descricao" data-id="item.id"></option>
-       </datalist>
-      -->
        <input [(ngModel)]="inputname"
        [ngModelOptions]="{standalone: true}"
        [typeahead]="apidata"
@@ -25,7 +21,7 @@
        class="form-control">
 
 
-        <div class="input-group-append">
+        <div class="input-group-append" *ngIf="apiroute">
           <button class="btn btn-primary" type="button" (click)="openModal(template)"><fa name="search"></fa></button>
         </div>
       </div>
@@ -59,5 +55,3 @@
     </ng-template>
 
     <fa name="spinner" animation="spin" class="loading" *ngIf="pesquisando"></fa>
-
-    lookupselected: {{lookupselected | json}}
