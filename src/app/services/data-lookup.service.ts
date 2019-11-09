@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { isDevMode } from '@angular/core';
+import { unsupported } from '@angular/compiler/src/render3/view/util';
 
 interface UserData {
   usuario: string;
@@ -21,7 +22,7 @@ export class DataLookupService {
   k1data: any;
   userdata: UserData; // json com os datasets do usuário {usuario: 'spr_repres', Data: [{...}]} ...
   localuser: string; // mantém o nome do login ...
-  totalUpdates = 6; // mantém o número de metodos a serem chamdos ...
+  totalUpdates = 0; // mantém o número de metodos a serem chamdos ...
   step = 0; // incrementa a cada execução dos métodos e zera ao salvar no localhost ...
   // lista de atualizações
   k1datalist = []; // mantém a lista de métodos que buscam dados na API ...
@@ -32,7 +33,8 @@ export class DataLookupService {
       {
         id: 0,
         property: 'updates',
-        updatelist: []
+        updatelist: [],
+        stringlog: ''
       },
       {
         id: 1,
@@ -59,7 +61,7 @@ export class DataLookupService {
         id: 4,
         property: 'representantes',
         route: 'representantes/lookup',
-        method: 'getRepresentantes', run: true, error: false, message: '',
+        method: 'getRepresentantes', run: false, error: false, message: '',
         lastupdate: ''
       },
       {
@@ -107,49 +109,43 @@ export class DataLookupService {
     console.log('userdata<novo> ');
     // posiciona no usuario correto se houver...
     if (this.k1data.Data.filter(usu => usu.usuario === this.localuser).length > 0) {
-      this.userdata.Data.push(this.k1data.Data.filter(usu => usu.usuario === this.localuser)[0].Data);
+      this.userdata.Data = this.k1data.Data.find(usu => usu.usuario === this.localuser).Data;
       console.log(this.userdata);
     }
 
   }
 
   // chama os métodos marcados como run=true
-  updateK1Data() {
+  updateK1Data(updlist: any[]) {
+
+    this.totalUpdates = updlist.length;
 
     console.log('userdata<updateK1Data> ');
     console.log(this.userdata);
 
-    /*
-    // dispara todos os métodos marcados como run ...
-    this.k1datalist.map(mtd => {
-      if (mtd.run) {
-        // se existe o método ...
-        if (this[mtd.method]) {
-          // se ainda não tem a propriedade no objeto k1data
-          if (this.k1data.Data.filter(tab => tab.hasOwnProperty(mtd.property)).length === 0) {
-            this[mtd.method](false); // o parametro false é para salvar somente no último item da lista...
-          }
-        }
-      }
-    });
-    */
+    // log
+    this.k1datalist.find(upd => upd.id === 0).stringlog = 'userdata<updateK1Data>';
 
-    // quantas atualizações foram solicitadas ? ...
-    const nupdates = this.k1datalist.find(upd => upd.id === 0).updatelist.length;
+    this.k1datalist.find(upd => upd.id === 0).updatelist = updlist;
 
-    this.k1datalist
-      .find(upd => upd.id === 0).updatelist // = ['despesaseventos', 'empresas']
-      .map(li => { // 'despesaseventos'
-        this.k1datalist.map(mtd => { // [{id: 0, property: 'update...}]
-          if (mtd.property === li) { // {id: 6, property: 'despesaseventos', route: 'representantes/DespesasEventos/look...}
-            mtd.run = true;
-            // se bateu com o número de atualizações roda a atualização ...
-            if (nupdates === this.k1datalist.filter(nupd => nupd.run).length) {
-              this.k1datalist.map(met => { if (met.run) { this.getk1Data(met, false); } });
-            }
-          }
-        });
+    // log
+    this.k1datalist.find(upd => upd.id === 0).stringlog += ' | updlist: ' + updlist;
+
+    // marca todos da lista para atualizar ...
+    updlist.map(li => {
+      this.k1datalist.find(mtd => mtd.property === li).run = true;
+      // log
+      this.k1datalist.find(upd => upd.id === 0).stringlog += ' | ' + li + ' | ' + this.k1datalist.find(mtd => mtd.property === li).run;
     });
+
+    if (this.k1datalist.filter(nupd => nupd.run).length > 0) {
+      // log
+      this.k1datalist.find(upd => upd.id === 0).stringlog += ' | atualizacoes: ' + this.k1datalist.filter(nupd => nupd.run).length;
+
+      this.k1datalist.map(met => { if (met.run) { this.getk1Data(met, false); } });
+
+      console.log(this.k1datalist.find(upd => upd.id === 0).stringlog);
+    }
 
   }
 
@@ -162,9 +158,9 @@ export class DataLookupService {
   emiteStatus(jsondata: any) {
     this.emitUpdateStatus
       .emit({
-        method: jsondata.method,
+        property: jsondata.property,
         step: this.step++,
-        stepof: this.totalUpdates * 2, // pois executa duas vezes para cada metodo
+        stepof: this.totalUpdates,
         error: jsondata.error || false,
         complete: jsondata.complete || false,
         mensagem: jsondata.mensagem
@@ -402,7 +398,7 @@ export class DataLookupService {
       if (!this.userdata.Data.hasOwnProperty('menus')) {
         this.userdata.Data.push({menus: data.Data});
       } else {
-        this.userdata.Data['menus'] = data.Data;
+        this.userdata.Data.find(mn => mn.hasOwnProperty('menus')).menus = data.Data;
       }
       // emite status de inicialização
       this.emiteStatus({
@@ -443,12 +439,12 @@ export class DataLookupService {
     );
   }
 
-  // generic getdata
+  // funcçãao que busca todos os datasets solicitados no updatelist ...
   getk1Data(mtd: any, salva: boolean) {
 
     // emite status de inicialização
     this.emiteStatus({
-      method: 'get' + mtd.property,
+      property: mtd.property,
       mensagem: 'Atualizando ' + mtd.property
     });
 
@@ -460,6 +456,13 @@ export class DataLookupService {
         this.userdata.Data.push({[mtd.property]: data.Data});
       }
       mtd.message = 'Atualizado com sucesso';
+      mtd.run = false;
+      mtd.lastupdate = new Date();
+      this.emiteStatus({
+        property: mtd.property,
+        complete: true,
+        mensagem: mtd.message
+      });
     },
     error => {
       mtd.run = false,
@@ -467,7 +470,7 @@ export class DataLookupService {
       mtd.message = error.message;
       // emite o erro ...
       this.emiteStatus({
-        method: 'get' + mtd.property,
+        property: mtd.property,
         complete: true,
         error: mtd.error,
         mensagem: mtd.message
@@ -475,12 +478,12 @@ export class DataLookupService {
     },
     // finally ...
     () => {
-      mtd.run = false,
+      mtd.run = false;
+      mtd.lastupdate = 'finally';
       this.emiteStatus({
-        method: 'get' + mtd.property,
+        property: mtd.property,
         complete: true,
-        mensagem: mtd.message,
-        lastupdate: new Date()
+        mensagem: mtd.message
       });
 
       // se for o último método ou foi passado parametro para salvar, salva no localStorage ....
@@ -492,6 +495,9 @@ export class DataLookupService {
 
   // salva no localhost o k1Data com os datasets do usuário logado ...
   salvak1data() {
+
+    // limpa a lista de atualizações;
+    this.k1datalist.find(upd => upd.id === 0).updates = [];
 
     // prepara o k1data para salvar
     if (this.k1data === null || this.k1data === undefined) {
