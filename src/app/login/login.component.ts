@@ -123,8 +123,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
         console.log('getToken::salvando o token');
 
         this.authservice.sendToken(this.token.TokenAccess);
-        this.loginservice.updatek1data();
-
 
         if (!redUrl) {
           console.log('Login Ok dashboard!');
