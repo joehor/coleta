@@ -29,6 +29,7 @@ export class DespesasComponent implements OnInit {
 
   // testes
   idrepres: number;
+  datainterval: Date[] = [];
 
   constructor(
     private formbuilder: FormBuilder,
@@ -100,6 +101,7 @@ export class DespesasComponent implements OnInit {
   ngOnInit() {
     this.selected = {
       id: '0',
+      DataInteral: [],
       Data_Saida: Date,
       Data_Retorno: Date,
       Roteiro: '',
@@ -120,6 +122,7 @@ export class DespesasComponent implements OnInit {
   criaForm() {
     this.formDespesa = this.formbuilder.group({
       id: [this.selected.id, Validators.compose([Validators.required])],
+      DataInterval: [[], Validators.compose([Validators.required])],
       Data_Saida: [this.selected.Data_Saida, Validators.compose([Validators.required])],
       Data_Retorno: [this.selected.Data_Retorno, Validators.compose([Validators.required])],
       Roteiro: [this.selected.Roteiro, Validators.compose([Validators.required])],
@@ -135,6 +138,10 @@ export class DespesasComponent implements OnInit {
 
   verform() {
     console.log(JSON.stringify(this.formDespesa.controls.value));
+  }
+
+  print() {
+    console.log(this.formDespesa.controls.DataInterval.value);
   }
 
   salvar() {

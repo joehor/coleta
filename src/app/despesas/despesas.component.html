@@ -30,7 +30,14 @@
 
         <div class="row">
           <div class="col-sm">
-            <input placeholder="Daterangepicker" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker">
+            Saída - Retorno
+            <input placeholder="Daterangepicker"
+              type="text"
+              class="form-control"
+              bsDaterangepicker
+              #dpr="bsDaterangepicker"
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+              formControlName="DataInterval">
           </div>
         </div>
 
@@ -91,7 +98,7 @@
         <div class="col-sm">
           <button type="button" class="btn btn-primary" (click)="salvar()">Salvar</button>
           <button type="button" class="btn btn-info" (click)="cancelar()">Cancelar</button>
-          <button type="button" class="btn btn-danger" (click)="verform()">Print form</button>
+          <button type="button" class="btn btn-danger" (click)="print()">Print Data Interval</button>
         </div>
       </div>
     </form>
@@ -99,12 +106,13 @@
      <br/>
 
     <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid}}</pre>
-    <pre class="card card-block card-header mb-3">idrepres: {{idrepres}}</pre>
+    <!--<pre class="card card-block card-header mb-3">idrepres: {{idrepres}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">datasource: {{datasource | json}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">lookupevento: {{lookupevento | json}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">idevento: {{idevento}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">selected.id_Evento: {{selected.id_Evento}}</pre>-->
-    <pre class="card card-block card-header mb-3">value of id_evento form: {{formDespesa.controls['id_Evento'].value}}</pre>
+    <!--<pre class="card card-block card-header mb-3">value of id_evento form: {{formDespesa.controls['id_Evento'].value}}</pre>-->
+    <pre class="card card-block card-header mb-3">datainterval: {{formDespesa.controls['DataInterval'].value}}</pre>
 
   </tab>
 
