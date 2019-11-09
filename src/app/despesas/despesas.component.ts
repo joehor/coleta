@@ -15,12 +15,13 @@ export class DespesasComponent implements OnInit {
   error: any;
   success: any;
   selected: any;
+  updatelist: any[] = ['despesaseventos', 'representantes'];
 
-  seachevent: string;
-  datasource: any;
+  searcheventos: string;
+  despesaseventos: any;
 
-  seachrepres: string;
-  datarepres: any;
+  searchrepres: string;
+  representantes: any;
 
   lookupevento: any;
   loading = false;
@@ -35,24 +36,49 @@ export class DespesasComponent implements OnInit {
       // this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
       this.datalookup.emitUpdateStatus.subscribe(data => {
 
+        console.log('Emite status: ');
+        console.log(data);
+
         this.loading = !data.complete;
         this.loadmessage = data.mensagem;
-        if (data.complete) {
-          if (data.error) {
-            this.error = {title: 'Ops, deu merda!!!', mensagem: data.mensagem};
-          } else {
-            this.success = {mensagem: data.mensagem};
+
+        if (this.updatelist.find(ds => ds === data.property)) {
+          if (data.complete) {
+            if (data.error) {
+              this.error = {title: 'Falha na requisição!', mensagem: data.mensagem};
+            } else {
+              this.success = {mensagem: data.mensagem};
+              // a propriedade com o mesmo nome do dataset deve ser previamente criada ...
+              this[data.property] = this.datalookup.userdata.Data.find(ds => ds[data.property])[data.property];
+            }
           }
         }
 
-        if ((data.method === 'getDespesasEventos')) {
-          this.datasource = this.datalookup.userdata.Data.filter(dt => dt.despesaseventos)[0].despesaseventos;
-        }
-        if ((data.method === 'getRepresentantes')) {
-          this.datarepres = this.datalookup.userdata.Data.filter(dt => dt.representantes)[0].representantes;
-        }
 
-      });
+        /*
+        if ((data.property === 'despesaseventos')) {
+          console.log('achou despesas eventos');
+          this.datasource = this.datalookup.userdata.Data.find(dt => dt.hasOwnProperty('despesaseventos')).despesaseventos;
+        }
+        if ((data.property === 'representantes')) {
+          this.datarepres = this.datalookup.userdata.Data.find(dt => dt.hasOwnProperty('representantes')).representantes;
+        }
+        */
+
+      }); // this.datalookup.emitUpdateStatus.subscribe(data =>
+
+      // console.log('despesas:construtor');
+      // console.log(this.datalookup.userdata);
+
+      const newupdate = this.updatelist
+        .filter( li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0] );
+
+      console.log('despesas:newupdate');
+      console.log(newupdate);
+
+      // se ficou algo para atualizar passa para o data.lookup
+      if (newupdate.length > 0) { this.datalookup.updateK1Data(newupdate); }
+
 
       // chama os eventos que precisa atualizar ...
       /*
@@ -66,15 +92,7 @@ export class DespesasComponent implements OnInit {
       }
       */
      // se não tem o dataset despesaseventos atualiza ...
-      console.log('despesas:construtor');
-      console.log(this.datalookup.userdata);
-
-      if (this.datalookup.userdata.Data.filter(dt => dt.hasOwnProperty('despesaseventos')).length === 0) {
-        this.datalookup.k1datalist.find(upd => upd.id === 0).updatelist.push('despesaseventos');
-      }
-
-      this.datalookup.updateK1Data();
-    }
+  }
 
   ngOnInit() {
     this.selected = {
@@ -92,7 +110,7 @@ export class DespesasComponent implements OnInit {
   }
 
   showK1datalist() {
-    return this.datalookup.k1datalist.find(li => li.property === 'despesaseventos');
+    return {datalist: this.datalookup.k1datalist, k1data: this.datalookup.k1data, userdata: this.datalookup.userdata};
   }
 
   criaForm() {
@@ -113,7 +131,7 @@ export class DespesasComponent implements OnInit {
       .updateData( 'Representantes/Despesas/Insert', this.formDespesa.value )
       .subscribe(ret => {
         // this.formDespesa.controls[0].value = ret.id;
-        console.log('despesas=ret: ' + JSON.stringify(ret));
+        // console.log('despesas=ret: ' + JSON.stringify(ret));
       },
       error => {
         this.error = error;
@@ -123,13 +141,14 @@ export class DespesasComponent implements OnInit {
 
   cancelar() {
 
-    console.log('cancelando...');
+    // console.log('cancelando...');
 
   }
 
   onSelectData(event: TypeaheadMatch) {
 
-    console.log('despesas-lookup(onSelectData): ' + JSON.stringify(event));
+    //console.log('despesas-lookup(onSelectData): ');
+    // console.log(JSON.stringify(event));
     this.lookupevento = event;
 
   }

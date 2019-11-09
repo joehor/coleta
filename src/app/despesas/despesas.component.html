@@ -15,8 +15,12 @@
       (emitDataSelected)="onSelectData($event)">
     </app-grid>
 
-    <pre class="card card-block card-header mb-3">k1datalist: {{(showK1datalist()) | json}}</pre>
-
+    <pre class="card card-block card-header mb-3">representantes: {{representantes | json}}</pre>
+<!--
+    <pre class="card card-block card-header mb-3">datalist: {{(showK1datalist().datalist) | json}}</pre>
+    <pre class="card card-block card-header mb-3">k1data: {{(showK1datalist().k1data) | json}}</pre>
+    <pre class="card card-block card-header mb-3">userdata: {{(showK1datalist().userdata) | json}}</pre>
+-->
   </tab>
 
   <tab heading="Despesa [{{this.selected.id}}]">
@@ -79,9 +83,9 @@
               [lookupselected]="lookupevento">
             </app-input-lookup>
           -->
-          <input [(ngModel)]="seachevent"
+          <input [(ngModel)]="searcheventos"
             [ngModelOptions]="{standalone: true}"
-            [typeahead]="datasource"
+            [typeahead]="despesaseventos"
             typeaheadOptionField="descricao"
             (typeaheadOnSelect)="onSelectData($event)"
             class="form-control">
@@ -90,9 +94,12 @@
 
         <div class="row">
           <div class="col-sm">
-              <input [(ngModel)]="seachrepres"
+
+            Representantes:
+
+              <input [(ngModel)]="searchrepres"
               [ngModelOptions]="{standalone: true}"
-              [typeahead]="datarepres"
+              [typeahead]="representantes"
               typeaheadOptionField="descricao"
               (typeaheadOnSelect)="onSelectData($event)"
               class="form-control">
