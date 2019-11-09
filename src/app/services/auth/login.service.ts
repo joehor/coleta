@@ -37,11 +37,6 @@ export class LoginService {
     // );
   }
 
-  updatek1data() {
-    const data = this.datalookup.updateK1Data();
-    console.log(data);
-  }
-
   // Handle API errors
   handleError( error: HttpErrorResponse ) {
 
