@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse  } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { throwError } from 'rxjs';
@@ -11,6 +11,7 @@ import { DataLookupService } from '../data-lookup.service';
 export class LoginService {
 
   httpError: string;
+  baseapi: string;
 
   constructor( private httpclient: HttpClient, private datalookup: DataLookupService ) { }
 
@@ -22,8 +23,15 @@ export class LoginService {
     });
 
     console.log('Iniciando busca em: "' + environment.urlApi + '"');
+    if (isDevMode()) {
+      this.baseapi = '';
+    } else {
+      this.baseapi = 'http://servicos.idelli.com.br/GrupoK1/api';
+    }
+    const urlapi = `${this.baseapi}/api/Authentication`;
 
-    return this.httpclient.post(`/api/Authentication`, jsonBody,
+
+    return this.httpclient.post(urlapi, jsonBody,
       {headers: new HttpHeaders().set('Content-Type', 'application/json'),
     })
     .pipe(
