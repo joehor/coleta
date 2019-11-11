@@ -1,11 +1,9 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
+import { Injectable, Output, EventEmitter, isDevMode } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { DataApi } from './data-api';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { isDevMode } from '@angular/core';
-import { unsupported } from '@angular/compiler/src/render3/view/util';
 
 interface UserData {
   usuario: string;
@@ -541,11 +539,18 @@ export class DataLookupService {
       console.log('Buscando dados...');
     }
 
+    const params = new HttpParams()
+      .set('pesquisa', pesq)
+      .set('PageNumber', page.toString())
+      .set('PageSize', pagecnt.toString());
+
+    /*
     const params = {
       pesquisa: pesq,
       PageNumber: page.toString(),
       PageSize: pagecnt.toString()
     };
+    */
 
     const urlapi = `${this.baseapi}/api/${api}`;
 
