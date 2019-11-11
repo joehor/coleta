@@ -81,7 +81,7 @@
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="getInput($event)"></app-input-lookup>--><!--Este funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [inputModelChange]="idevento"></app-input-lookup>--><!--Este Não Funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="selected.id_Evento = $event"></app-input-lookup>--><!--Este Funciona-->
-            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="formDespesa.controls.id_Evento.value = $event"></app-input-lookup><!--Este Funciona-->
+            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(selected.id_Evento = $event)"></app-input-lookup><!--Este Funciona-->
           </div>
         </div>
 
@@ -112,7 +112,7 @@
     <!--<pre class="card card-block card-header mb-3">idevento: {{idevento}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">selected.id_Evento: {{selected.id_Evento}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">value of id_evento form: {{formDespesa.controls['id_Evento'].value}}</pre>-->
-    <pre class="card card-block card-header mb-3">datainterval: {{formDespesa.controls['DataInterval'].value}}</pre>
+    <!--<pre class="card card-block card-header mb-3">datainterval: {{formDespesa.controls['DataInterval'].value}}</pre>-->
 
   </tab>
 
