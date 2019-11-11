@@ -108,7 +108,6 @@ import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-
     AuthService,
     FormBuilder,
     AlertConfig,
-    HttpParams,
     BsDropdownDirective,
     BsDropdownConfig
   ],
