@@ -23,28 +23,13 @@ export class SidebarComponent implements OnInit {
   loading = false;
   filtro = '';
 
-  constructor( private dataLookup: DataLookupService, private auth: AuthService ) {
-
-    // console.log('slidemenu:construtor');
-    if (this.auth.isAuthenticated()) {
-      // console.log('Buscando menus constructor');
-      this.getDataFromApi('Representantes/Menus', '...', 1, 100);
-    }
-
-  }
+  constructor( private dataLookup: DataLookupService, private auth: AuthService ) {}
 
   ngOnInit() {
 
     this.auth.emitisLoggin.subscribe(ok => {
       if (ok) {
-        console.log('Buscando menus auth : ' + ok);
-        this.getDataFromApi('Representantes/Menus', '...', 1, 100);
-      }
-    });
-
-    this.auth.emitisLoggin.subscribe(ok => {
-      if (ok) {
-        this.getDataFromApi('Representantes/Menus', '...', 1, 100);
+        this.getDataFromApi('Representantes/Menus', '%', 1, 100);
       } else {
         this.datasource.push({id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''});
       }
