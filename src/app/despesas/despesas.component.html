@@ -36,7 +36,8 @@
               class="form-control"
               bsDaterangepicker
               #dpr="bsDaterangepicker"
-              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+              [bsConfig]="{dateInputFormat: 'DD/MM/YYYY - DD/MM/YYYY'}"
+              (bsValueChange)="onDataIntervalChange($event)"
               formControlName="DataInterval">
           </div>
         </div>
@@ -106,6 +107,7 @@
      <br/>
 
     <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid}}</pre>
+    <pre class="card card-block card-header mb-3">selected: {{selected | json}}</pre>
     <!--<pre class="card card-block card-header mb-3">idrepres: {{idrepres}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">datasource: {{datasource | json}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">lookupevento: {{lookupevento | json}}</pre>-->

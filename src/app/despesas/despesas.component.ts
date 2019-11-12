@@ -114,6 +114,19 @@ export class DespesasComponent implements OnInit {
     this.criaForm();
   }
 
+  onDataIntervalChange(event) {
+
+    console.log(event);
+
+    if (event.length > 0) {
+      event.map(
+        (data, index) => {
+          if (index === 0) { this.selected.Data_Saida = data; }
+          if (index === 1) { this.selected.Data_Retorno = data; }
+        }
+      );
+    }
+  }
 
   showK1datalist() {
     return {datalist: this.datalookup.k1datalist, k1data: this.datalookup.k1data, userdata: this.datalookup.userdata};
