@@ -498,12 +498,16 @@ export class DataLookupService {
     this.k1datalist.find(upd => upd.id === 0).updates = [];
 
     // prepara o k1data para salvar
+
+    this.k1data = JSON.parse(localStorage.getItem('k1data')) || {Data: []};
+    /* substitui este trecho...
     if (this.k1data === null || this.k1data === undefined) {
       this.k1data = JSON.parse(localStorage.getItem('k1data'));
     }
     if (this.k1data === null || this.k1data === undefined) {
       this.k1data = {Data: []}; // se não existe cria vazio ...
     }
+       substitui este trecho... */
 
     // remonta o k1data com os dados do usuário logado ...
     this.k1data.Data.map( user => {
