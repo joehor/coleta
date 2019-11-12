@@ -5,3 +5,12 @@
 .carousel-indicators ul li {
   text-shadow: 2px 2px 3px #000;
 }
+
+.btnentrar {
+  position: relative;
+    top: -203px;
+    left: 45%;
+    font-size: 32px;
+    border: 3px solid;
+    box-shadow: 3px 5px 8px 3px black;
+}
