@@ -1,0 +1,713 @@
+<SCRIPT language="JavaSCRIPT" src="funcoes.js" charset="utf-8"></SCRIPT>
+<HTML>
+
+<HEAD>
+  <TITLE>Promo&ccedil;&otilde;es - My Home</TITLE>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="StyleOrange.css">
+  <link rel="shortcut icon" type="text/css" href="MyHome.ico">
+
+  <script language="javascript" charset="utf-8">
+
+    function fnSubmitIfChange(obj, olddata) {
+
+      ValidaData(obj);
+      var newdata = obj.value;
+
+      if (newdata != olddata)
+        submitForm(promo);
+    }
+
+    function submitForm(frm) {
+      frm.submit();
+    }
+
+    function fnAlteraIndicador(idContrato, idPessoa, idNovo) {
+      var tr = document.getElementById('tr_' + idContrato);
+      if (tr != null) {
+        if (idNovo == "Null") {
+          tr.setAttribute("class", "red");
+        } else {
+          if (idPessoa != idNovo) {
+            tr.setAttribute("class", "inf");
+          } else {
+            tr.setAttribute("class", "");
+          }
+        }
+      }
+    }
+
+  </script>
+</HEAD>
+
+<body onload="PreparaFormulario(promo)">
+  <center>
+    <!-- Inicio header.asp-->
+    <TABLE width="100%" id=pnHeader>
+      <TR>
+
+        <TD rowspan=3 width="10%" align=center><IMG
+            SRC="https://servicos.myhomestore.com.br/images/Logo_MyHomeSmall_2018.png" class=crsHand
+            title="Clique aqui e conhe&ccedil;a mais sobre nosso grupo !"
+            onclick='window.open("https://www.grupok1.com.br")'></TD>
+
+      </TR>
+      <TR>
+
+        <TD rowspan="3" class="row5" width="*%">
+
+          <center>My Home M&oacute;veis Planejados
+            <br>
+            <font size="1">&nbsp;[spr_myhome]
+              &nbsp;|&nbsp;
+              <a href="index.asp" class=crshand title="Desconectar-se do sistema"
+                onclick="return confirm('Deseja realmente desconectar-se do sistema ?')">Sair</a>
+
+            </font>
+
+          </center>
+        </TD>
+      </TR>
+      <TR>
+        <TD width="20%">
+          <TABLE cellpadding="0" cellspacing="0">
+            <TR>
+              <TD class="row12">My Home Ambientes Planejados</TD>
+            </TR>
+            <TR>
+              <TD class="row12">Rua da Emancipa&ccedil;&atilde;o, 2000</TD>
+            </TR>
+            <TR>
+              <TD class="row12">Tupandi/RS</TD>
+            </TR>
+            <TR>
+              <TD class="row12">(51) 3635-8800</TD>
+            </TR>
+            <TR>
+              <TD class="row12"></TD>
+            </TR>
+            <TR>
+              <TD class="row12"><a href="mailto:myhome@myhomestore.com.br">myhome@myhomestore.com.br</a></TD>
+            </TR>
+            <TR>
+              <TD class="row12"><a href="https://www.myhomestore.com.br" target="_blank">www.myhomestore.com.br</a></TD>
+            </TR>
+          </TABLE>
+        </TD>
+      </TR>
+    </TABLE>
+
+    <div id=ContainerMenu style="height:43px;">
+      <!-- este div serve para poder trazer de volta o painel do menu qdo o scroll voltar para o topo -->
+      <nav id=PainelMenu>
+        <!-- este div serve para colocar o painel flutuante na janela -->
+
+        <!-- Fim header.asp-->
+        <!-- Inicio subheader.asp-->
+        <div class="steps">
+          <table width="100%">
+            <tr>
+              <td class=tdheight align="left" height=22>
+                <div style="color:#FFFFFF;font-weight:bold;margin-top:6px;">&nbsp;Quarta - Feira, 13 de Novembro de
+                  2019.</div>
+              </td>
+              <td class=tdheight align="right">
+                <div style="color:#FFFFFF;font-weight:bold;margin-top:6px;margin-right:2px;" id="ur"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- Fim subheader.asp-->
+        <!-- Inicio menu.asp-->
+        <!-- Se a pagina que hospedar este menu tiver um <form...> colocar depois da chamada deste menu -->
+        <form name="frmMenu" method="post">
+          <table cellpadding="0" cellspacing="0" class="menu" id="menu">
+            <tr>
+
+              <td class=mtab title="Consultas&nbsp;dispon&iacute;veis&nbsp;para&nbsp;o&nbsp;representante." nowrap
+                onclick='javascript:window.location.assign("./principal.asp")'>
+                Consultas
+              </td>
+
+              <td class=mtab title="Rela&ccedil;&atilde;o de Consumidores" nowrap
+                onclick='javascript:window.location.assign("./ConsumidorLst.asp")'>
+                Consumidores
+              </td>
+
+              <td class=mtab title="Rela&ccedil;&atilde;o de Contratos" nowrap
+                onclick='javascript:window.location.assign("./ContratosLst.asp")'>
+                Contratos
+              </td>
+
+              <td class=mtab title="Abre o mural de arquivos de informa&ccedil;&otilde;es" nowrap
+                onclick='javascript:window.location.assign("./Mural.asp")'>
+                Mural
+              </td>
+
+              <td class=mtabsel title="Rela&ccedil;&atilde;o das Promo&ccedil;&otilde;es" nowrap
+                onclick='javascript:window.location.assign("./PromocoesLst.asp")'>
+                Promoções
+              </td>
+
+              <td class=mtab title="Importa &iacute;tens de projetos do Promob" nowrap
+                onclick='javascript:window.location.assign("./PedidoPromobStep1.asp")'>
+                Importar Projeto
+              </td>
+
+              <td class=mtab title="Consulta&nbsp;e&nbsp;inclus&atilde;o&nbsp;de&nbsp;pedidos" nowrap
+                onclick='javascript:window.location.assign("./Pedidos.asp")'>
+                Pedidos
+              </td>
+
+              <td class=mtab title="Exporta&ccedil;&atilde;o&nbsp;de&nbsp;pedidos" nowrap
+                onclick='javascript:window.location.assign("./ExportaPedidos.asp")'>
+                Export.
+              </td>
+
+              <td class=mtab title="Cadastra as antecipações baseados nos pedidos em aberto." nowrap
+                onclick='javascript:window.location.assign("./Invest.asp")'>
+                Antecipação
+              </td>
+
+              <td class=mtab title="Ficha t&eacute;cnica dos m&oacute;veis." nowrap
+                onclick='javascript:window.location.assign("./fichatecnica.asp")'>
+                Ficha T&eacute;cnica
+              </td>
+
+              <td class=mtab title="Abre o mural de arquivos de informativos" nowrap
+                onclick='javascript:window.location.assign("./Mural.asp?Info=1")'>
+                Circulares
+              </td>
+
+              <td class=mtab title="Solicita&ccedil;&atilde;o de suporte t&eacute;cnico" nowrap
+                onclick='javascript:window.location.assign("./SuporteLst.asp")'>
+                Suporte
+              </td>
+
+            </tr>
+          </table>
+        </form>
+
+      </nav>
+      <!--<div id=PainelMenu>-->
+    </div>
+    <!--<div id=ContainerMenu>-->
+
+    <!-- Fim menu.asp-->
+    <hr color=#FF6633 />
+    <Form name="promo" action="PromocoesLst.asp" method="POST">
+
+      <Input name="btPesquisar" type="button" value="Resumo" onclick="domodal('mdResumo')">
+
+
+      <Input name="btExclui" type="hidden" value="">
+      <br><br>
+      <TABLE>
+        <TR>
+          <TD>
+            <DIV class="BordaForm">
+
+              <table class="grid">
+                <TR>
+                  <TH COLSPAN="20" ALIGN="LEFT">
+                    <DIV style="display:inline-flex;">
+                      <DIV class=selinput>Promoção:<br /><SELECT NAME=lsPromo onchange="submitForm(promo)">
+                          <Option VALUE=21>Meta Premiada - (Em Andamento de 01/11/2019 à 31/01/2020)</OPTION>
+                          <Option VALUE=19 SELECTED>Fim de Ano Conectado - (Em Andamento de 01/10/2019 à 15/01/2020)
+                          </OPTION>
+                          <Option VALUE=14>SHOW DE PRÊMIOS - (Encerrada em 21/01/2019)</OPTION>
+                          <Option VALUE=16>PROJETISTA NOTA 10 - (Encerrada em 21/01/2019)</OPTION>
+                          <Option VALUE=11>COPA MY HOME EM GRANDE ESTILO - (Encerrada em 10/06/2018)</OPTION>
+                          <Option VALUE=12>O MELHOR DIA DAS MÃES É AQUI - (Encerrada em 31/05/2018)</OPTION>
+                          <Option VALUE=8>MÓVEL PLANEJADO AUTOMÓVEL NA GARAGEM - (Encerrada em 17/01/2018)</OPTION>
+                          <Option VALUE=9>DECOLE COM A MY HOME - (Encerrada em 17/01/2018)</OPTION>
+                          <Option VALUE=4>PROMOÇÃO PRESENTÃO DE NATAL - (Encerrada em 10/01/2017)</OPTION>
+                          <Option VALUE=3>PRÊMIO EM DOBRO - (Encerrada em 15/12/2015)</OPTION>
+                        </SELECT></DIV>&nbsp;<DIV class=selinput>Franquia:<br /><SELECT NAME=lsCliente
+                          onchange="submitForm(promo)">
+                          <Option VALUE=Null>-- TODOS --</OPTION>
+                          <Option VALUE=51861>2FR MOVEIS E DECORAC - FL.[171]</OPTION>
+                          <Option VALUE=39744>DEBASTIANI E PETRIKI - FL.[83]</OPTION>
+                          <Option VALUE=44519>ESTUDIO VG - COMERCI - FL.[177]</OPTION>
+                          <Option VALUE=43377>FRANQUIA (A) - FL.[2000] (Inativo)</OPTION>
+                          <Option VALUE=34578 SELECTED>FRANQUIA (B) - FL.[1000]</OPTION>
+                          <Option VALUE=41411>MISURA ESATTA COMERC - FL.[140]</OPTION>
+                          <Option VALUE=35402>MMGM MOVEIS MODULADO - FL.[16]</OPTION>
+                          <Option VALUE=48009>PERFORM SERVICOS EIR - FL.[196]</OPTION>
+                          <Option VALUE=41355>RODRIGO AUGUSTO PAES - FL.[138]</OPTION>
+                          <Option VALUE=39823>SEGRETO MARTINEZ MOV - FL.[84]</OPTION>
+                          <Option VALUE=45984>SINGULAR INTERIORES - FL.[188] (Inativo)</OPTION>
+                          <Option VALUE=37528>VITTA DESIGN MOVEIS - FL.[30]</OPTION>
+                        </SELECT></DIV>
+                    </DIV>
+                  </TH>
+                </TR>
+                <TR>
+                  <TH>Contrato</TH>
+                  <TH>Emissao</TH>
+                  <TH>Consumidor</TH>
+
+                  <TH>Valor</TH>
+                  <TH>Cupons Gerados</TH>
+                  <TH>Cupons Efetivados</TH>
+                  <TH>Resposta</TH>
+
+                </TR>
+
+                <TR>
+                  <TD class="row22" colspan="20">Nenhum registro encontrado...</TD>
+                </TR>
+
+                <TR class="subtotal">
+                  <TD ALIGN="right">&nbsp;0</TD>
+                  <TD COLSPAN="2">&nbsp;</TD>
+                  <TD ALIGN="right">&nbsp;0,00</TD>
+
+                  <TD ALIGN="center">&nbsp;0</TD>
+                  <TD ALIGN="center">&nbsp;0</TD>
+                  <TD>&nbsp;</TD>
+
+                </TR>
+              </table>
+
+            </DIV>
+          </TD>
+        </TR>
+      </TABLE>
+
+    </Form>
+    <!-- Fecha a imagem de carregando a página...-->
+    <!-- use este espaço para testes...
+<If UCase(SESSION("Usuario"))="SPR_MYHOME" Then>Bloqueia=<=SESSION("Bloqueia")><End If>
+-->
+    <SCRIPT Language="JavaScript">
+      dropObjectById("idLoading");
+    </SCRIPT>
+  </center>
+
+
+
+
+  <DIV id="mdMetaPremiada" class="modal">
+    <div class="modal-content BordaForm boxshadow">
+      <span class="close"><label onclick="stoptimer()">&times;</label></span>
+      <img class="modal-img" src="./images/MH19160_FY_Promo_Lojistas_20x14cm-02.png" />
+      <div class="mdfranquia" id="mdfranquia">??????</div>
+      <div class="mdvalor" id="mdvalor">0,00</div>
+      <div class="mdpercatu" id="mdperc">0,0</div>
+      <div class="mdpercger" id="mdrank">0</div>
+      <div class="mddontshow">
+        <input type="checkbox" id="iddontshow" onclick="dontshow(this.checked)" /><label for="iddontshow">Não mostrar
+          essa tela novamente.</label>
+      </div>
+      <div class="mdsteps" id="mdsteps">
+        <ul>
+
+          <li id="li_0" onclick="getMetaByIndice(0)"></li>
+
+          <li id="li_1" onclick="getMetaByIndice(1)"></li>
+
+          <li id="li_2" onclick="getMetaByIndice(2)"></li>
+
+          <li id="li_3" onclick="getMetaByIndice(3)"></li>
+
+        </ul>
+      </div>
+
+      <div id="mdsetas">
+        <label class="arrow arrowleft" onclick='buscameta("-")'></label>
+        <label class="arrow arrowright" onclick='buscameta("+")'></label>
+      </div>
+
+    </div>
+  </DIV>
+
+  <style>
+    .modal-content {
+      width: 800px;
+      text-shadow: none;
+      color: whitesmoke;
+    }
+
+    .modal-img {
+      width: 800px;
+    }
+
+    .mdfranquia {
+      position: absolute;
+      top: 384px;
+      font-size: 22px;
+      margin-left: 63px;
+    }
+
+    .mdvalor {
+      position: absolute;
+      top: 448px;
+      margin-left: 93px;
+      font-size: 31px;
+    }
+
+    .mdpercatu {
+      position: absolute;
+      top: 489px;
+      margin-left: 347px;
+      font-size: 20px;
+    }
+
+    .mdpercger {
+      position: absolute;
+      top: 522px;
+      margin-left: 368px;
+      font-size: 29px;
+    }
+
+    .mddontshow {
+      color: black;
+    }
+
+    .mdsteps {
+      position: absolute;
+      top: 610px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .mdsteps ul {
+      list-style: none;
+      display: inline-flex;
+    }
+
+    .mdsteps ul li {
+      cursor: pointer;
+      border: 5px solid black;
+      border-radius: 50%;
+      opacity: 0.3;
+      margin-right: 10px;
+    }
+
+    .mdsteps ul li:hover {
+      opacity: 0.7 !important;
+    }
+
+    .arrow {
+      position: relative;
+      top: -350px;
+      height: 30px;
+      width: 30px;
+      border-radius: 5px;
+      border-right: 10px solid white;
+      border-bottom: 10px solid white;
+      opacity: 0.2;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .arrowleft {
+      float: left;
+      margin-left: 15px;
+      transform: rotate(135deg);
+    }
+
+    .arrowright {
+      float: right;
+      margin-right: 15px;
+      transform: rotate(-45deg);
+    }
+
+    .arrow:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 900px) {
+
+      .modal-content,
+      .modal-img {
+        width: 600px;
+      }
+
+      .mdfranquia {
+        top: 324px;
+        margin-left: 46px;
+        font-size: 18px;
+      }
+
+      .mddontshow {
+        top: 82px;
+        font-size: 10px;
+      }
+
+      .mdvalor {
+        top: 375px;
+        margin-left: 73px;
+        font-size: 20px;
+      }
+
+      .mdpercatu {
+        top: 404px;
+        margin-left: 260px;
+        font-size: 14px;
+      }
+
+      .mdpercger {
+        top: 433px;
+        margin-left: 276px;
+        font-size: 18px;
+      }
+
+      .mdsteps {
+        top: 490px;
+      }
+
+      .arrow {
+        top: -250px;
+        height: 20px;
+        width: 20px;
+        border-right: 8px solid white;
+        border-bottom: 8px solid white;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .modal-content,
+      .modal-img {
+        width: 450px;
+      }
+
+      .mdfranquia {
+        top: 264px;
+        margin-left: 35px;
+        font-size: 12px;
+      }
+
+      .mddontshow {
+        font-size: 6px;
+      }
+
+      .close {
+        font-size: 16px;
+      }
+
+      .mdvalor {
+        top: 303px;
+        margin-left: 55px;
+        font-size: 14px;
+      }
+
+      .mdpercatu {
+        top: 324px;
+        margin-left: 195px;
+        font-size: 11px;
+      }
+
+      .mdpercger {
+        top: 345px;
+        margin-left: 209px;
+        font-size: 13px;
+      }
+
+      .mdsteps {
+        top: 386px;
+      }
+
+      .mdsteps ul li {
+        border: 3px solid black;
+        width: 10px;
+        border-radius: 5px;
+      }
+
+      .arrow {
+        top: -191;
+        border-right: 5px solid white;
+        border-bottom: 5px solid white;
+        height: 15px;
+        width: 15px;
+      }
+    }
+
+    @media (max-width: 400px) {
+
+      .modal-content,
+      .modal-img {
+        width: 300px;
+      }
+
+      .mdfranquia {
+        top: 220px;
+        margin-left: 23px;
+        font-size: 8px;
+      }
+
+      .mddontshow {
+        font-size: 6px;
+      }
+
+      .close {
+        font-size: 16px;
+      }
+
+      .mdvalor {
+        top: 244px;
+        margin-left: 37px;
+        font-size: 11px;
+      }
+
+      .mdpercatu {
+        top: 260px;
+        margin-left: 129px;
+        font-size: 7px;
+      }
+
+      .mdpercger {
+        top: 274px;
+        margin-left: 138px;
+        font-size: 9px;
+      }
+
+      .mdsteps {
+        top: 297px;
+      }
+
+      .mdsteps ul li {
+        border: 2px solid black;
+      }
+
+      .arrow {
+        top: -138px;
+        border-right: 5px solid white;
+        border-bottom: 5px solid white;
+        height: 15px;
+        width: 15px;
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+    }
+  </style>
+
+  <script>
+    var timerloop;
+    var jsonmeta = [];
+    var jsonmetaind = { indice: 0, total: -1, timer: null };
+
+    jsonmeta.push({ codigo: "44519", franquia: "MY HOME CHAPECÓ", valor: "20.648,38", perc: "-0,8", rank: "12" });
+    jsonmetaind.total++;
+
+    jsonmeta.push({ codigo: "35402", franquia: "MY HOME RIO DECOR PETRÓPOLIS", valor: "136.109,15", perc: "-0,9", rank: "16" });
+    jsonmetaind.total++;
+
+    jsonmeta.push({ codigo: "39744", franquia: "MY HOME GRAVATAÍ", valor: "161.770,16", perc: "-0,9", rank: "18" });
+    jsonmetaind.total++;
+
+    jsonmeta.push({ codigo: "41411", franquia: "MY HOME CATANDUVA", valor: "140.191,51", perc: "-1,0", rank: "19" });
+    jsonmetaind.total++;
+
+
+    function carregameta(id, valor, perc, ranking, franquia) {
+
+      marcaselecionado(id);
+
+      document.getElementById("mdvalor").innerHTML = valor;
+      document.getElementById("mdperc").innerHTML = perc;
+      document.getElementById("mdrank").innerHTML = ranking;
+      document.getElementById("mdfranquia").innerHTML = franquia;
+    }
+    function getMetaByIndice(indice) {
+      jsonmetaind.indice = indice;
+      carregameta(indice, jsonmeta[indice]["valor"], jsonmeta[indice]["perc"], jsonmeta[indice]["rank"], jsonmeta[indice]["franquia"]);
+      // cancela o timer e starta novamente...
+      clearTimeout(timerloop);
+    }
+    function buscameta(dir) {
+
+      clearTimeout(timerloop);
+      timerloop = setTimeout('buscameta("+");', 3000);
+
+      if (dir === "+") {
+        jsonmetaind.indice++;
+      } else {
+        jsonmetaind.indice--;
+      }
+      if (jsonmetaind.indice < 0) {
+        jsonmetaind.indice = jsonmetaind.total;
+      }
+      if (jsonmetaind.indice > jsonmetaind.total) {
+        jsonmetaind.indice = 0;
+      }
+      carregameta(jsonmetaind.indice, jsonmeta[jsonmetaind.indice]["valor"], jsonmeta[jsonmetaind.indice]["perc"], jsonmeta[jsonmetaind.indice]["rank"], jsonmeta[jsonmetaind.indice]["franquia"]);
+    }
+
+    if (localStorage.getItem('mdMetaPremiada') != 'none') {
+      domodal('mdMetaPremiada');
+    }
+
+    function marcaselecionado(id) {
+      for (i = 0; i <= jsonmetaind.total; i++) { document.getElementById('li_' + i).style.opacity = '0.2'; }
+      document.getElementById('li_' + id).style.opacity = '0.5'
+    } 10
+
+    function dontshow(show) {
+      console.log('dontshow: ' + show);
+      if (show) {
+        localStorage.setItem('mdMetaPremiada', 'none');
+      } else {
+        localStorage.setItem('mdMetaPremiada', 'inline-flex');
+      }
+    }
+
+    function stoptimer() {
+      console.log('Pára o timer...');
+      clearTimeout(timerloop);
+    }
+  </script>
+
+
+  <script>
+    // se tem apenas um cliente não mostra o carrossel...
+    if (jsonmetaind.total === 0) {
+      document.getElementById("mdsteps").style.visibility = hidden;
+      document.getElementById("mdsetas").style.visible = hidden;
+    }
+    buscameta("+");
+    timerloop = setTimeout('buscameta("+");', 3000);
+  </script>
+
+
+  <DIV id="mdResumo" class="modal">
+    <div style="background:#FFF; width:500px; padding: 20px;">
+      <span class="close">&times;</span>
+      <div class="modal-content BordaForm" style="margin: 20px;">
+        <TABLE width="100%" class="ficha" cellspacing="0">
+          <tr>
+            <th align="center" class="row2" colspan="2">Fim de Ano Conectado</th>
+          </tr>
+          <tr>
+            <td align="right" class="row4">Validade:</td>
+            <td align="right">01/10 à 15/01/2020</td>
+          </tr>
+
+          <tr>
+            <td align="right" class="row4">Valor por cupom:</td>
+            <td align="right">R$ 1.000,00</td>
+          </tr>
+          <tr>
+            <td align="right" class="row4">Gera cupons:</td>
+            <td align="right">Sim</td>
+          </tr>
+          <tr>
+            <td align="right" class="row4">Pergunta:</td>
+            <td align="left">Qual a marca de móveis planejados que vai te deixar conectado?</td>
+          </tr>
+
+          <tr>
+            <td align="right" class="row4">Certificação:</td>
+            <td align="right">06.004908/2019</td>
+          </tr>
+        </TABLE>
+      </div>
+    </div>
+  </DIV>
+
+</body>
+
+</html>
