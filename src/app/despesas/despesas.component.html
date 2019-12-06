@@ -49,15 +49,15 @@
           </div>
 
           <div class="col-sm">
-            <label for="usuarioassociado">Data Retorno</label>
-            <input type="date" class="form-control" id="usuarioassociado" placeholder="Retorno" formControlName="Data_Retorno">
+            <label for="dataretorno">Data Retorno</label>
+            <input type="date" class="form-control" id="dataretorno" placeholder="Retorno" formControlName="Data_Retorno">
           </div>
         </div>
 
         <div class="row">
           <div class="col-sm">
-            <label for="roteiro">Roteiro</label>
-            <textarea class="form-control" id="roteiro" placeholder="Informe o roteiro da viagem" formControlName="Roteiro"></textarea>
+            <label for="idroteiro">Roteiro</label>
+            <textarea class="form-control" id="idroteiro" placeholder="Informe o roteiro da viagem" formControlName="Roteiro"></textarea>
           </div>
         </div>
 
@@ -82,14 +82,14 @@
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="getInput($event)"></app-input-lookup>--><!--Este funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [inputModelChange]="idevento"></app-input-lookup>--><!--Este Não Funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="selected.id_Evento = $event"></app-input-lookup>--><!--Este Funciona-->
-            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(selected.id_Evento = $event)"></app-input-lookup><!--Este Funciona-->
+            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(formDespesa.controls['id_Evento'] = $event)"></app-input-lookup><!--Este Funciona-->
           </div>
         </div>
 
         <div class="row">
           <div class="col-sm">
             Representantes:
-            <app-input-lookup [apidata]="representantes" title="Representantes" (inputModelChange)="idrepres = $event"></app-input-lookup>
+            <app-input-lookup [apidata]="representantes" title="Representantes" (inputModelChange)="formDespesa.controls['id_Repres'] = $event"></app-input-lookup>
           </div>
         </div>
 
@@ -107,7 +107,9 @@
      <br/>
 
     <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid}}</pre>
+    <pre class="card card-block card-header mb-3">frmDespesa.value: {{formDespesa.value | json}}</pre>
     <pre class="card card-block card-header mb-3">selected: {{selected | json}}</pre>
+    <!--<pre class="card card-block card-header mb-3">formbody: {{formDespesa.controls | json}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">idrepres: {{idrepres}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">datasource: {{datasource | json}}</pre>-->
     <!--<pre class="card card-block card-header mb-3">lookupevento: {{lookupevento | json}}</pre>-->

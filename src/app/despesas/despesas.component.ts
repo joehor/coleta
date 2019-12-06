@@ -104,7 +104,7 @@ export class DespesasComponent implements OnInit {
       DataInteral: [],
       Data_Saida: Date,
       Data_Retorno: Date,
-      Roteiro: '',
+      Roteiro: 'veio carregado?',
       Observacoes: '',
       UsuarioAssociado: '',
       id_Evento: 0,
@@ -121,8 +121,8 @@ export class DespesasComponent implements OnInit {
     if (event.length > 0) {
       event.map(
         (data, index) => {
-          if (index === 0) { this.selected.Data_Saida = data; }
-          if (index === 1) { this.selected.Data_Retorno = data; }
+          if (index === 0) { this.formDespesa.patchValue({Data_Saida: data}); }
+          if (index === 1) { this.formDespesa.patchValue({Data_Retorno: data}); }
         }
       );
     }
@@ -134,14 +134,15 @@ export class DespesasComponent implements OnInit {
 
   criaForm() {
     this.formDespesa = this.formbuilder.group({
-      id: [this.selected.id, Validators.compose([Validators.required])],
+      id: [null, Validators.compose([Validators.required])],
       DataInterval: [[], Validators.compose([Validators.required])],
-      Data_Saida: [this.selected.Data_Saida, Validators.compose([Validators.required])],
-      Data_Retorno: [this.selected.Data_Retorno, Validators.compose([Validators.required])],
-      Roteiro: [this.selected.Roteiro, Validators.compose([Validators.required])],
-      Observacoes: [this.selected.Observacoes, Validators.compose([Validators.required])],
-      UsuarioAssociado: [this.selected.UsuarioAssociado, Validators.compose([Validators.required])],
-      id_Evento: [this.selected.id_Evento, Validators.compose([Validators.required])]
+      Data_Saida: [null, Validators.compose([Validators.required])],
+      Data_Retorno: [null, Validators.compose([Validators.required])],
+      Roteiro: [null, Validators.compose([Validators.required])],
+      Observacoes: [null, Validators.compose([Validators.required])],
+      UsuarioAssociado: [null, Validators.compose([Validators.required])],
+      id_Evento: [null, Validators.compose([Validators.required])],
+      id_Repres: [null, Validators.compose([Validators.required])]
     });
 
     console.log('this.formDespesa.controls.id_Evento.value: ');
@@ -155,6 +156,7 @@ export class DespesasComponent implements OnInit {
 
   print() {
     console.log(this.formDespesa.controls.DataInterval.value);
+    console.log(this.formDespesa.controls);
   }
 
   salvar() {

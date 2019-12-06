@@ -7,10 +7,12 @@ import { RepresentantesLookupComponent } from './representantes-lookup/represent
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DespesasComponent } from './despesas/despesas.component';
+import { TestesComponent } from './testes/testes.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'testes', component: TestesComponent },
   { path: 'coleta', component: ColetaComponent },
   { path: 'represlookup', component: RepresentantesLookupComponent },
   { path: 'coletainject', component: ColetainjetadaComponent },

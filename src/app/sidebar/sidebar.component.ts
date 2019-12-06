@@ -32,6 +32,7 @@ export class SidebarComponent implements OnInit {
         this.getDataFromApi('Representantes/Menus', '%', 1, 100);
       } else {
         this.datasource.push({id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''});
+        this.datasource.push({id: 3, caption: 'Testes', hint: 'Pagina de testes', icon: 'plus', action: '/testes', class: '', submenu: ''});
       }
     });
 

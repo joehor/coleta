@@ -49,6 +49,7 @@ import { GaugeComponent } from './componentes/gauge/gauge.component';
 import { DespesasComponent } from './despesas/despesas.component';
 import { InputLookupComponent } from './componentes/input-lookup/input-lookup.component';
 import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-grid-lookup.component';
+import { TestesComponent } from './testes/testes.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-
     GaugeComponent,
     DespesasComponent,
     InputLookupComponent,
-    ModalGridLookupComponent
+    ModalGridLookupComponent,
+    TestesComponent
   ],
   imports: [
     BrowserModule,
