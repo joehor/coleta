@@ -82,16 +82,27 @@
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="getInput($event)"></app-input-lookup>--><!--Este funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [inputModelChange]="idevento"></app-input-lookup>--><!--Este Não Funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="selected.id_Evento = $event"></app-input-lookup>--><!--Este Funciona-->
-            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(formDespesa.controls['id_Evento'] = $event)"></app-input-lookup><!--Este Funciona-->
+            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(formDespesa.patchValue( {id_Evento: $event} ) )"></app-input-lookup><!--Este Funciona-->
+            <!--<app-input-lookup [apidata]="despesaseventos" apiroute="" title="Eventos" formControlName="id_Evento"></app-input-lookup>-->
+
           </div>
         </div>
 
         <div class="row">
           <div class="col-sm">
             Representantes:
-            <app-input-lookup [apidata]="representantes" title="Representantes" (inputModelChange)="formDespesa.controls['id_Repres'] = $event"></app-input-lookup>
+            <app-input-lookup [apidata]="representantes" title="Representantes" formControlName="id_Repres"></app-input-lookup>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-sm">
+            evento teste:
+            <input type="text" class="form-control" placeholder="0" formControlName="id_Evento">
+            <button type="button" class="btn btn-primary" (click)="formDespesa.patchValue( {id_Evento: 109} )">atribuir 109</button>
+          </div>
+        </div>
+
 
       </div>
 
@@ -106,7 +117,7 @@
 
      <br/>
 
-    <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid}}</pre>
+    <pre class="card card-block card-header mb-3">form valid: {{formDespesa.valid ? 'Sim' : 'Não'}} | Evento: {{ idevento }}</pre>
     <pre class="card card-block card-header mb-3">frmDespesa.value: {{formDespesa.value | json}}</pre>
     <pre class="card card-block card-header mb-3">selected: {{selected | json}}</pre>
     <!--<pre class="card card-block card-header mb-3">formbody: {{formDespesa.controls | json}}</pre>-->

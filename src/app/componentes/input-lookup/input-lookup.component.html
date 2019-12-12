@@ -2,23 +2,28 @@
 
   <div class="col col-4 col-sm-2">
       <input class="form-control"
+        [(ngModel)]="inputid"
+        [ngModelOptions]="{standalone: true}"
         type="number"
         name="id"
         id="id"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="inputid"
+        [value]="value"
+        [disabled]="disabled"
+        (blur)="onTouched()"
         (change)="findById()"
+        (input)="onChange($event.target.value)"
         (ngModelChange)="inputModelChange.emit(inputid)"/>
     </div>
     <div class="col col-8 col-sm-10">
       <div class="input-group">
 
-       <input [(ngModel)]="inputname"
+       <input class="form-control"
+       [(ngModel)]="inputname"
        [ngModelOptions]="{standalone: true}"
        [typeahead]="apidata"
        typeaheadOptionField="descricao"
        (typeaheadOnSelect)="onSelectData($event)"
-       class="form-control">
+       (ngModelChange)="inputModelChange.emit(inputid)">
 
 
         <div class="input-group-append" *ngIf="apiroute">

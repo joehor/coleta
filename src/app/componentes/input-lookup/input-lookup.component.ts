@@ -1,7 +1,6 @@
-import { Component, OnInit, TemplateRef, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, TemplateRef, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { HttpClient } from '@angular/common/http';
 import { DataLookupService } from '../../services/data-lookup.service';
 
 interface Httpcodes {
@@ -18,10 +17,29 @@ interface Lookup {
 @Component({
   selector: 'app-input-lookup',
   templateUrl: './input-lookup.component.html',
-  styleUrls: ['./input-lookup.component.css']
+  styleUrls: ['./input-lookup.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputLookupComponent),
+      multi: true
+    }
+  ]
 })
 
-export class InputLookupComponent implements OnInit, OnChanges {
+export class InputLookupComponent implements OnInit, ControlValueAccessor {
+
+  value: number;
+  onChange: () => void;
+  onTouched: () => void;
+  disabled: boolean;
+
+  descendants: boolean;
+  first: boolean;
+  read: any;
+  isViewQuery: boolean;
+  selector: any;
+  static: boolean;
   @Input() apiroute: string;
   @Input() inputid: number;
   @Input() inputname: string;
@@ -29,16 +47,41 @@ export class InputLookupComponent implements OnInit, OnChanges {
   @Input() pagesize = 10;
   @Input() lookupselected: Lookup = {id: 0, descricao: ''};
   @Input() apidata: any[] = [];
+  @Input() control: FormControl;
   @Output() inputModelChange = new EventEmitter<number>();
   searchDataCtrl = new FormControl();
   waitsearch: any;
-
   modalRef: BsModalRef;
   apierror = false;
   pesquisando = false;
   httperror: Httpcodes = { code: 0, erro: '', mensagem: ''};
 
-  constructor(private modalService: BsModalService, private datalookup: DataLookupService, private http: HttpClient) { }
+  writeValue(obj: any): void {
+    // throw new Error("Method not implemented.");
+    console.log('writeValue: ' + obj);
+    this.inputid = obj || 0;
+    this.value = this.inputid;
+    if (this.value > 0) {
+      this.findById();
+    }
+  }
+  registerOnChange(fn: any): void {
+    // throw new Error("Method not implemented.");
+    console.log('registerOnChange');
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    // throw new Error("Method not implemented.");
+    console.log('registerOnTouched');
+    this.onTouched = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    // throw new Error("Method not implemented.");
+    console.log('setDisabledState');
+    this.disabled = isDisabled;
+  }
+
+  constructor(private modalService: BsModalService, private datalookup: DataLookupService) { }
 
   ngOnInit() {
 
@@ -47,7 +90,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   }
 
-
+/*
   ngOnChanges(changes: SimpleChanges) {
 
     console.log('mudou algo');
@@ -62,6 +105,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
     }
 
   }
+  */
 
   openModal(template: TemplateRef<any>) {
 
@@ -80,8 +124,10 @@ export class InputLookupComponent implements OnInit, OnChanges {
     this.lookupselected = event.item;
     console.log('representantes-lookup(onSelectData): ' + JSON.stringify(event));
     this.inputid = this.lookupselected.id;
-    // emite o evento para os outros componentes ...
-    this.inputModelChange.emit(this.inputid);
+
+    this.findById();
+
+    // this.onChangeId();
 
   }
 
@@ -94,17 +140,21 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   findById() {
 
+    console.log('findbyid');
     this.lookupselected = this.apidata.find(ds => ds.id === this.inputid.toString());
     if (this.lookupselected !== undefined) {
       this.inputname = this.lookupselected.descricao;
     } else {
       this.inputname = '';
     }
-    // this.inputModelChange.emit(this.inputid);
+
+    // this.onChangeId();
+
   }
 
   getDataById(id: number) {
 
+    console.log('getDateById');
     if (this.inputid !== this.lookupselected.id) {
       this.getDataFromApi(this.apiroute, id.toString(), 1, 10);
     }
@@ -113,6 +163,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   onKeySearch() {
 
+    console.log('onKeySearch');
     clearTimeout(this.waitsearch);
     this.waitsearch = setTimeout(() => {
       this.getDataByName(this.inputname);
@@ -122,6 +173,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   getDataByName(search: any) {
 
+    console.log('getDataByName');
     this.getDataFromApi(this.apiroute, search, 1, 1000);
 
   }
@@ -129,6 +181,7 @@ export class InputLookupComponent implements OnInit, OnChanges {
   // serviço que busca os dados da API...
   getDataFromApi(api: string, pesq: string, page: number, pagecount: number) {
 
+    console.log('getDataFromApi');
     this.pesquisando = true;
     this.datalookup.getData(api, pesq, page, pagecount)
       .subscribe(
@@ -164,6 +217,8 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   datalistSelected() {
 
+    console.log('datalistSelected');
+    console.log('');
     this.inputid = this.lookupselected.id;
     this.inputname = this.lookupselected.descricao;
 
@@ -171,7 +226,14 @@ export class InputLookupComponent implements OnInit, OnChanges {
 
   lista() {
 
+    console.log('lista');
     return this.apidata.map(desc => desc.descricao);
 
+  }
+
+  onChangeId() {
+    console.log('onChangeId()');
+    // emite o evento para os outros componentes ...
+    this.inputModelChange.emit(this.inputid);
   }
 }

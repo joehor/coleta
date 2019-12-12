@@ -28,6 +28,7 @@ export class DespesasComponent implements OnInit {
   loadmessage: string;
 
   // testes
+  idevento: number;
   idrepres: number;
   datainterval: Date[] = [];
 
@@ -108,6 +109,7 @@ export class DespesasComponent implements OnInit {
       Observacoes: '',
       UsuarioAssociado: '',
       id_Evento: 0,
+      id_Repres: 0,
       LookupEvento: {id: 0, descricao: ''}
     };
 
@@ -116,11 +118,11 @@ export class DespesasComponent implements OnInit {
 
   onDataIntervalChange(event) {
 
-    console.log(event);
+    // console.log(event);
 
     if (event.length > 0) {
       event.map(
-        (data, index) => {
+        (data: any, index: number) => {
           if (index === 0) { this.formDespesa.patchValue({Data_Saida: data}); }
           if (index === 1) { this.formDespesa.patchValue({Data_Retorno: data}); }
         }
@@ -141,7 +143,7 @@ export class DespesasComponent implements OnInit {
       Roteiro: [null, Validators.compose([Validators.required])],
       Observacoes: [null, Validators.compose([Validators.required])],
       UsuarioAssociado: [null, Validators.compose([Validators.required])],
-      id_Evento: [null, Validators.compose([Validators.required])],
+      id_Evento: [this.idevento, Validators.compose([Validators.required])],
       id_Repres: [null, Validators.compose([Validators.required])]
     });
 
