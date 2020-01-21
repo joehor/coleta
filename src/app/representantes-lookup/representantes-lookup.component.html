@@ -1,6 +1,12 @@
-<!--
-<app-gauge [value]="95" [color]="'red'"></app-gauge>
+<!---->
+<pre class="card card-block card-header mb-3">representantes work's</pre>
+<!---->
 
+<!--
+<app-gauge [value]="75" [color]="'red'"></app-gauge>
+-->
+
+<!--
 <app-grid
   [apiroute]="'Representantes/Lookup'"
   [pagesize]="15"
@@ -8,13 +14,9 @@
 </app-grid>
 -->
 
+<!--
 Representante: <app-input-lookup [apidata]="representantes" title="Representantes"></app-input-lookup>
-
-<br>
-
-<app-alert [show]="error" tipo='danger' [title]="(error ? error.title : '')" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
-<app-alert [show]="success" tipo='success' [title]="(success ? success.title : '')" [mensagem]="(!success ? '' : success.mensagem)"></app-alert>
-<app-loading [show]="loading" [aviso]="loadmessage"></app-loading>
+-->
 
 <!--
 <table style="width: 100%">
@@ -31,4 +33,7 @@ Representante: <app-input-lookup [apidata]="representantes" title="Representante
 -->
 
 <pre class="card card-block card-header mb-3">representantes: {{representantes | json}}</pre>
+
+<pre class="card card-block card-header mb-3">despesaseventos: {{despesaseventos | json}}</pre>
+
 

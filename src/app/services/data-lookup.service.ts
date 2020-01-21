@@ -116,6 +116,18 @@ export class DataLookupService {
 
   }  // fim constructor()
 
+  getUserData(ds: string) {
+    const data = this.userdata.Data.find(dt => dt.hasOwnProperty(ds));
+    let datasource = [];
+    if (data) {
+      datasource = data[ds];
+    } else {
+      // aqui preciso colocar um async await
+      this.updateK1List([ds]);
+    }
+    return datasource;
+  }
+
   updateK1List(updatelist: any) {
     console.log('datalookup<updateK1List>');
     const updlist = this.k1datalist.filter( ul => updatelist.find( li => li === ul.property ) ) || [];
@@ -135,28 +147,30 @@ export class DataLookupService {
     console.log('datalookup<k1datalist>');
     console.log(this.k1datalist);
 
-    // log
-    this.k1datalist.find(upd => upd.id === 0).stringlog = 'userdata<updateK1Data>';
-
-    this.k1datalist.find(upd => upd.id === 0).updatelist = updlist;
+    const k1upd = this.k1datalist.find(upd => upd.id === 0);
 
     // log
-    this.k1datalist.find(upd => upd.id === 0).stringlog += ' | updlist: ' + updlist;
+    k1upd.stringlog = 'userdata<updateK1Data>';
+
+    k1upd.updatelist = updlist;
+
+    // log
+    k1upd.stringlog += ' | updlist: ' + updlist;
 
     // marca todos da lista para atualizar ...
     updlist.map(li => {
       this.k1datalist.find(mtd => mtd.property === li.property).run = true;
       // log
-      this.k1datalist.find(upd => upd.id === 0).stringlog += ' | ' + li + ' | ' + this.k1datalist.find(mtd => mtd.property === li.property).run;
+      k1upd.stringlog += ' | ' + li + ' | ' + this.k1datalist.find(mtd => mtd.property === li.property).run;
     });
 
     if (this.k1datalist.filter(nupd => nupd.run).length > 0) {
       // log
-      this.k1datalist.find(upd => upd.id === 0).stringlog += ' | atualizacoes: ' + this.k1datalist.filter(nupd => nupd.run).length;
+      k1upd.stringlog += ' | atualizacoes: ' + this.k1datalist.filter(nupd => nupd.run).length;
 
       this.k1datalist.map(met => { if (met.run) { this.getk1Data(met, false); } });
 
-      console.log(this.k1datalist.find(upd => upd.id === 0).stringlog);
+      console.log(k1upd.stringlog);
     }
 
   }
