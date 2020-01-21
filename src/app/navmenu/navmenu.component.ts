@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, VERSION, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({

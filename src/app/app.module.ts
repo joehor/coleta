@@ -50,6 +50,7 @@ import { DespesasComponent } from './despesas/despesas.component';
 import { InputLookupComponent } from './componentes/input-lookup/input-lookup.component';
 import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-grid-lookup.component';
 import { TestesComponent } from './testes/testes.component';
+import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { TestesComponent } from './testes/testes.component';
     DespesasComponent,
     InputLookupComponent,
     ModalGridLookupComponent,
-    TestesComponent
+    TestesComponent,
+    DespesaFrmComponent
   ],
   imports: [
     BrowserModule,

@@ -57,11 +57,11 @@ export class SidebarComponent implements OnInit {
       .subscribe(
       data => {
         if (!data.Data) {
-          // console.log('Não encontrado!');
+          console.log('Não encontrado!');
           // this.datasource = this.datanotfound;
           this.loading = false;
         } else {
-          // console.log('Encontrado');
+          console.log('Encontrado');
           this.datasource = data.Data;
           this.loading = false;
         }

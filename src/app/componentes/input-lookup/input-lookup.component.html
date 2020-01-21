@@ -2,7 +2,7 @@
 
   <div class="col col-4 col-sm-2">
       <input class="form-control"
-        [(ngModel)]="inputid"
+        [ngModel]="value"
         [ngModelOptions]="{standalone: true}"
         type="number"
         name="id"
@@ -10,8 +10,8 @@
         [value]="value"
         [disabled]="disabled"
         (blur)="onTouched()"
-        (change)="findById()"
-        (input)="onChange($event.target.value)"
+        (change)="findById($event.target.value)"
+        <!--(input)="onChange($event.target.value)"-->
         (ngModelChange)="inputModelChange.emit(inputid)"/>
     </div>
     <div class="col col-8 col-sm-10">

@@ -62,7 +62,7 @@ export class InputLookupComponent implements OnInit, ControlValueAccessor {
     this.inputid = obj || 0;
     this.value = this.inputid;
     if (this.value > 0) {
-      this.findById();
+      this.findById(this.inputid);
     }
   }
   registerOnChange(fn: any): void {
@@ -123,9 +123,13 @@ export class InputLookupComponent implements OnInit, ControlValueAccessor {
 
     this.lookupselected = event.item;
     console.log('representantes-lookup(onSelectData): ' + JSON.stringify(event));
-    this.inputid = this.lookupselected.id;
 
-    this.findById();
+    // como o bind não funcionou pela variável, vou forçar atualiza o elemento
+    // document.getElementById('id').updat = this.lookupselected.id;
+    this.inputid = this.lookupselected.id;
+    // this.value = this.lookupselected.id;
+
+    this.findById(this.lookupselected.id);
 
     // this.onChangeId();
 
@@ -138,14 +142,21 @@ export class InputLookupComponent implements OnInit, ControlValueAccessor {
 
   }
 
-  findById() {
+  findById(id: number) {
 
-    console.log('findbyid');
+    console.log('inputid ' + this.inputid);
+    console.log('findbyid ' + id);
+    console.log('findById ' + this.lookupselected);
     this.lookupselected = this.apidata.find(ds => ds.id === this.inputid.toString());
     if (this.lookupselected !== undefined) {
       this.inputname = this.lookupselected.descricao;
     } else {
       this.inputname = '';
+    }
+
+    if (this.control) {
+      const ctrl = {id_Evento: id};
+      this.control.patchValue( ctrl );
     }
 
     // this.onChangeId();

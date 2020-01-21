@@ -72,8 +72,8 @@ export class DespesasComponent implements OnInit {
 
       }); // this.datalookup.emitUpdateStatus.subscribe(data =>
 
-      // console.log('despesas:construtor');
-      // console.log(this.datalookup.userdata);
+      console.log('despesas:construtor');
+      console.log(this.datalookup.userdata.Data);
 
       const newupdate = this.updatelist
         .filter( li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0] );

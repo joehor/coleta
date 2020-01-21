@@ -89,6 +89,7 @@ export class DataLookupService {
 
     // prepara o k1data que contém todos os datasets necessários ...
     this.localuser = localStorage.getItem('lastLogon');
+
     if (this.k1data === null || this.k1data === undefined) {
       this.k1data = JSON.parse(localStorage.getItem('k1data'));
     }
@@ -96,8 +97,8 @@ export class DataLookupService {
       this.k1data = {Data: []}; // se não existe cria vazio ...
     }
 
-    console.log('k1data<todos> ');
-    console.log(this.k1data);
+    console.log('data-lookup<k1data> ');
+    console.log(JSON.stringify(this.k1data));
 
     // verifica se existe o userdata ...
     if (this.userdata === null || this.userdata === undefined) {
@@ -106,11 +107,22 @@ export class DataLookupService {
 
     console.log('userdata<novo> ');
     // posiciona no usuario correto se houver...
-    if (this.k1data.Data.filter(usu => usu.usuario === this.localuser).length > 0) {
-      this.userdata.Data = this.k1data.Data.find(usu => usu.usuario === this.localuser).Data;
-      console.log(this.userdata);
+    if (this.k1data.Data.length > 0) {
+      if (this.k1data.Data.filter(usu => usu.usuario === this.localuser).length > 0) {
+        this.userdata.Data = this.k1data.Data.find(usu => usu.usuario === this.localuser).Data;
+        console.log(this.userdata);
+      }
     }
 
+  }  // fim constructor()
+
+  updateK1List(updatelist: any) {
+    console.log('datalookup<updateK1List>');
+    const updlist = this.k1datalist.filter( ul => updatelist.find( li => li === ul.property ) ) || [];
+
+    if (updlist.length > 0) {
+      this.updateK1Data(updlist);
+    }
   }
 
   // chama os métodos marcados como run=true
@@ -118,8 +130,10 @@ export class DataLookupService {
 
     this.totalUpdates = updlist.length;
 
-    console.log('userdata<updateK1Data> ');
-    console.log(this.userdata);
+    console.log('datalookup<updlist>');
+    console.log(updlist);
+    console.log('datalookup<k1datalist>');
+    console.log(this.k1datalist);
 
     // log
     this.k1datalist.find(upd => upd.id === 0).stringlog = 'userdata<updateK1Data>';
@@ -131,9 +145,9 @@ export class DataLookupService {
 
     // marca todos da lista para atualizar ...
     updlist.map(li => {
-      this.k1datalist.find(mtd => mtd.property === li).run = true;
+      this.k1datalist.find(mtd => mtd.property === li.property).run = true;
       // log
-      this.k1datalist.find(upd => upd.id === 0).stringlog += ' | ' + li + ' | ' + this.k1datalist.find(mtd => mtd.property === li).run;
+      this.k1datalist.find(upd => upd.id === 0).stringlog += ' | ' + li + ' | ' + this.k1datalist.find(mtd => mtd.property === li.property).run;
     });
 
     if (this.k1datalist.filter(nupd => nupd.run).length > 0) {
@@ -440,6 +454,8 @@ export class DataLookupService {
   // funcçãao que busca todos os datasets solicitados no updatelist ...
   getk1Data(mtd: any, salva: boolean) {
 
+    console.log('getk1Data() k1datalist: ' + JSON.stringify(this.k1datalist));
+
     // emite status de inicialização
     this.emiteStatus({
       property: mtd.property,
@@ -494,8 +510,10 @@ export class DataLookupService {
   // salva no localhost o k1Data com os datasets do usuário logado ...
   salvak1data() {
 
+    console.log('Salvando atualizações...');
     // limpa a lista de atualizações;
-    this.k1datalist.find(upd => upd.id === 0).updates = [];
+    // this.k1datalist.find(upd => upd.id === 0).updates = []; ???
+    this.k1datalist.find(upd => upd.id === 0).updatelist = [];
 
     // prepara o k1data para salvar
 

@@ -77,13 +77,13 @@
 
         <div class="row">
           <div class="col-sm">
-            Evento:
+            <label for="id_Evento">Evento</label>
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [(inputModelChange)]="inputid"></app-input-lookup>-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="getInput($event)"></app-input-lookup>--><!--Este funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" [inputModelChange]="idevento"></app-input-lookup>--><!--Este Não Funciona-->
             <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="selected.id_Evento = $event"></app-input-lookup>--><!--Este Funciona-->
-            <app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(formDespesa.patchValue( {id_Evento: $event} ) )"></app-input-lookup><!--Este Funciona-->
-            <!--<app-input-lookup [apidata]="despesaseventos" apiroute="" title="Eventos" formControlName="id_Evento"></app-input-lookup>-->
+            <!--<app-input-lookup [apidata]="despesaseventos" title="Eventos" (inputModelChange)="(formDespesa.patchValue( {id_Evento: $event} ) )"></app-input-lookup>--><!--Este Funciona-->
+            <app-input-lookup id="id_Evento" [apidata]="despesaseventos" title="Eventos"  [control]="formDespesa" formControlName="id_Evento"></app-input-lookup>
 
           </div>
         </div>
@@ -91,7 +91,7 @@
         <div class="row">
           <div class="col-sm">
             Representantes:
-            <app-input-lookup [apidata]="representantes" title="Representantes" formControlName="id_Repres"></app-input-lookup>
+            <app-input-lookup [apidata]="representantes" title="Representantes" [control]="formDespesa" formControlName="id_Repres"></app-input-lookup>
           </div>
         </div>
 

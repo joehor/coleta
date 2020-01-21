@@ -18,11 +18,13 @@ export class RepresentantesLookupComponent implements OnInit {
 
   constructor( private datalookup: DataLookupService ) {
 
+    console.log('representantes-constructor: ');
+
     // this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
     this.datalookup.emitUpdateStatus.subscribe(data => {
 
-      // console.log('Emite status: ');
-      // console.log(data);
+      console.log('Emite status: ');
+      console.log(data);
 
       this.loading = !data.complete;
       this.loadmessage = data.mensagem;
@@ -34,6 +36,7 @@ export class RepresentantesLookupComponent implements OnInit {
           } else {
             this.success = {mensagem: data.mensagem};
             // a propriedade com o mesmo nome do dataset deve ser previamente criada ...
+            console.log('datalookup.emitUpdateStatus.subscribe: ' + data.property);
             this[data.property] = this.datalookup.userdata.Data.find(ds => ds[data.property])[data.property];
           }
         }
@@ -52,17 +55,26 @@ export class RepresentantesLookupComponent implements OnInit {
 
     }); // this.datalookup.emitUpdateStatus.subscribe(data =>
 
-    // console.log('despesas:construtor');
-    // console.log(this.datalookup.userdata);
+    console.log('representantes:construtor 2');
+    console.log(this.datalookup.userdata);
 
-    const newupdate = this.updatelist
+    // nova chamada ...
+    this.datalookup.updateK1List(this.updatelist);
+
+    /*
+    let newupdate = [];
+    if (this.datalookup.userdata.Data.length > 0) {
+      newupdate = this.updatelist
       .filter( li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0] );
+    }
 
-    // console.log('despesas:newupdate');
-    // console.log(newupdate);
+    console.log('representantes:newupdate');
+    console.log(newupdate);
 
     // se ficou algo para atualizar passa para o data.lookup
     if (newupdate.length > 0) { this.datalookup.updateK1Data(newupdate); }
+    this.datalookup.updateK1Data(newupdate);
+    */
   }
 
   ngOnInit() {
