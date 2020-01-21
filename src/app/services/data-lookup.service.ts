@@ -161,7 +161,7 @@ export class DataLookupService {
     updlist.map(li => {
       this.k1datalist.find(mtd => mtd.property === li.property).run = true;
       // log
-      k1upd.stringlog += ' | ' + li + ' | ' + this.k1datalist.find(mtd => mtd.property === li.property).run;
+      k1upd.stringlog += ' | ' + li.property + ' | ' + this.k1datalist.find(mtd => mtd.property === li.property).run;
     });
 
     if (this.k1datalist.filter(nupd => nupd.run).length > 0) {
