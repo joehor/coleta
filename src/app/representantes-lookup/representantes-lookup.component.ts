@@ -8,7 +8,6 @@ import { LayoutComponent } from '../layout/layout.component';
   styleUrls: ['./representantes-lookup.component.css']
 })
 export class RepresentantesLookupComponent implements OnInit {
-  testeaviso = 'Atualizando despesaseventos...';
 
   // updatelist: any[] = ['representantes'];
   updatelist: any[] = ['representantes', 'despesaseventos'];
