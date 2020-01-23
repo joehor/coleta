@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
         if (this.authservice.isAuthenticated()) {
 
-          this.route.navigate(['/home']);
+          this.route.navigate(['/dashboard']);
 
         } else {
 
