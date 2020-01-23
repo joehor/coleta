@@ -1,18 +1,20 @@
-<div class="row">
-  <div class="col-sm">
-    image
-  </div>
-  <div class="col-sm">
+<div class="card card-stats">
+  <!-- Card body -->
+  <div class="card-body">
     <div class="row">
-      <div class="col-sm">title</div>
+      <div class="col">
+        <h5 class="card-title text-uppercase text-muted mb-0">{{title || 'Seu título'}}</h5>
+        <span class="h2 font-weight-bold mb-0">{{subtitle || 'Seu subtítulo'}}</span>
+      </div>
+      <div class="col-auto">
+        <div class="icon icon-shape text-white rounded-circle shadow" [ngClass]="(mainiconcolor || 'bg-gradient-red')">
+          <i [className]="mainicon || 'fa fa-arrow-up'"></i>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-sm">texto</div>
-    </div>
-    <div class="row">
-      <div class="col-sm">barra</div>
-    </div>
-  </div>
-  <div class="col-sm">
+    <p class="mt-3 mb-0 text-sm">
+      <span [class]="((perc || 0) > 0) ? 'text-success mr-2' : 'text-danger mr-2'"><i [class]="((perc || 0) > 0) ? 'fa fa-arrow-up' : 'fa fa-arrow-down'"></i> {{perc || 75.15}}%</span>
+      <span class="text-nowrap">{{text || 'Seu texto'}}</span>
+    </p>
   </div>
 </div>

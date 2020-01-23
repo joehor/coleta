@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-labelinfo',
@@ -6,6 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./labelinfo.component.css']
 })
 export class LabelinfoComponent implements OnInit {
+
+  @Input() title: string;
+  @Input() subtitle: string;
+  @Input() text: string;
+  @Input() perc: number;
+  @Input() mainicon: string;
+  @Input() mainiconcolor: string;
 
   constructor() { }
 
