@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataPostService } from '../services/data-post.service';
 import { DataLookupService } from '../services/data-lookup.service';
+import { LayoutComponent } from '../layout/layout.component';
 
 @Component({
   selector: 'app-despesa-frm',
@@ -33,7 +34,8 @@ export class DespesaFrmComponent implements OnInit {
   constructor(
     private formbuilder: FormBuilder,
     private datapost: DataPostService,
-    private datalookup: DataLookupService
+    private datalookup: DataLookupService,
+    private layout: LayoutComponent
     ) {
 
       this.datalookup.emitUpdateStatus.subscribe(data => {
@@ -84,6 +86,20 @@ export class DespesaFrmComponent implements OnInit {
       UsuarioAssociado: [null, Validators.compose([Validators.required])],
       id_Evento: this.idEvento,
       id_Repres: [this.idRepres, Validators.compose([Validators.required])]
+    });
+  }
+
+  carregaDataset() {
+    console.log('representantes:<carregaDataset>');
+    console.log(this.updatelist);
+    this.updatelist.map(upd => {
+      if (this[upd]) {
+        console.log('Atribui o valor na variável ' + upd);
+        this[upd] = this.datalookup.getUserData(upd);
+      } else {
+        console.log('Necessário criar a variável ' + upd);
+        this.layout.showError('Necessário criar a variável ' + upd);
+      }
     });
   }
 
