@@ -17,7 +17,21 @@ export class RepresentantesLookupComponent implements OnInit {
   constructor(private datalookup: DataLookupService, private layout: LayoutComponent) {
 
     console.log('representantes: <contructor>');
+    this.carregaDataset();
 
+    this.datalookup.emitUpdateComplete.subscribe(complete => {
+
+      console.log('representantes-lookup:<emitUpdateStatus>');
+      this.carregaDataset();
+
+    });
+
+  }
+
+  ngOnInit() {
+  }
+
+  carregaDataset() {
     this.updatelist.map(upd => {
       if (this[upd]) {
         console.log('Atribui o valor na variável ' + upd);
@@ -27,11 +41,7 @@ export class RepresentantesLookupComponent implements OnInit {
         this.layout.showError('Necessário criar a variável ' + upd);
       }
     });
-
-  }
-
-  ngOnInit() {
-  }
+}
 
   onSelectData(event: any) {
 
