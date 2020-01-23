@@ -18,22 +18,35 @@
 Representante: <app-input-lookup [apidata]="representantes" title="Representantes"></app-input-lookup>
 -->
 
-<!--
-<table style="width: 100%">
-  <tr>
-    <th class="thcoleta">thcoleta</th>
-  </tr>
-  <tr>
-    <th class="thfilter">thfilter</th>
-  </tr>
-  <tr>
-    <th class="thcolumns">thcolumns</th>
-  </tr>
-</table>
--->
+<label for="thRepres">Representante:</label>
+<input *ngIf="representantes"
+id="thRepres"
+class="form-control"
+[(ngModel)]="lookRepres"
+[ngModelOptions]="{standalone: true}"
+[typeahead]="representantes"
+(ngModelChange)="idRepres = $event.id"
+typeaheadOptionField="descricao">
 
-<pre class="card card-block card-header mb-3">representantes: {{representantes | json}}</pre>
+<pre *ngIf="representantes" class="card card-block card-header mb-3">
+  Representantes JSON: {{representantes | json}}
+  Representante escolhido: {{idRepres}}
+</pre>
 
-<pre class="card card-block card-header mb-3">despesaseventos: {{[despesaseventos[0]] | json}}</pre>
+
+<label for="thEvento">Eventos:</label>
+<input *ngIf="despesaseventos"
+id="thEvento"
+class="form-control"
+[(ngModel)]="lookEvento"
+[ngModelOptions]="{standalone: true}"
+[typeahead]="despesaseventos"
+(typeaheadOnSelect)="idEvento = $event.item.id"
+typeaheadOptionField="descricao">
+
+<pre *ngIf="despesaseventos" class="card card-block card-header mb-3">
+  Eventos JSON: {{[despesaseventos[0]] | json}}
+  Evento escolhido: {{idEvento}}
+</pre>
 
 

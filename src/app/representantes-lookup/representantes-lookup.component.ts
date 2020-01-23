@@ -9,15 +9,18 @@ import { LayoutComponent } from '../layout/layout.component';
 })
 export class RepresentantesLookupComponent implements OnInit {
 
+  // inputs
+  idRepres: number;
+  idEvento: number;
+  lookRepres: string;
+  lookEvento: string;
+
   // updatelist: any[] = ['representantes'];
   updatelist: any[] = ['representantes', 'despesaseventos'];
   representantes: any[] = [];
   despesaseventos: any[] = [];
 
   constructor(private datalookup: DataLookupService, private layout: LayoutComponent) {
-
-    console.log('representantes: <contructor>');
-    this.carregaDataset();
 
     this.datalookup.emitUpdateComplete.subscribe(complete => {
 
@@ -29,9 +32,15 @@ export class RepresentantesLookupComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    console.log('representantes: <ngOnInit()>');
+    this.carregaDataset();
+
   }
 
   carregaDataset() {
+    console.log('representantes:<carregaDataset>');
+    console.log(this.updatelist);
     this.updatelist.map(upd => {
       if (this[upd]) {
         console.log('Atribui o valor na variável ' + upd);
@@ -41,11 +50,11 @@ export class RepresentantesLookupComponent implements OnInit {
         this.layout.showError('Necessário criar a variável ' + upd);
       }
     });
-}
+  }
 
   onSelectData(event: any) {
 
-    // console.log('representantes-lookup(onSelectData): ' + JSON.stringify(event));
+    console.log('representantes-lookup(onSelectData): ' + JSON.stringify(event));
 
   }
 
