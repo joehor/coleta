@@ -63,14 +63,9 @@
 }
 
 @media only screen and (max-width: 1200px) {
-  /*.sidebar {margin-left: -350px !important}*/
   :root{
     --main-screen: 1200;
-  }
-}
-@media only screen and (max-width: 1000px) {
-  :root{
-    --main-screen: 1000;
+    --main-slidemenu-width: 0; /* tela grande abrir automático */
   }
   .sidebar {
     position: fixed;
@@ -80,6 +75,11 @@
     border-bottom-style: solid;
     border-bottom-color: white;
     border-radius: 5px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  :root{
+    --main-screen: 1000;
   }
 }
 @media only screen and (max-width: 800px) {
