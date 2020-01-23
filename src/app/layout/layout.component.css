@@ -45,7 +45,6 @@
 .router {
   background-color: whitesmoke;
   width: 100%;
-  padding: 15px;
   padding-bottom: 90px;
   overflow: auto;
  }
@@ -72,6 +71,15 @@
 @media only screen and (max-width: 1000px) {
   :root{
     --main-screen: 1000;
+  }
+  .sidebar {
+    position: fixed;
+    z-index: 1000;
+    border-right-style: solid;
+    border-right-color: white;
+    border-bottom-style: solid;
+    border-bottom-color: white;
+    border-radius: 5px;
   }
 }
 @media only screen and (max-width: 800px) {

@@ -31,6 +31,7 @@
 
       <app-alert [show]="error" tipo='danger' [title]="(error ? error.title : '')" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
       <app-alert [show]="success" tipo='success' [title]="(success ? success.title : '')" [mensagem]="(!success ? '' : success.mensagem)"></app-alert>
+
       <app-loading [show]="loading" [aviso]="loadmessage"></app-loading>
 
       <router-outlet></router-outlet>
