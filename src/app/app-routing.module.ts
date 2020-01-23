@@ -8,13 +8,15 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DespesasComponent } from './despesas/despesas.component';
 import { TestesComponent } from './testes/testes.component';
-import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
+// import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'testes', component: TestesComponent },
   { path: 'coleta', component: ColetaComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'represlookup', component: RepresentantesLookupComponent },
   { path: 'coletainject', component: ColetainjetadaComponent },
   { path: 'despesas', component: DespesasComponent},
