@@ -51,6 +51,8 @@ import { InputLookupComponent } from './componentes/input-lookup/input-lookup.co
 import { ModalGridLookupComponent } from './componentes/modal-grid-lookup/modal-grid-lookup.component';
 import { TestesComponent } from './testes/testes.component';
 import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LabelinfoComponent } from './componentes/labelinfo/labelinfo.component';
 
 
 @NgModule({
@@ -76,7 +78,9 @@ import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
     InputLookupComponent,
     ModalGridLookupComponent,
     TestesComponent,
-    DespesaFrmComponent
+    DespesaFrmComponent,
+    DashboardComponent,
+    LabelinfoComponent
   ],
   imports: [
     BrowserModule,
