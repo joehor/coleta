@@ -5,6 +5,7 @@
   --main-bgcolor-hover: mediumpurple;
   --main-sidebarimage: url(./assets/images/logoPortalK1.png);
   --main-slidemenu-width: -350px;
+  --OffLineBackground: silver;
 }
 
 .dropdown-item.disabled,
