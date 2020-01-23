@@ -15,6 +15,7 @@ interface UserData {
 })
 export class DataLookupService {
   @Output() emitUpdateStatus: EventEmitter<any> = new EventEmitter();
+  @Output() emitUpdateComplete: EventEmitter<any> = new EventEmitter();
   httperror: any;
   baseapi: string;
   k1data: any;
@@ -97,15 +98,15 @@ export class DataLookupService {
       this.k1data = {Data: []}; // se não existe cria vazio ...
     }
 
-    console.log('data-lookup<k1data> ');
-    console.log(JSON.stringify(this.k1data));
+    // console.log('data-lookup<k1data> ');
+    // console.log(JSON.stringify(this.k1data));
 
     // verifica se existe o userdata ...
     if (this.userdata === null || this.userdata === undefined) {
       this.userdata = this.emptyuser(); // se não existe cria vazio ...
     }
 
-    console.log('userdata<novo> ');
+    // console.log('userdata<novo> ');
     // posiciona no usuario correto se houver...
     if (this.k1data.Data.length > 0) {
       if (this.k1data.Data.filter(usu => usu.usuario === this.localuser).length > 0) {
@@ -129,7 +130,7 @@ export class DataLookupService {
   }
 
   updateK1List(updatelist: any) {
-    console.log('datalookup<updateK1List>');
+    // console.log('datalookup<updateK1List>');
     const updlist = this.k1datalist.filter( ul => updatelist.find( li => li === ul.property ) ) || [];
 
     if (updlist.length > 0) {
@@ -142,10 +143,10 @@ export class DataLookupService {
 
     this.totalUpdates = updlist.length;
 
-    console.log('datalookup<updlist>');
-    console.log(updlist);
-    console.log('datalookup<k1datalist>');
-    console.log(this.k1datalist);
+    // console.log('datalookup<updlist>');
+    // console.log(updlist);
+    // console.log('datalookup<k1datalist>');
+    // console.log(this.k1datalist);
 
     const k1upd = this.k1datalist.find(upd => upd.id === 0);
 
@@ -168,9 +169,10 @@ export class DataLookupService {
       // log
       k1upd.stringlog += ' | atualizacoes: ' + this.k1datalist.filter(nupd => nupd.run).length;
 
+      // chama todos as atualizações ...
       this.k1datalist.map(met => { if (met.run) { this.getk1Data(met, false); } });
 
-      console.log(k1upd.stringlog);
+      // console.log(k1upd.stringlog);
     }
 
   }
@@ -193,7 +195,12 @@ export class DataLookupService {
       });
   }
 
+  emitComplete() {
+    this.emitUpdateComplete.emit(true);
+  }
+
   // métodos para busca doas dados ...
+  /*
   getRepresentantes(salva: boolean) {
     const method = 'Representantes';
     this.getData('representantes/lookup', '%', 1, 10000)
@@ -464,11 +471,12 @@ export class DataLookupService {
       }
     );
   }
+  */
 
   // funcçãao que busca todos os datasets solicitados no updatelist ...
   getk1Data(mtd: any, salva: boolean) {
 
-    console.log('getk1Data() k1datalist: ' + JSON.stringify(this.k1datalist));
+    // console.log('getk1Data() k1datalist: ' + JSON.stringify(this.k1datalist));
 
     // emite status de inicialização
     this.emiteStatus({
@@ -561,11 +569,14 @@ export class DataLookupService {
     storelog.push(this.k1datalist);
     localStorage.setItem('k1datalist', JSON.stringify(storelog));
 
-    console.log('salvak1data');
-    console.log(this.k1data);
-    console.log(this.userdata);
+    // console.log('salvak1data');
+    // console.log(this.k1data);
+    // console.log(this.userdata);
     this.step = 0;
 
+    // emite o evento de finalização de todas as buscas ...
+    // console.log('emite o evento de finalização de todas as buscas ...');
+    this.emitComplete();
   }
 
   // busca os dados na API http://servicos.idelli.com.br/GrupoK1/api
