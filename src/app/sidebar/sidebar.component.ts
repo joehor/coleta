@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit {
 
     // esconde o sidebar
     console.log();
-    if (window.innerWidth < 1000) {
+    if (window.innerWidth < 1200) {
     if (document.documentElement.style.getPropertyValue('--main-slidemenu-width') !== '0') {
       document.documentElement.style.setProperty('--main-slidemenu-width', '0');
     } else {
