@@ -78,8 +78,8 @@ export class DespesasComponent implements OnInit {
       const newupdate = this.updatelist
         .filter( li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0] );
 
-      // console.log('despesas:newupdate');
-      // console.log(newupdate);
+      console.log('despesas:newupdate');
+      console.log(newupdate);
 
       // se ficou algo para atualizar passa para o data.lookup
       if (newupdate.length > 0) { this.datalookup.updateK1Data(newupdate); }
