@@ -9,6 +9,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class GaugeComponent implements OnInit, OnChanges {
   @Input() value: number;
   @Input() color: string;
+  @Input() size: number;
   radius = 54;
   circumference = 2 * Math.PI * this.radius;
   dashoffset: number;
