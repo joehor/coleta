@@ -41,13 +41,23 @@ export class SidebarComponent implements OnInit {
   onSlide() {
     this.open = !this.open;
     this.emitSlide.emit(this.open);
-    // console.log('sidebar onSlide: ' + this.open);
+    console.log('sidebar onSlide: ' + this.open);
   }
 
   onSelectItem() {
-    // console.log('onSelectItem!');
+    console.log('onSelectItem!');
     this.open = false;
     this.emitSlide.emit(false);
+
+    // esconde o sidebar
+    console.log();
+    if (window.innerWidth < 1000) {
+    if (document.documentElement.style.getPropertyValue('--main-slidemenu-width') !== '0') {
+      document.documentElement.style.setProperty('--main-slidemenu-width', '0');
+    } else {
+      document.documentElement.style.setProperty('--main-slidemenu-width', '-350px');
+    }
+    }
   }
 
   // serviço que busca os dados da API...
@@ -63,6 +73,9 @@ export class SidebarComponent implements OnInit {
         } else {
           console.log('Encontrado');
           this.datasource = data.Data;
+          // menus adicionais ...
+          // tslint:disable-next-line: max-line-length
+          this.datasource.push({id: 33, caption: 'Dashboard', hint: 'Dashboard', icon: 'dashboard', action: '/dashboard', class: '', submenu: ''});
           this.loading = false;
         }
       },
