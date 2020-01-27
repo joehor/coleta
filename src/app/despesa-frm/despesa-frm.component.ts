@@ -19,21 +19,19 @@ export class DespesaFrmComponent implements OnInit {
   // form inputs
   frmDados: any = {
     id: 0,
-    idRepres: 0,
-    idEvento: 0,
     Data_Saida: '',
     Data_Retorno: '',
     Roteiro: '',
     Observacoes: '',
-    UsuarioAssociado: ''
+    UsuarioAssociado: '',
+    idEvento: 0
   };
 
+
   SaidaRetorno: any;
-  lookRepres: string;
   lookEvento: string;
 
-  updatelist: any[] = ['representantes', 'despesaseventos'];
-  representantes: any[] = [];
+  updatelist: any[] = ['despesaseventos'];
   despesaseventos: any[] = [];
 
   constructor(
@@ -57,22 +55,18 @@ export class DespesaFrmComponent implements OnInit {
     this.criaForm();
     this.carregaDataset();
 
-    this.frmDados.idRepres = 8;
-
   }
 
   criaForm() {
 
     this.formDespesa = this.formbuilder.group({
       id: null,
-      DataInterval: [[], Validators.compose([Validators.required])],
       Data_Saida: [null, Validators.compose([Validators.required])],
       Data_Retorno: [null, Validators.compose([Validators.required])],
       Roteiro: [null, Validators.compose([Validators.required])],
       Observacoes: [null, Validators.compose([Validators.required])],
       UsuarioAssociado: [null, Validators.compose([Validators.required])],
-      id_Evento: null,
-      id_Repres: [null, Validators.compose([Validators.required])]
+      idEvento: null
     });
 
   }
@@ -93,13 +87,13 @@ export class DespesaFrmComponent implements OnInit {
 
   } // carregaDataset()
 
-  onDataIntervalChange(event: any) {
+  onDataIntervalChange(rangefields: any[], event: any) {
 
     if (event.length > 0) {
       event.map(
         (data: any, index: number) => {
-          if (index === 0) { this.frmDados.Data_Saida = data; }
-          if (index === 1) { this.frmDados.Data_Retorno = data; }
+          if (index === 0) { this.formDespesa.patchValue({Data_Saida: data}); }
+          if (index === 1) { this.formDespesa.patchValue({Data_Retorno: data}); }
         }
       );
     }
@@ -109,6 +103,11 @@ export class DespesaFrmComponent implements OnInit {
   onTypeaheadSelect(val: string, event: any) {
 
     this.frmDados[val] = parseInt(event.item.id, 10);
+    const jsonel = {[val]: this.frmDados[val]};
+
+    console.log('onTypeaheadSelect: ' + JSON.stringify(jsonel));
+
+    this.formDespesa.patchValue(jsonel);
 
   }
 
