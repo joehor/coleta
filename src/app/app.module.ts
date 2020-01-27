@@ -23,6 +23,7 @@ import { ProgressbarModule
 } from 'ngx-bootstrap';
 
 import { ToastrModule } from 'ngx-toastr';
+import { ChartsModule } from 'ng2-charts';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -107,7 +108,11 @@ import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.compone
     BsDatepickerModule.forRoot(),
 
     // ngx-bootstrap - toast
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+
+    // gráficos
+    // fonte: https://www.positronx.io/angular-chart-js-tutorial-with-ng2-charts-examples/
+    ChartsModule
   ],
   providers: [
     {
