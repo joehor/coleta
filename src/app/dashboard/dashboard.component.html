@@ -76,7 +76,15 @@
   <div class="row">
 
     <div class="col-sm">
-      grafico
+      <canvas baseChart
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [colors]="lineChartColors"
+        legend="true"
+        [chartType]="lineChartType"
+        [plugins]="lineChartPlugins">
+      </canvas>
     </div>
 
   </div>

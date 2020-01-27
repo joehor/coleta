@@ -1,4 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ChartDataSets, ChartOptions } from 'chart.js'; // criar um componente para gerar gráficos
+import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +10,26 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 export class DashboardComponent implements OnInit, AfterViewInit {
 
   dashdata: any;
+  lineChartData: ChartDataSets[] = [
+    { data: [85, 72, 78, 75, 77, 75], label: 'Média geral de Vendas' },
+  ];
+
+  lineChartLabels: Label[] = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'];
+
+  lineChartOptions = {
+    responsive: true,
+  };
+
+  lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,255,0,0.28)',
+    },
+  ];
+
+  lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartType = 'line'; // bar, pie, doughnut, radar, bubble
 
   constructor() { }
 
