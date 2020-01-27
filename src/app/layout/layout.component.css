@@ -27,7 +27,9 @@
   width: 100%;
 }
 .sidebar {
+  overflow-y: scroll;
   width: 350px;
+  height: auto;
   margin-left: var(--main-slidemenu-width);
   transition: margin-left 1s;
     transition-property: margin-left;
