@@ -1,3 +1,6 @@
+.card {
+  opacity: 1;
+}
 h5 {
   display: block;
   font-size: 0.83em;
@@ -48,6 +51,9 @@ h5 {
 }
 .bg-gradient-blue {
   background: linear-gradient(87deg, rgb(0, 47, 255) 0, rgb(0, 153, 255) 100%)!important;
+}
+.bg-gradient-green {
+  background: linear-gradient(87deg, rgb(0, 125, 54), rgb(154, 248, 151) 100%)!important;
 }
 
 /* TEXT SIZES */

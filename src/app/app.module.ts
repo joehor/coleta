@@ -53,6 +53,7 @@ import { TestesComponent } from './testes/testes.component';
 import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LabelinfoComponent } from './componentes/labelinfo/labelinfo.component';
+import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { LabelinfoComponent } from './componentes/labelinfo/labelinfo.component'
     TestesComponent,
     DespesaFrmComponent,
     DashboardComponent,
-    LabelinfoComponent
+    LabelinfoComponent,
+    LabelgaugeComponent
   ],
   imports: [
     BrowserModule,

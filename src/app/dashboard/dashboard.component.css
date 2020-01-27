@@ -8,3 +8,17 @@
   padding: 5px;
   border-radius: 3px;
 }
+.text-a-r {
+  text-align: right;
+}
+.text-a-c {
+  text-align: center;
+}
+.table {
+  background-color: whitesmoke;
+}
+.card-header {
+  background-color: darkmagenta;
+  color: whitesmoke;
+  font-weight: bold;
+}

@@ -1,8 +1,5 @@
-<app-alert [show]="error" tipo='danger' [title]="(error ? error.title : '')" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
-<app-alert [show]="success" tipo='success' [title]="(success ? success.title : '')" [mensagem]="(!success ? '' : success.mensagem)"></app-alert>
-<app-loading [show]="loading" [aviso]="loadmessage"></app-loading>
 
-<form [formGroup]="formDespesa">
+<div class="form" *ngIf="frmDados">
 
   <div class="form-group">
 
@@ -14,67 +11,69 @@
           class="form-control"
           bsDaterangepicker
           #dpr="bsDaterangepicker"
-          [bsConfig]="{dateInputFormat: 'DD/MM/YYYY - DD/MM/YYYY'}"
-          formControlName="DataInterval">
-          <!--(bsValueChange)="onDataIntervalChange($event)"-->
+          [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY'}"
+          (bsValueChange)="onDataIntervalChange($event)">
         </div>
     </div>
 
     <div class="row">
       <div class="col-sm">
         <label for="idroteiro">Roteiro</label>
-        <textarea class="form-control" id="idroteiro" placeholder="Informe o roteiro da viagem" formControlName="Roteiro"></textarea>
+        <textarea class="form-control" id="idroteiro" placeholder="Informe o roteiro da viagem" [(ngModel)]="frmDados.Roteiro" [ngModelOptions]="{standalone: true}"></textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col-sm">
         <label for="observacoes">Observações</label>
-        <textarea class="form-control" id="observacoes" placeholder="Informe observações sobre a viagem" formControlName="Observacoes"></textarea>
+        <textarea class="form-control" id="observacoes" placeholder="Informe observações sobre a viagem" [(ngModel)]="frmDados.Observacoes" [ngModelOptions]="{standalone: true}"></textarea>
       </div>
     </div>
 
     <div class="row">
       <div class="col-sm">
-        <label for="idEvento">Evento</label>
-        <input type="number" class="form-control" id="idEvento" placeholder="Informe o evento da viagem" formControlName="id_Evento"/>
-      </div>
-
-      <div class="col-sm">
-        <!--
-        <input class="form-control"
-          [(ngModel)]="buscadespesa"
-          [ngModelOptions]="{standalone: true}"
+        <label for="thEvento">Evento</label>
+        <input *ngIf="despesaseventos"
+          id="thEvento"
+          class="form-control"
           [typeahead]="despesaseventos"
-          typeaheadOptionField="descricao">
-        -->
-          <!--(typeaheadOnSelect)="idEvento = $event.item.id">-->
-          <!--(typeaheadOnSelect)="formDespesa.control. $event.item.id )">-->
-          <!--(typeaheadOnSelect)="formDespesa.patchValue( {id_Evento: $event.item.id} )">-->
-        <!--
-        <input class="form-control"
-          [(ngModel)]="inputname"
+          [ngModel]="lookEvento"
           [ngModelOptions]="{standalone: true}"
-          [typeahead]="despesaseventos"
           typeaheadOptionField="descricao"
-          (typeaheadOnSelect)="onSelectData($event)"
-          (ngModelChange)="inputModelChange.emit(inputid)">
-        -->
+          (typeaheadOnSelect)="onTypeaheadSelect('idEvento', $event)">
       </div>
-
     </div>
 
     <div class="row">
       <div class="col-sm">
-        <label for="idRepres">Representante</label>
-        <input type="number" class="form-control" id="idRepres" placeholder="Informe o representante da viagem" formControlName="id_Repres"/>
-      </div>
+        <label for="thRepres">Representante</label>
+        <input *ngIf="representantes"
+          id="thRepres"
+          class="form-control"
+          [typeahead]="representantes"
+          [ngModel]="lookRepres"
+          [ngModelOptions]="{standalone: true}"
+          typeaheadOptionField="descricao"
+          (typeaheadOnSelect)="onTypeaheadSelect('idRepres', $event)">
+        </div>
     </div>
 
   </div>
 
-</form>
+  <div class="row">
+    <div class="col">
+      <button class="form-control btn btn-primary">Salvar</button>
+    </div>
+    <div class="col">
+      <button class="form-control btn btn-warning">Cancelar</button>
+    </div>
+  </div>
 
-<pre class="card card-block card-header mb-3">Form valid? {{ formDespesa.valid }}</pre>
-<pre class="card card-block card-header mb-3">Form containt: {{ formDespesa.value | json }}</pre>
-<pre class="card card-block card-header mb-3">idEvento: {{idEvento}}<br>buscadespesa: {{buscadespesa}}<br>despesaseventoslookup: {{ despesaseventoslookup | json }}</pre>
+</div>
+
+<pre class="card card-block card-header mb-3">frmDados: {{ frmDados | json }}</pre>
+
+<pre *ngIf="despesaseventos" class="card card-block card-header mb-3">
+  Eventos JSON: {{[despesaseventos[0]] | json}}
+  Evento escolhido: {{frmDados.idEvento}}
+</pre>

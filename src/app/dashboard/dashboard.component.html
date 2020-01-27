@@ -2,12 +2,12 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-sm">
+    <div class="col-sm" *ngFor="let label of dashdata.labeltop">
 
-      <app-labelinfo title="Faturamento" subtitle="R$ 150.358,32" text="Atualizado em 23/01/2020" perc="83.50"></app-labelinfo>
+      <app-labelinfo title="{{label.title}}" subtitle="{{label.subtitle}}" text="{{label.text}}" perc="{{label.perc}}" mainiconcolor="{{label.mainiconcolor}}" mainicon="{{label.mainicon}}"></app-labelinfo>
 
     </div>
-
+<!--
     <div class="col-sm">
 
       <app-labelinfo title="Assistências" subtitle="R$ 13.180,29" text="Atualizado em 22/01/2020" perc="-3.25" mainicon="fa fa-arrow-down"></app-labelinfo>
@@ -18,6 +18,56 @@
 
       <app-labelinfo title="Pedidos" subtitle="R$ 8.230,47" text="Atualizado em 22/01/2020" perc="15.19" mainicon="fa fa-arrow-up" mainiconcolor="bg-gradient-blue"></app-labelinfo>
 
+    </div>
+  -->
+
+  </div>
+
+  <!--ultimos lctos-->
+  <div class="row">
+
+    <div class="col-sm">
+
+      <div class="card card-stats">
+        <div class="card-header">Maiores Clientes</div>
+        <!-- Card body -->
+        <div class="card-body">
+
+          <table class="table table-striped">
+
+          <thead>
+            <tr>
+              <th *ngFor="let cols of dashdata.table1.columns">
+                {{cols}}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let rows of dashdata.table1.data">
+              <td [className]="isNumber(rows[cols]) ? 'text-a-r' : ''" *ngFor="let cols of dashdata.table1.columns">
+                {{rows[cols]}}
+              </td>
+            </tr>
+          </tbody>
+
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col">
+      <div class="row">
+        <div class="col-sm">
+          <app-labelgauge title="Meta Janeiro" value="35"></app-labelgauge>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <app-labelgauge title="Vendas Janeiro" value="76"></app-labelgauge>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -31,26 +81,5 @@
 
   </div>
 
-  <!--ultimos lctos-->
-  <div class="row">
-
-    <div class="col-sm">
-      <div class="row">
-        <div class="col-sm">Tabela lctos</div>
-      </div>
-    </div>
-
-    <div class="col-sm">
-      <div class="row">
-        <div class="col-sm"><app-gauge value="45" color="red"></app-gauge></div>
-      </div>
-      <div class="row">
-        <div class="col-sm"><app-gauge value="76" color="yellow"></app-gauge></div>
-      </div>
-    </div>
-
-  </div>
-
 </div>
-
 

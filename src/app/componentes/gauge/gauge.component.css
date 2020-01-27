@@ -34,10 +34,10 @@
 }
 
 .progress_color_red {
-  stroke: lightcoral
+  stroke: lightcoral;
 }
 .progress_color_blue {
-  stroke: steelblue
+  stroke: steelblue;
 }
 .progress_color_green {
   stroke: #4CAF50;

@@ -111,7 +111,7 @@ export class DataLookupService {
     if (this.k1data.Data.length > 0) {
       if (this.k1data.Data.filter(usu => usu.usuario === this.localuser).length > 0) {
         this.userdata.Data = this.k1data.Data.find(usu => usu.usuario === this.localuser).Data;
-        console.log(this.userdata);
+        // console.log(this.userdata);
       }
     }
 

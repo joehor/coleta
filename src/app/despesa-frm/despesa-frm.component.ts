@@ -16,20 +16,25 @@ export class DespesaFrmComponent implements OnInit {
   @Input('ngModel') model: any;
 
   formDespesa: FormGroup;
-  error: any;
-  success: any;
-  selected: any;
-  loading = false;
-  loadmessage: string;
-  updatelist: any[] = ['despesaseventos', 'representantes'];
-  idEvento = 6;
-  idRepres: number;
-  despesaseventos: any;
-  representantes: any;
+  // form inputs
+  frmDados: any = {
+    id: 0,
+    idRepres: 0,
+    idEvento: 0,
+    Data_Saida: '',
+    Data_Retorno: '',
+    Roteiro: '',
+    Observacoes: '',
+    UsuarioAssociado: ''
+  };
 
-  /*REMOVER*/
-  buscadespesa: string;
-  despesaseventoslookup: any;
+  SaidaRetorno: any;
+  lookRepres: string;
+  lookEvento: string;
+
+  updatelist: any[] = ['representantes', 'despesaseventos'];
+  representantes: any[] = [];
+  despesaseventos: any[] = [];
 
   constructor(
     private formbuilder: FormBuilder,
@@ -38,69 +43,73 @@ export class DespesaFrmComponent implements OnInit {
     private layout: LayoutComponent
     ) {
 
-      this.datalookup.emitUpdateStatus.subscribe(data => {
+      this.datalookup.emitUpdateComplete.subscribe(complete => {
 
-        // console.log('Emite status: ');
-        // console.log(data);
+        console.log('despesa-frm:<emitUpdateStatus>');
+        this.carregaDataset();
 
-        this.loading = !data.complete;
-        this.loadmessage = data.mensagem;
-
-        if (this.updatelist.find(ds => ds === data.property)) {
-          if (data.complete) {
-            if (data.error) {
-              this.error = {title: 'Falha na requisição!', mensagem: data.mensagem};
-            } else {
-              this.success = {mensagem: data.mensagem};
-              // a propriedade com o mesmo nome do dataset deve ser previamente criada ...
-              this[data.property] = this.datalookup.userdata.Data.find(ds => ds[data.property])[data.property];
-            }
-          }
-        }
-
-      }); // this.datalookup.emitUpdateStatus.subscribe(data =>
-
-      // atualiza os dados se necessário ...
-      const newupdate = this.updatelist.filter(
-        li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0]
-      );
-
-      if (newupdate.length > 0) { this.datalookup.updateK1Data(newupdate); }
+      });
 
     }
 
   ngOnInit() {
 
     this.criaForm();
+    this.carregaDataset();
+
+    this.frmDados.idRepres = 8;
 
   }
 
   criaForm() {
+
     this.formDespesa = this.formbuilder.group({
-      id: [null, Validators.compose([Validators.required])],
+      id: null,
       DataInterval: [[], Validators.compose([Validators.required])],
       Data_Saida: [null, Validators.compose([Validators.required])],
       Data_Retorno: [null, Validators.compose([Validators.required])],
       Roteiro: [null, Validators.compose([Validators.required])],
       Observacoes: [null, Validators.compose([Validators.required])],
       UsuarioAssociado: [null, Validators.compose([Validators.required])],
-      id_Evento: this.idEvento,
-      id_Repres: [this.idRepres, Validators.compose([Validators.required])]
+      id_Evento: null,
+      id_Repres: [null, Validators.compose([Validators.required])]
     });
+
   }
 
   carregaDataset() {
-    console.log('representantes:<carregaDataset>');
-    console.log(this.updatelist);
+
+    // console.log('despesa-frm:<carregaDataset>');
+    // console.log(this.updatelist);
     this.updatelist.map(upd => {
       if (this[upd]) {
-        console.log('Atribui o valor na variável ' + upd);
+        // console.log('Atribui o valor na variável ' + upd);
         this[upd] = this.datalookup.getUserData(upd);
       } else {
-        console.log('Necessário criar a variável ' + upd);
+        // console.log('Necessário criar a variável ' + upd);
         this.layout.showError('Necessário criar a variável ' + upd);
       }
     });
+
+  } // carregaDataset()
+
+  onDataIntervalChange(event: any) {
+
+    if (event.length > 0) {
+      event.map(
+        (data: any, index: number) => {
+          if (index === 0) { this.frmDados.Data_Saida = data; }
+          if (index === 1) { this.frmDados.Data_Retorno = data; }
+        }
+      );
+    }
+
+  } // onDataIntervalChange(event: any)
+
+  onTypeaheadSelect(val: string, event: any) {
+
+    this.frmDados[val] = parseInt(event.item.id, 10);
+
   }
 
 }

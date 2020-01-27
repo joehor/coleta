@@ -1,0 +1,18 @@
+<div class="card card-stats">
+  <div class="card-header" *ngIf="title">
+  {{title}}
+  </div>
+  <!-- Card body -->
+  <div class="card-body">
+    <div class="row">
+      <div class="col-auto">
+        <app-gauge [value]="value" [size]="size"></app-gauge>
+      </div>
+      <div class="col-sm">
+        <h5>Meta Janeiro</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+
