@@ -65,7 +65,7 @@ export class DespesaFrmComponent implements OnInit {
       Data_Retorno: [null, Validators.compose([Validators.required])],
       Roteiro: [null, Validators.compose([Validators.required])],
       Observacoes: [null, Validators.compose([Validators.required])],
-      UsuarioAssociado: [null, Validators.compose([Validators.required])],
+      UsuarioAssociado: null,
       idEvento: null
     });
 
@@ -108,6 +108,12 @@ export class DespesaFrmComponent implements OnInit {
     console.log('onTypeaheadSelect: ' + JSON.stringify(jsonel));
 
     this.formDespesa.patchValue(jsonel);
+
+  } // onTypeaheadSelect(val: string, event: any)
+
+  salvar() {
+
+    this.datapost.updateData('Representantes/Despesas/Insert', this.formDespesa.value);
 
   }
 

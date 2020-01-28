@@ -46,10 +46,10 @@
 
     <div class="row">
       <div class="col">
-        <button class="form-control btn btn-primary">Salvar</button>
+        <button [disabled]="!formDespesa.valid" class="form-control btn btn-primary" (click)="salvar()">Salvar</button>
       </div>
       <div class="col">
-        <button class="form-control btn btn-warning">Cancelar</button>
+        <button class="form-control btn btn-warning">Excluir</button>
       </div>
     </div>
   </div>
@@ -59,4 +59,6 @@
 <br/>
 
 <!-- <pre class="card card-block card-header mb-3">frmDados: {{ frmDados | json }}</pre> -->
-<pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.getRawValue() | json}}</pre>
+<!-- <pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.getRawValue() | json}}</pre> -->
+<pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.value | json}}</pre>
+<pre class="card card-block card-header mb-3">valid: {{formDespesa.valid}}</pre>
