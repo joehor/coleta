@@ -90,7 +90,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   isNumber(val: any) {
+
     return (typeof(val) === 'number');
+
   }
 
 }
