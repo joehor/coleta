@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataPostService } from '../services/data-post.service';
 import { DataLookupService } from '../services/data-lookup.service';
 import { LayoutComponent } from '../layout/layout.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-despesa-frm',
@@ -16,6 +17,7 @@ export class DespesaFrmComponent implements OnInit {
   @Input('ngModel') model: any;
 
   formDespesa: FormGroup;
+  idDespesa: number;
   // form inputs
   frmDados: any = {
     id: 0,
@@ -38,7 +40,8 @@ export class DespesaFrmComponent implements OnInit {
     private formbuilder: FormBuilder,
     private datapost: DataPostService,
     private datalookup: DataLookupService,
-    private layout: LayoutComponent
+    private layout: LayoutComponent,
+    private router: ActivatedRoute
     ) {
 
       this.datalookup.emitUpdateComplete.subscribe(complete => {
@@ -52,6 +55,11 @@ export class DespesaFrmComponent implements OnInit {
 
   ngOnInit() {
 
+    // pega o parametro enviado ...
+    this.router.paramMap.subscribe( params => {
+        this.idDespesa = parseInt(params.get('id'), 10);
+      }
+    );
     this.criaForm();
     this.carregaDataset();
 
@@ -60,7 +68,7 @@ export class DespesaFrmComponent implements OnInit {
   criaForm() {
 
     this.formDespesa = this.formbuilder.group({
-      id: null,
+      id: this.idDespesa,
       Data_Saida: [null, Validators.compose([Validators.required])],
       Data_Retorno: [null, Validators.compose([Validators.required])],
       Roteiro: [null, Validators.compose([Validators.required])],
