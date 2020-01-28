@@ -1,201 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DataPostService } from '../services/data-post.service';
+import { DatePipe } from '@angular/common';
 import { DataLookupService } from '../services/data-lookup.service';
-import { TypeaheadMatch } from 'ngx-bootstrap/typeahead/typeahead-match.class';
 
 @Component({
   selector: 'app-despesas',
   templateUrl: './despesas.component.html',
   styleUrls: ['./despesas.component.css']
 })
+
 export class DespesasComponent implements OnInit {
 
-  formDespesa: FormGroup;
-  error: any;
-  success: any;
-  selected: any;
-  updatelist: any[] = ['despesaseventos', 'representantes'];
+  despdata: any = [];
 
-  searcheventos: string;
-  despesaseventos: any;
+  constructor( private datalookup: DataLookupService ) {
 
-  searchrepres: string;
-  representantes: any;
-
-  lookupevento: any;
-  loading = false;
-  loadmessage: string;
-
-  // testes
-  idevento: number;
-  idrepres: number;
-  datainterval: Date[] = [];
-
-  constructor(
-    private formbuilder: FormBuilder,
-    private datapost: DataPostService,
-    private datalookup: DataLookupService
-    ) {
-
-      // this.datasource = this.datalookup.k1data.Data.filter( dt => dt.despesaseventos)[0].despesaseventos;
-      this.datalookup.emitUpdateStatus.subscribe(data => {
-
-        // console.log('Emite status: ');
-        // console.log(data);
-
-        this.loading = !data.complete;
-        this.loadmessage = data.mensagem;
-
-        if (this.updatelist.find(ds => ds === data.property)) {
-          if (data.complete) {
-            if (data.error) {
-              this.error = {title: 'Falha na requisição!', mensagem: data.mensagem};
-            } else {
-              this.success = {mensagem: data.mensagem};
-              // a propriedade com o mesmo nome do dataset deve ser previamente criada ...
-              this[data.property] = this.datalookup.userdata.Data.find(ds => ds[data.property])[data.property];
-            }
-          }
-        }
-
-
-        /*
-        if ((data.property === 'despesaseventos')) {
-          console.log('achou despesas eventos');
-          this.datasource = this.datalookup.userdata.Data.find(dt => dt.hasOwnProperty('despesaseventos')).despesaseventos;
-        }
-        if ((data.property === 'representantes')) {
-          this.datarepres = this.datalookup.userdata.Data.find(dt => dt.hasOwnProperty('representantes')).representantes;
-        }
-        */
-
-      }); // this.datalookup.emitUpdateStatus.subscribe(data =>
-
-      console.log('despesas:construtor');
-      console.log(this.datalookup.userdata.Data);
-
-      const newupdate = this.updatelist
-        .filter( li => li === Object.keys(this.datalookup.userdata.Data.filter(ds => ds.hasOwnProperty(li))[0])[0] );
-
-      console.log('despesas:newupdate');
-      console.log(newupdate);
-
-      // se ficou algo para atualizar passa para o data.lookup
-      if (newupdate.length > 0) { this.datalookup.updateK1Data(newupdate); }
-
-
-      // chama os eventos que precisa atualizar ...
-      /*
-      if (this.datalookup.userdata.Data.filter(dt => dt.hasOwnProperty('despesaseventos')).length === 0) {
-        this.datalookup.k1datalist.map(mtd => {
-          if (mtd.method === 'getDespesasEventos') {
-            mtd.run = true;
-            this.datalookup.updateK1Data();
-          }
-        });
-      }
-      */
-     // se não tem o dataset despesaseventos atualiza ...
-  }
-
-  ngOnInit() {
-    this.selected = {
-      id: '0',
-      DataInteral: [],
-      Data_Saida: Date,
-      Data_Retorno: Date,
-      Roteiro: 'veio carregado?',
-      Observacoes: '',
-      UsuarioAssociado: '',
-      id_Evento: 0,
-      id_Repres: 0,
-      LookupEvento: {id: 0, descricao: ''}
-    };
-
-    this.criaForm();
-  }
-
-  onDataIntervalChange(event) {
-
-    // console.log(event);
-
-    if (event.length > 0) {
-      event.map(
-        (data: any, index: number) => {
-          if (index === 0) { this.formDespesa.patchValue({Data_Saida: data}); }
-          if (index === 1) { this.formDespesa.patchValue({Data_Retorno: data}); }
-        }
-      );
-    }
-  }
-
-  showK1datalist() {
-    return {datalist: this.datalookup.k1datalist, k1data: this.datalookup.k1data, userdata: this.datalookup.userdata};
-  }
-
-  criaForm() {
-    this.formDespesa = this.formbuilder.group({
-      id: [null, Validators.compose([Validators.required])],
-      DataInterval: [[], Validators.compose([Validators.required])],
-      Data_Saida: [null, Validators.compose([Validators.required])],
-      Data_Retorno: [null, Validators.compose([Validators.required])],
-      Roteiro: [null, Validators.compose([Validators.required])],
-      Observacoes: [null, Validators.compose([Validators.required])],
-      UsuarioAssociado: [null, Validators.compose([Validators.required])],
-      id_Evento: [this.idevento, Validators.compose([Validators.required])],
-      id_Repres: [null, Validators.compose([Validators.required])]
-    });
-
-    console.log('this.formDespesa.controls.id_Evento.value: ');
-    console.log(this.formDespesa.controls.id_Evento.value);
-
-  }
-
-  verform() {
-    console.log(JSON.stringify(this.formDespesa.controls.value));
-  }
-
-  print() {
-    console.log(this.formDespesa.controls.DataInterval.value);
-    console.log(this.formDespesa.controls);
-  }
-
-  salvar() {
-
-    this.datapost
-      .updateData( 'Representantes/Despesas/Insert', this.formDespesa.value )
-      .subscribe(ret => {
-        // this.formDespesa.controls[0].value = ret.id;
-        // console.log('despesas=ret: ' + JSON.stringify(ret));
-      },
-      error => {
-        this.error = error;
+    this.datalookup.getData('Representantes/Despesas/Lookup', '%', 1, 5)
+      .subscribe(data => {
+        this.despdata = data;
+        const Columns = this.getColumns(this.despdata.Data[0]);
+        this.despdata = {...this.despdata, Columns};
       });
 
   }
 
-  cancelar() {
+  ngOnInit() {
+  }
 
-    // console.log('cancelando...');
+  getColumns(data: any[]) {
+
+    return Object.keys(data);
 
   }
 
-  onSelectData(event: TypeaheadMatch) {
+  isNumber(val: any) {
 
-    // console.log('despesas-lookup(onSelectData): ');
-    // console.log(JSON.stringify(event));
-    this.lookupevento = event;
+    return (typeof(val) === 'number');
+    // return !isNaN(parseInt(val, 10)) && (typeof(val) === 'number');
 
   }
 
-/*
-  @id int,
-@Roteiro varchar(1000),
-@Data_Saida datetime,
-@Data_Retorno datetime,
-@Observacoes varchar(1000),
-@UsuarioAssociado varchar(50),
-@id_Evento int
-*/
+  isDate(val: any) {
+
+    // console.log('Original: ' + val);
+    // console.log('Typeof: ' + typeof(val));
+
+    if (!this.isNumber(val)) {
+      const dateWrapper = new Date(val);
+      return !isNaN(dateWrapper.getDate());
+    } else {
+      return false;
+    }
+
+  }
+
 }

@@ -1,7 +1,9 @@
-form {
-  margin-top: 10px;
+.text-a-r {
+  text-align: right;
 }
-
-form button {
+.text-a-c {
+  text-align: center;
+}
+td button {
   margin-left: 5px;
 }
