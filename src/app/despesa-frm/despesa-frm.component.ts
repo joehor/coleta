@@ -26,7 +26,7 @@ export class DespesaFrmComponent implements OnInit {
     Roteiro: '',
     Observacoes: '',
     UsuarioAssociado: '',
-    idEvento: 0
+    id_Evento: 0
   };
 
 
@@ -55,26 +55,30 @@ export class DespesaFrmComponent implements OnInit {
 
   ngOnInit() {
 
-    // pega o parametro enviado ...
-    this.router.paramMap.subscribe( params => {
-        this.idDespesa = parseInt(params.get('id'), 10);
-      }
-    );
     this.criaForm();
     this.carregaDataset();
+
+    // pega o parametro enviado ...
+    this.router.paramMap.subscribe( params => {
+      this.frmDados.id = parseInt(params.get('id'), 10);
+      this.datalookup.getData('representantes/despesas/lookup', this.frmDados.id, 1, 1)
+      .subscribe(data => {
+        this.carregaForm( data.Data );
+      });
+    });
 
   }
 
   criaForm() {
 
     this.formDespesa = this.formbuilder.group({
-      id: this.idDespesa,
+      id: null,
       Data_Saida: [null, Validators.compose([Validators.required])],
       Data_Retorno: [null, Validators.compose([Validators.required])],
       Roteiro: [null, Validators.compose([Validators.required])],
-      Observacoes: [null, Validators.compose([Validators.required])],
+      Observacoes: null,
       UsuarioAssociado: null,
-      idEvento: null
+      id_Evento: null
     });
 
   }
@@ -94,6 +98,21 @@ export class DespesaFrmComponent implements OnInit {
     });
 
   } // carregaDataset()
+
+  carregaForm(data: any) {
+
+    console.log('carregaForm: ' + JSON.stringify(data));
+    const jsonel = data[0];
+    this.formDespesa.patchValue(jsonel);
+/*    this.formDespesa.controls.id = data.id;
+    this.formDespesa.patchValue({Data_Saida: data.Data_Saida});
+    this.formDespesa.patchValue({Data_Retorno: data.Data_Retorno});
+    this.formDespesa.patchValue({Roteiro: data.Roteiro});
+    this.formDespesa.patchValue({Observacoes: data.Observacoes});
+    this.formDespesa.patchValue({UsuarioAssociado: data.UsuarioAssociado});
+    this.formDespesa.patchValue({id_Evento: data.id_Evento}); */
+
+  } // carregaform()
 
   onDataIntervalChange(rangefields: any[], event: any) {
 
@@ -121,6 +140,8 @@ export class DespesaFrmComponent implements OnInit {
 
   salvar() {
 
+    console.log('Salvando despesa...');
+    console.log('formDespesa: ' + JSON.stringify(this.formDespesa.value));
     this.datapost.updateData('Representantes/Despesas/Insert', this.formDespesa.value);
 
   }

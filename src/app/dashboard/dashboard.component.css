@@ -22,3 +22,9 @@
   color: whitesmoke;
   font-weight: bold;
 }
+.nopad {
+  padding: 0 !important;
+}
+.nomarg {
+  margin: 0 !important;
+}

@@ -17,7 +17,10 @@ export class SidebarComponent implements OnInit {
 
   @Output() emitSlide = new EventEmitter();
   open = false;
-  datasource: any[] = [];
+  datasource: any[] = [
+    {id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''},
+    {id: 3, caption: 'Testes', hint: 'Pagina de testes', icon: 'plus', action: '/testes', class: '', submenu: ''}
+  ];
   // Event emitter...
   httperror: Httpcodes;
   loading = false;
@@ -27,14 +30,20 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
 
+    this.getDataFromApi('Representantes/Menus', '%', 1, 100);
+
     this.auth.emitisLoggin.subscribe(ok => {
       if (ok) {
         this.getDataFromApi('Representantes/Menus', '%', 1, 100);
-      } else {
-        this.datasource.push({id: 1, caption: 'Home', hint: 'Pagina inicial', icon: 'home', action: '/home', class: '', submenu: ''});
-        this.datasource.push({id: 3, caption: 'Testes', hint: 'Pagina de testes', icon: 'plus', action: '/testes', class: '', submenu: ''});
       }
     });
+
+    console.log('window.innerWidth: ' + window.innerWidth);
+
+    if (window.innerWidth > 1200) {
+      document.documentElement.style.setProperty('--main-slidemenu-width', '0');
+      this.open = true;
+    }
 
   }
 

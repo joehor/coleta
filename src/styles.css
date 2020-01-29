@@ -12,3 +12,9 @@
 .dropdown-item:disabled {
   text-decoration:line-through;
 }
+
+@media only screen and (max-width: 1200px) {
+  :root{
+    --main-slidemenu-width: 0; /* tela grande abrir automático */
+  }
+}
