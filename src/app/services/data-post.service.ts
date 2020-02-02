@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 // import { Httpcodes } from './httpcodes';
 import { environment } from '../../environments/environment';
 import { isDevMode } from '@angular/core';
@@ -10,6 +10,8 @@ import { isDevMode } from '@angular/core';
   providedIn: 'root'
 })
 export class DataPostService {
+  @Output() emitDataPost: EventEmitter<any> = new EventEmitter();
+
   httperror: any;
   baseapi: string;
 
@@ -25,6 +27,9 @@ export class DataPostService {
 
   updateData(api: string, data: any) {
 
+    // notifica que iniciou o precesso de envio de dados ...
+    this.emitDataPost.emit({loading: true, message: 'Atualizando dados...'});
+
     if (environment.monitor) {
       console.log('Atualizando dados...');
     }
@@ -32,6 +37,7 @@ export class DataPostService {
     const urlapi = `${this.baseapi}/api/${api}`;
 
     if (environment.monitor) {
+      console.log('baseapi: ' + this.baseapi);
       console.log('urlapi: ' + urlapi);
       console.log('envapi: ' + environment.urlApi);
     }
@@ -41,7 +47,7 @@ export class DataPostService {
     return this.httpclient
       .post<any>( urlapi, { data }  )
       .pipe(
-        // retry( 2 ),
+        retry(2),
         catchError( this.handleError )
       );
 
@@ -98,13 +104,15 @@ export class DataPostService {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error( 'An error occurred:', error.message );
+      this.emitDataPost.emit({error: true, mensagem: error.message});
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.statusText}`);
-      }
+      this.emitDataPost.emit({error: true, mensagem: error.statusText});
+    }
 
     // return an observable with a user-facing error message
     // 'Something bad happened; please try again later.'
@@ -122,6 +130,7 @@ export class DataPostService {
 
     if (!apiret) { apiret = {code: error.statusText, erro: error.message, mensagem: error.message}; }
 
+    this.emitDataPost.emit({error: true, mensagem: 'Ocorreu um erro na execução', data: apiret});
     return throwError( apiret );
   }
 
