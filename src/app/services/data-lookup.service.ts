@@ -327,6 +327,13 @@ export class DataLookupService {
 
     const urlapi = `${this.baseapi}/api/${api}`;
 
+
+    if (environment.monitor) {
+      console.log('baseapi: ' + this.baseapi);
+      console.log('urlapi: ' + urlapi);
+      console.log('envapi: ' + environment.urlApi);
+    }
+
     if (environment.monitor) {
       // console.log('urlapi: ' + urlapi);
       // console.log('envapi: ' + environment.urlApi);
