@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apptitile: 'Coleta',
   urlApi: '',
-  monitor: false
+  monitor: true
 };
 
 /*
