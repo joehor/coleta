@@ -18,8 +18,9 @@
     <tbody>
       <tr *ngFor="let rows of despdata.Data">
         <td [className]="isNumber(rows[cols]) ? 'text-a-r' : ''" *ngFor="let cols of despdata.Columns">
-          <span *ngIf="isDate(rows[cols])">{{rows[cols] | date:'dd/MM/yyyy'}}</span>
-          <span *ngIf="!isDate(rows[cols])">{{rows[cols]}}</span>
+          <!-- <span *ngIf="isDate(rows[cols])">{{rows[cols] | date:'dd/MM/yyyy'}}</span> -->
+          <!-- <span *ngIf="!isDate(rows[cols])">{{rows[cols]}}</span> -->
+          <span>{{rows[cols]}}</span>
         </td>
         <td>
           <button class="btn btn-primary fa fa-pencil" [routerLink]="['/despesafrm', rows['id']]"></button>
