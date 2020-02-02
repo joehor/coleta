@@ -1,4 +1,4 @@
-<alert [type]="tipo || 'info'" [dismissible]="dismissible" [dismissOnTimeout]="timeout" *ngIf="show">
+<alert id="aviso" [type]="tipo || 'info'" [dismissible]="dismissible" [dismissOnTimeout]="timeout" *ngIf="show">
   <strong>{{title}}</strong> {{ mensagem || 'Ocorreu um erro no aplicativo'}}
   <div *ngIf="!detalhes || detalhes !==''">
     {{ detalhes }}
