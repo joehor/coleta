@@ -28,6 +28,8 @@ export class DespesaFrmComponent implements OnInit {
     UsuarioAssociado: '',
     id_Evento: 0
   };
+  // testes
+  bsrangedata: Date[];
 
 
   SaidaRetorno: any;
@@ -48,6 +50,17 @@ export class DespesaFrmComponent implements OnInit {
 
         console.log('despesa-frm:<emitUpdateStatus>');
         this.carregaDataset();
+
+      });
+
+      this.datapost.emitDataPost.subscribe(status => {
+
+        console.log('despesa-frm:<emitUpdateStatus>');
+        if (status.error) {
+          this.layout.showError(status.mensagem);
+        } else {
+          this.layout.showSuccess(status.mensagem);
+        }
 
       });
 
@@ -104,6 +117,10 @@ export class DespesaFrmComponent implements OnInit {
     console.log('carregaForm: ' + JSON.stringify(data));
     const jsonel = data[0];
     this.formDespesa.patchValue(jsonel);
+    this.bsrangedata = [new Date(data[0].Data_Saida), new Date(data[0].Data_Retorno)];
+    if (this.despesaseventos.find(ev => ev.id === data[0].id_Evento)) {
+      this.lookEvento = this.despesaseventos.find(ev => ev.id === data[0].id_Evento).descricao;
+    }
 /*    this.formDespesa.controls.id = data.id;
     this.formDespesa.patchValue({Data_Saida: data.Data_Saida});
     this.formDespesa.patchValue({Data_Retorno: data.Data_Retorno});
@@ -142,7 +159,19 @@ export class DespesaFrmComponent implements OnInit {
 
     console.log('Salvando despesa...');
     console.log('formDespesa: ' + JSON.stringify(this.formDespesa.value));
-    this.datapost.updateData('Representantes/Despesas/Insert', this.formDespesa.value);
+    this.datapost.updateData('representantes/despesas/insert', this.formDespesa.value);
+
+  }
+
+  setdata() {
+
+    // this.formDespesa.patchValue({ rangedata: ['2020-02-06T03:44:56.000Z', '2020-03-22T03:44:56.000Z']});
+    // this.bsrangedata = [Date.parse('2020-02-06T03:44:56.000Z'), Date.parse('2020-03-22T03:44:56.000Z')];
+    const dtin = new Date('2019-11-29T00:00:00');
+    const dtfi = new Date('2019-12-05T00:00:00');
+    this.bsrangedata = [dtin, dtfi];
+    this.formDespesa.patchValue({Data_Saida: dtin});
+    this.formDespesa.patchValue({Data_Retorno: dtfi});
 
   }
 

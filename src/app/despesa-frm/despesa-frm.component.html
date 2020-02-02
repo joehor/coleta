@@ -7,10 +7,30 @@
 
     <div class="form-group">
       <form  [formGroup]="formDespesa">
-      <div class="row">
+<!--
+        <div class="row">
+          <div class="col-sm">
+            <label for="iddatasaida">Data Saída</label>
+            <input class="form-control" id="iddatasaida" bsDatepicker
+              placeholder="Informe a data de início da viagem"
+              [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}"
+              formControlName="Data_Saida"/>
+          </div>
+
+          <div class="col-sm">
+            <label for="iddataretorno">Data Retorno</label>
+            <input class="form-control" id="iddataretorno" bsDatepicker
+              placeholder="Informe a data de retorno da viagem"
+              [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}"
+              formControlName="Data_Retorno"/>
+          </div>
+        </div>
+ -->
+        <div class="row">
         <div class="col-sm">
           Saída - Retorno
           <input placeholder="Informe o perído da viagem" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker"
+            [(bsValue)]="bsrangedata"
             [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY'}"
             (bsValueChange)="onDataIntervalChange(['Data_Saida','Data_Retorno'], $event)">
         </div>
@@ -36,7 +56,7 @@
         <div class="col-sm">
           <label for="thEvento">Evento</label>
           <input *ngIf="despesaseventos" id="thEvento" class="form-control" [typeahead]="despesaseventos"
-            [ngModel]="lookEvento" [ngModelOptions]="{standalone: true}" typeaheadOptionField="descricao"
+            [(ngModel)]="lookEvento" [ngModelOptions]="{standalone: true}" typeaheadOptionField="descricao"
             (typeaheadOnSelect)="onTypeaheadSelect('id_Evento', $event)">
         </div>
       </div>
@@ -46,10 +66,10 @@
 
     <div class="row">
       <div class="col-sm">
-        <button [disabled]="!formDespesa.valid" class="form-control btn btn-primary" (click)="salvar()">Salvar</button>
+        <button id="tremer" [disabled]="!formDespesa.valid" class="form-control btn btn-primary" (click)="salvar()">Salvar</button>
       </div>
       <div class="col-sm">
-        <button class="form-control btn btn-warning">Excluir</button>
+        <button class="form-control btn btn-warning" (click)="setdata()">Excluir</button>
       </div>
 
     </div>
@@ -61,6 +81,9 @@
 
 <!-- <pre class="card card-block card-header mb-3">frmDados: {{ frmDados | json }}</pre> -->
 <!-- <pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.getRawValue() | json}}</pre>-->
+<!-- <pre class="card card-block card-header mb-3">bsrangedata: {{ bsrangedata }}</pre> -->
+<pre class="card card-block card-header mb-3">lookEvento: {{ lookEvento }}</pre>
 <pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.value | json}}</pre>
 <pre class="card card-block card-header mb-3">Form: Valid: {{formDespesa.valid}} | Status: {{ formDespesa.status }}</pre>
+<pre class="card card-block card-header mb-3">despesaseventos: {{despesaseventos | json }}</pre>
 
