@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
-import { ToastService } from '../services/toast.service';
 import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-coleta',

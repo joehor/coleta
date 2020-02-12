@@ -24,14 +24,23 @@
         </td>
         <td>
           <button class="btn btn-primary fa fa-pencil" [routerLink]="['/despesafrm', rows['id']]"></button>
+          <button class="btn btn-primary fa fa-heart-o" (click)="openDespesa(despfrm)"></button>
           <button class="btn btn-danger fa fa-trash" routerLink="/despesafrm/{{rows['id']}}/delete"></button>
         </td>
       </tr>
+      <tr>
+        <td *ngIf="loading" align="center" colspan="1000">
+          <fa name="refresh" animation="pulse" class='fa-2x loadspin'></fa>
+        </td>
     </tbody>
 
     </table>
   </div>
 </div>
 
+<!-- modal windows -->
+<ng-template #despfrm>
+  <app-despesa-frm></app-despesa-frm>
+</ng-template>
 
-<pre class="card card-block card-header mb-3">despdata: {{ despdata | json}}</pre>
+<!-- <pre class="card card-block card-header mb-3">despdata: {{ despdata | json}}</pre> -->

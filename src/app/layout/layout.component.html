@@ -29,10 +29,14 @@
     <!--router-->
     <div class="router">
 
+      <!--messages routers-->
       <app-alert [show]="error.error" tipo='danger' [title]="(error ? error.title : '')" [mensagem]="(!error ? '' : error.mensagem)"></app-alert>
       <app-alert [show]="success.success" tipo='success' [title]="(success ? success.title : '')" [mensagem]="(!success ? '' : success.mensagem)"></app-alert>
       <app-loading [show]="loading.loading" [aviso]="loading.message"></app-loading>
 
+      <div class="headtitle">
+        <div class="caption">Despesas <span>({{rotaativa}})</span></div>
+      </div>
       <router-outlet></router-outlet>
 
     </div>
@@ -43,7 +47,10 @@
   <div class="footer">
 
     <app-footer></app-footer>
+    <button class="btn btn-sm btn-success" (click)="toaster()">Teste</button>
 
   </div>
 
 </div>
+
+<!--modal window para informativos-->

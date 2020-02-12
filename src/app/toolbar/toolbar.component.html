@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="toolbarcenter">
-    Grupo K1 App
+    {{apptitle}}
   </div>
   <div class="toolbarright">
 <!--
@@ -47,7 +47,7 @@
         </li>
 
         <li class="divider dropdown-divider"></li>
-        <li role="menuitem"><a class="dropdown-item" [ngClass]="{'disabled': !useractive}" (click)="logout()"><fa name="sign-out"></fa>Sair</a>
+        <li role="menuitem"><a [ngClass]="{'disabled': !useractive}" (click)="logout()"><fa name="sign-out"></fa>Sair</a>
         </li>
       </ul>
     </div>

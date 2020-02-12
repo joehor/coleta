@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 // import { Httpcodes } from './httpcodes';
 import { environment } from '../../environments/environment';
 import { isDevMode } from '@angular/core';
@@ -22,13 +22,9 @@ export class DataPostService {
     } else {
       this.baseapi = 'http://servicos.idelli.com.br/GrupoK1/api';
     }
-
   }
 
   updateData(api: string, data: any) {
-
-    // notifica que iniciou o precesso de envio de dados ...
-    this.emitDataPost.emit({loading: true, message: 'Atualizando dados...'});
 
     if (environment.monitor) {
       console.log('Atualizando dados...');
@@ -40,16 +36,19 @@ export class DataPostService {
       console.log('baseapi: ' + this.baseapi);
       console.log('urlapi: ' + urlapi);
       console.log('envapi: ' + environment.urlApi);
+      console.log('data: ' + JSON.stringify(data));
     }
 
     // console.log(JSON.stringify(this.httpclient.get(`/api/Authentication`, { params })));
 
+    if (environment.monitor) { console.log('datapost:: antes de salvar'); }
+
     return this.httpclient
-      .post<any>( urlapi, { data }  )
-      .pipe(
-        retry(2),
-        catchError( this.handleError )
-      );
+    .post<any>( urlapi, data )
+    .pipe(
+      // retry(2),
+      catchError( this.handleError )
+    );
 
   }
 
@@ -111,7 +110,9 @@ export class DataPostService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.statusText}`);
-      this.emitDataPost.emit({error: true, mensagem: error.statusText});
+      // notifica que iniciou o precesso de envio de dados ...
+      this.emitDataPost.emit({error: true, mensagem: 'Erro ao atualizar!'});
+      // this.emitDataPost.emit({error: true, mensagem: error.statusText});
     }
 
     // return an observable with a user-facing error message
@@ -131,6 +132,8 @@ export class DataPostService {
     if (!apiret) { apiret = {code: error.statusText, erro: error.message, mensagem: error.message}; }
 
     this.emitDataPost.emit({error: true, mensagem: 'Ocorreu um erro na execução', data: apiret});
+    console.log('Ocorreu um erro na execução' + error.status);
+
     return throwError( apiret );
   }
 

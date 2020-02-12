@@ -8,6 +8,13 @@
   --OffLineBackground: silver;
 }
 
+a {
+  cursor: pointer;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 .dropdown-item.disabled,
 .dropdown-item:disabled {
   text-decoration:line-through;

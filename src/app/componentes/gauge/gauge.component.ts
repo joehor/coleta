@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-gauge',

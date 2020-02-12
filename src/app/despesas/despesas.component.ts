@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService  } from 'ngx-bootstrap/modal';
 import { DataLookupService } from '../services/data-lookup.service';
 
 @Component({
@@ -10,15 +10,18 @@ import { DataLookupService } from '../services/data-lookup.service';
 
 export class DespesasComponent implements OnInit {
 
+  modalRef: BsModalRef;
   despdata: any = [];
+  loading = true;
 
-  constructor( private datalookup: DataLookupService ) {
+  constructor( private datalookup: DataLookupService, private modalService: BsModalService ) {
 
     this.datalookup.getData('Representantes/Despesas/Lookup', '%', 1, 5)
       .subscribe(data => {
         this.despdata = data;
         const Columns = this.getColumns(this.despdata.Data[0]);
         this.despdata = {...this.despdata, Columns};
+        this.loading = false;
       });
 
   }
@@ -34,7 +37,9 @@ export class DespesasComponent implements OnInit {
 
   isNumber(val: any) {
 
-    return (typeof(val) === 'number');
+    // console.log(val + ':' + !isNaN(parseInt(val, 10)) + '|' + typeof(val));
+    // return (typeof(val) === 'number');
+    return !isNaN(parseInt(val, 10));
     // return !isNaN(parseInt(val, 10)) && (typeof(val) === 'number');
 
   }
@@ -43,6 +48,7 @@ export class DespesasComponent implements OnInit {
 
     // console.log('Original: ' + val);
     // console.log('Typeof: ' + typeof(val));
+    // console.log(val + ':' + !isNaN(parseInt(val, 10)) + '|' + typeof(val));
 
     if (!this.isNumber(val)) {
       const dateWrapper = new Date(val);
@@ -50,6 +56,12 @@ export class DespesasComponent implements OnInit {
     } else {
       return false;
     }
+
+  }
+
+  openDespesa(template: TemplateRef<any>) {
+
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg', ignoreBackdropClick: true});
 
   }
 

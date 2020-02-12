@@ -33,7 +33,7 @@ import { ColetainjetadaComponent } from './coletainjetada/coletainjetada.compone
 import { NavmenuComponent } from './navmenu/navmenu.component';
 import { FilterPipe } from './pipes/filter.pipe';
 
-import { HTTP_INTERCEPTORS, HttpClientModule, HttpParams, HttpRequest, HttpHandler, HttpEvent  } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/auth/token.interceptor';
 import { AuthService } from './services/auth/auth.service';
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
@@ -55,7 +55,11 @@ import { DespesaFrmComponent } from './despesa-frm/despesa-frm.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LabelinfoComponent } from './componentes/labelinfo/labelinfo.component';
 import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.component';
-
+import { ModalBasicComponent } from './componentes/modal-basic/modal-basic.component';
+import { CopyClipboardModule } from './directive/copy-clipboard.module';
+import { CopyClipboardDirective } from './directive/copy-clipboard.directive';
+import { NotifyService } from './services/notify.service';
+import { TokenComponent } from './services/auth/token/token.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +87,9 @@ import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.compone
     DespesaFrmComponent,
     DashboardComponent,
     LabelinfoComponent,
-    LabelgaugeComponent
+    LabelgaugeComponent,
+    ModalBasicComponent,
+    TokenComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +100,8 @@ import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.compone
     HttpClientModule,
 
     AngularFontAwesomeModule,
+
+    CopyClipboardModule,
 
     // ngx-bootstrap...
     AlertModule,
@@ -107,8 +115,8 @@ import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.compone
     TypeaheadModule.forRoot(),
     BsDatepickerModule.forRoot(),
 
-    // ngx-bootstrap - toast
-    ToastrModule.forRoot(),
+    // ngx-toast - toast
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
 
     // gráficos
     // fonte: https://www.positronx.io/angular-chart-js-tutorial-with-ng2-charts-examples/
@@ -124,7 +132,9 @@ import { LabelgaugeComponent } from './componentes/labelgauge/labelgauge.compone
     FormBuilder,
     AlertConfig,
     BsDropdownDirective,
-    BsDropdownConfig
+    BsDropdownConfig,
+    CopyClipboardDirective,
+    NotifyService
   ],
   bootstrap: [AppComponent]
 })

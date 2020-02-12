@@ -24,7 +24,8 @@ const routes: Routes = [
   { path: 'despesafrm/:id', component: DespesaFrmComponent},
   { path: 'despesafrm/:id/delete', component: DespesaFrmComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }];
+  { path: '**', component: PageNotFoundComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

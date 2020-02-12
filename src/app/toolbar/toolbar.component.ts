@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { ThemeService } from '../services/theme.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-toolbar',
@@ -14,6 +15,7 @@ export class ToolbarComponent implements OnInit {
   sidmenu = false;
   notifylist: any[] = [];
   theme = 'purple';
+  apptitle = environment.apptitle;
 
   constructor( private themeservice: ThemeService, private auth: AuthService, private route: Router ) {
 
@@ -60,6 +62,7 @@ export class ToolbarComponent implements OnInit {
   logout() {
 
     this.auth.logout();
+    console.log('toolbar:: sair');
     this.route.navigate(['/home']);
 
   }

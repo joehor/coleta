@@ -1,7 +1,7 @@
 <!--<div class="form" *ngIf="frmDados">-->
 <div class="card border-primary">
 
-  <div class="card-header text-white bg-primary font-weight-bold">Despesa  #{{formDespesa.controls.id.value}}</div>
+  <div class="card-header text-white bg-primary font-weight-bold" [appCopyClip]="formDespesa.controls.id.value">Despesa #{{formDespesa.controls.id.value}}</div>
 
   <div class="card-body">
 
@@ -38,24 +38,24 @@
 
       <div class="row">
         <div class="col-sm">
-          <label for="idroteiro">Roteiro</label>
-          <textarea class="form-control" id="idroteiro" placeholder="Informe o roteiro da viagem"
+          Roteiro
+          <textarea class="form-control" placeholder="Informe o roteiro da viagem"
             formControlName="Roteiro"></textarea>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm">
-          <label for="observacoes">Observações</label>
-          <textarea class="form-control" id="observacoes" placeholder="Informe observações sobre a viagem"
+          Observações
+          <textarea class="form-control" placeholder="Informe observações sobre a viagem"
             formControlName="Observacoes"></textarea>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm">
-          <label for="thEvento">Evento</label>
-          <input *ngIf="despesaseventos" id="thEvento" class="form-control" [typeahead]="despesaseventos"
+          Evento
+          <input *ngIf="despesaseventos" class="form-control" [typeahead]="despesaseventos"
             [(ngModel)]="lookEvento" [ngModelOptions]="{standalone: true}" typeaheadOptionField="descricao"
             (typeaheadOnSelect)="onTypeaheadSelect('id_Evento', $event)">
         </div>
@@ -69,9 +69,11 @@
         <button id="tremer" [disabled]="!formDespesa.valid" class="form-control btn btn-primary" (click)="salvar()">Salvar</button>
       </div>
       <div class="col-sm">
-        <button class="form-control btn btn-warning" (click)="setdata()">Excluir</button>
+        <button class="form-control btn btn-danger" (click)="setdata()">Excluir</button>
       </div>
-
+      <div class="col-sm">
+        <button class="form-control btn btn-secondary">Cancelar</button>
+      </div>
     </div>
   </div>
 
@@ -82,8 +84,8 @@
 <!-- <pre class="card card-block card-header mb-3">frmDados: {{ frmDados | json }}</pre> -->
 <!-- <pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.getRawValue() | json}}</pre>-->
 <!-- <pre class="card card-block card-header mb-3">bsrangedata: {{ bsrangedata }}</pre> -->
-<pre class="card card-block card-header mb-3">lookEvento: {{ lookEvento }}</pre>
+<!-- <pre class="card card-block card-header mb-3">lookEvento: {{ lookEvento }}</pre> -->
 <pre class="card card-block card-header mb-3">formDespesa: {{ formDespesa.value | json}}</pre>
 <pre class="card card-block card-header mb-3">Form: Valid: {{formDespesa.valid}} | Status: {{ formDespesa.status }}</pre>
-<pre class="card card-block card-header mb-3">despesaseventos: {{despesaseventos | json }}</pre>
+<!-- <pre class="card card-block card-header mb-3">despesaseventos: {{despesaseventos | json }}</pre> -->
 

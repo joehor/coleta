@@ -1,5 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { ToastService } from '../services/toast.service';
+import { CopyClipboardDirective } from '../directive/copy-clipboard.directive';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,23 @@ import { ToastService } from '../services/toast.service';
 export class NotifyService {
   @Output() emitAvisos: EventEmitter<any> = new EventEmitter();
 
-  constructor(public toastService: ToastService) { }
+  constructor(public toast: ToastrService, public clip: CopyClipboardDirective) {
+    this.clip.copied.subscribe(p => {
+      this.toast.success('Copiado com sucesso');
+    });
+   }
+
+  emitSuccess(msg: string) {
+    this.emitAvisos.emit(
+      {
+        erro: true,
+        warning: false,
+        notify: false,
+        mensagem: msg
+      }
+    );
+    this.toast.success(msg);
+  }
 
   emitError(msg: string) {
     this.emitAvisos.emit(
@@ -18,6 +35,7 @@ export class NotifyService {
         mensagem: msg
       }
     );
+    this.toast.error(msg);
   }
 
   emitWarning(msg: string) {
@@ -29,6 +47,7 @@ export class NotifyService {
         mensagem: msg
       }
     );
+    this.toast.warning(msg);
   }
 
   emitNotify(msg: string) {
@@ -40,11 +59,11 @@ export class NotifyService {
         mensagem: msg
       }
     );
-
+    this.toast.info(msg);
   }
 
   emitToast() {
-    this.toastService.show('fdgffgf');
+    this.toast.show('Teste manual');
   }
 
 }

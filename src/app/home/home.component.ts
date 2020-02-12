@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  title = environment.apptitile;
+  title = environment.apptitle;
   carrousel: any[] = [];
   constructor() { }
 

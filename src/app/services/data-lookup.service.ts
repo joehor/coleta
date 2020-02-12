@@ -16,6 +16,8 @@ interface UserData {
 export class DataLookupService {
   @Output() emitUpdateStatus: EventEmitter<any> = new EventEmitter();
   @Output() emitUpdateComplete: EventEmitter<any> = new EventEmitter();
+  @Output() emitDataLookup: EventEmitter<any> = new EventEmitter();
+
   httperror: any;
   baseapi: string;
   k1data: any;
@@ -260,20 +262,11 @@ export class DataLookupService {
 
     console.log('Salvando atualizações...');
     // limpa a lista de atualizações;
-    // this.k1datalist.find(upd => upd.id === 0).updates = []; ???
     this.k1datalist.find(upd => upd.id === 0).updatelist = [];
 
     // prepara o k1data para salvar
 
     this.k1data = JSON.parse(localStorage.getItem('k1data')) || {Data: []};
-    /* substitui este trecho...
-    if (this.k1data === null || this.k1data === undefined) {
-      this.k1data = JSON.parse(localStorage.getItem('k1data'));
-    }
-    if (this.k1data === null || this.k1data === undefined) {
-      this.k1data = {Data: []}; // se não existe cria vazio ...
-    }
-       substitui este trecho... */
 
     // remonta o k1data com os dados do usuário logado ...
     this.k1data.Data.map( user => {
@@ -295,13 +288,9 @@ export class DataLookupService {
     storelog.push(this.k1datalist);
     localStorage.setItem('k1datalist', JSON.stringify(storelog));
 
-    // console.log('salvak1data');
-    // console.log(this.k1data);
-    // console.log(this.userdata);
     this.step = 0;
 
     // emite o evento de finalização de todas as buscas ...
-    // console.log('emite o evento de finalização de todas as buscas ...');
     this.emitComplete();
   }
 
@@ -401,13 +390,15 @@ export class DataLookupService {
     // console.log('httperror: ' + JSON.stringify(error));
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error( 'An error occurred:', error.message );
+      console.error( 'Ocorreu um erro:', error.message );
+      this.emitDataLookup.emit({error: true, mensagem: error.statusText});
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.statusText}`);
+        // The backend returned an unsuccessful response code.
+        // The response body may contain clues as to what went wrong,
+        console.error(
+          `Api error code ${error.status}, ` +
+          `Erro: ${error.statusText}`);
+        this.emitDataLookup.emit({error: true, status: error.status, mensagem: error.statusText});
       }
 
     // return an observable with a user-facing error message

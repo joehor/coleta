@@ -53,7 +53,7 @@ export class DespesaFrmComponent implements OnInit {
 
       });
 
-      this.datapost.emitDataPost.subscribe(status => {
+/*       this.datapost.emitDataPost.subscribe(status => {
 
         console.log('despesa-frm:<emitUpdateStatus>');
         if (status.error) {
@@ -62,7 +62,7 @@ export class DespesaFrmComponent implements OnInit {
           this.layout.showSuccess(status.mensagem);
         }
 
-      });
+      }); */
 
     }
 
@@ -114,12 +114,14 @@ export class DespesaFrmComponent implements OnInit {
 
   carregaForm(data: any) {
 
-    console.log('carregaForm: ' + JSON.stringify(data));
-    const jsonel = data[0];
-    this.formDespesa.patchValue(jsonel);
-    this.bsrangedata = [new Date(data[0].Data_Saida), new Date(data[0].Data_Retorno)];
-    if (this.despesaseventos.find(ev => ev.id === data[0].id_Evento)) {
-      this.lookEvento = this.despesaseventos.find(ev => ev.id === data[0].id_Evento).descricao;
+    if (data) {
+      console.log('carregaForm: ' + JSON.stringify(data));
+      const jsonel = data[0];
+      this.formDespesa.patchValue(jsonel);
+      this.bsrangedata = [new Date(data[0].Data_Saida), new Date(data[0].Data_Retorno)];
+      if (this.despesaseventos.find(ev => ev.id === data[0].id_Evento)) {
+        this.lookEvento = this.despesaseventos.find(ev => ev.id === data[0].id_Evento).descricao;
+      }
     }
 /*    this.formDespesa.controls.id = data.id;
     this.formDespesa.patchValue({Data_Saida: data.Data_Saida});
@@ -158,8 +160,12 @@ export class DespesaFrmComponent implements OnInit {
   salvar() {
 
     console.log('Salvando despesa...');
-    console.log('formDespesa: ' + JSON.stringify(this.formDespesa.value));
-    this.datapost.updateData('representantes/despesas/insert', this.formDespesa.value);
+    // console.log('formDespesa: ' + JSON.stringify(this.formDespesa.value));
+    this.datapost
+      .updateData('representantes/despesas/insert', this.formDespesa.value)
+      .subscribe(dt => {
+        this.layout.showSuccess('Atualizado com sucesso!');
+      });
 
   }
 
@@ -173,6 +179,13 @@ export class DespesaFrmComponent implements OnInit {
     this.formDespesa.patchValue({Data_Saida: dtin});
     this.formDespesa.patchValue({Data_Retorno: dtfi});
 
+    this.layout.showSuccess('Despesa excluida com sucesso, só que não!!!');
+    console.log('Despesa excluida com sucesso, só que não!!!');
+
+  }
+
+  copyClipboard(str: string) {
+    this.layout.copyToClipboard(str);
   }
 
 }

@@ -10,24 +10,29 @@
   transition-delay: 0s;
 }
 
-.main {
-  background-color: silver;
-}
-
 /* header */
-.header {
-  background-color: grey;
+.headtitle {
+  padding: 20px;
+  border: 1px solid;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  background-color: cadetblue;
+  color: whitesmoke;
+  font-style: italic;
+}
+.headtitle span {
+  font-size: 10px;
 }
 
 .content {
   display: flex;
   justify-content: flex-start;
-  position: absolute;
+/*   position: absolute;
   height: 100%;
   width: 90%;
-}
+ */}
 .sidebar {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   width: 350px;
   height: auto;
   margin-left: var(--main-slidemenu-width);
@@ -45,10 +50,10 @@
 }
 
 .router {
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
   width: 100%;
   padding-bottom: 90px;
-  overflow: auto;
+  /* overflow: auto; */
   margin: 5px;
  }
 

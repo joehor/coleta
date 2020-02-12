@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apptitile: 'Coleta',
+  apptitle: 'Grupo K1 Ltda',
   urlApi: '',
   monitor: true
 };
