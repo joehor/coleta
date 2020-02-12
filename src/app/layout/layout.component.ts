@@ -3,7 +3,7 @@ import { Router, ResolveEnd } from '@angular/router';
 import { DataLookupService } from '../services/data-lookup.service';
 import { DataPostService } from '../services/data-post.service';
 import { NotifyService } from '../services/notify.service';
-import { CopyClipboardModule } from '../directive/copy-clipboard.module';
+import { CopyClipboardDirective } from '../directive/copy-clipboard.directive';
 
 @Component({
   selector: 'app-layout',
@@ -26,10 +26,10 @@ export class LayoutComponent implements OnInit {
     private datalookup: DataLookupService,
     private datapost: DataPostService,
     private notify: NotifyService,
-    private copyclip: CopyClipboardModule
+    private copydir: CopyClipboardDirective
     ) {
 
-    route.events.subscribe(r => {
+    this.route.events.subscribe(r => {
       if (r instanceof ResolveEnd) {
         this.rotaativa = r.url;
       }
@@ -60,10 +60,14 @@ export class LayoutComponent implements OnInit {
       }
     });
 
-    this.copyclip.copied.subscribe(pay => {
+/*     this.copyclip.copied.subscribe(pay => {
       console.log('Copiado com sucesso!');
       this.notify.emitSuccess('Copiado com sucesso!');
-      this.notify.emitNotify('notify');
+    }); */
+
+    this.copydir.copied.subscribe(pay => {
+      console.log('Copiado com sucesso!');
+      this.notify.emitSuccess('Copiado com sucesso!');
     });
 
   }

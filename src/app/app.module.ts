@@ -35,6 +35,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './services/auth/token.interceptor';
+import { HttpErrorInterceptor } from './services/auth/httperror.interceptor';
 import { AuthService } from './services/auth/auth.service';
 import { RepresentantesLookupComponent } from './representantes-lookup/representantes-lookup.component';
 import { GridComponent } from './componentes/grid/grid.component';
@@ -116,7 +117,13 @@ import { TokenComponent } from './services/auth/token/token.component';
     BsDatepickerModule.forRoot(),
 
     // ngx-toast - toast
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
+    ToastrModule.forRoot(
+      { positionClass: 'toast-bottom-right',
+        closeButton: true,
+        timeOut: 5000,
+        progressBar: true,
+        enableHtml: true
+      }),
 
     // gráficos
     // fonte: https://www.positronx.io/angular-chart-js-tutorial-with-ng2-charts-examples/
@@ -126,6 +133,11 @@ import { TokenComponent } from './services/auth/token/token.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
       multi: true
     },
     AuthService,

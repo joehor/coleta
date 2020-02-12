@@ -59,9 +59,14 @@ export class DespesasComponent implements OnInit {
 
   }
 
-  openDespesa(template: TemplateRef<any>) {
+  openDespesa(template: TemplateRef<any>, data: any) {
+
+    console.log('openDespesa::');
+    console.log(data);
 
     this.modalRef = this.modalService.show(template, {class: 'modal-lg', ignoreBackdropClick: true});
+    this.modalRef.content.formDespesa.patchValue(data);
+    // this.modalRef.content.carregaForm([data]);
 
   }
 

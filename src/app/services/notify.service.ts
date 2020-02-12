@@ -35,7 +35,7 @@ export class NotifyService {
         mensagem: msg
       }
     );
-    this.toast.error(msg);
+    this.toast.error(msg, 'Eita!');
   }
 
   emitWarning(msg: string) {

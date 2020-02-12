@@ -24,7 +24,7 @@
         </td>
         <td>
           <button class="btn btn-primary fa fa-pencil" [routerLink]="['/despesafrm', rows['id']]"></button>
-          <button class="btn btn-primary fa fa-heart-o" (click)="openDespesa(despfrm)"></button>
+          <button class="btn btn-primary fa fa-heart-o" (click)="openDespesa(despfrm, rows)"></button>
           <button class="btn btn-danger fa fa-trash" routerLink="/despesafrm/{{rows['id']}}/delete"></button>
         </td>
       </tr>

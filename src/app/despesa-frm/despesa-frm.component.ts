@@ -18,6 +18,8 @@ export class DespesaFrmComponent implements OnInit {
 
   formDespesa: FormGroup;
   idDespesa: number;
+  finishload = false;
+
   // form inputs
   frmDados: any = {
     id: 0,
@@ -53,17 +55,6 @@ export class DespesaFrmComponent implements OnInit {
 
       });
 
-/*       this.datapost.emitDataPost.subscribe(status => {
-
-        console.log('despesa-frm:<emitUpdateStatus>');
-        if (status.error) {
-          this.layout.showError(status.mensagem);
-        } else {
-          this.layout.showSuccess(status.mensagem);
-        }
-
-      }); */
-
     }
 
   ngOnInit() {
@@ -84,22 +75,21 @@ export class DespesaFrmComponent implements OnInit {
 
   criaForm() {
 
+    const dt = new Date();
     this.formDespesa = this.formbuilder.group({
       id: null,
-      Data_Saida: [null, Validators.compose([Validators.required])],
-      Data_Retorno: [null, Validators.compose([Validators.required])],
-      Roteiro: [null, Validators.compose([Validators.required])],
-      Observacoes: null,
-      UsuarioAssociado: null,
-      id_Evento: null
+      Data_Saida: [dt, Validators.compose([Validators.required])],
+      Data_Retorno: [dt, Validators.compose([Validators.required])],
+      Roteiro: ['', Validators.compose([Validators.required])],
+      Observacoes: '',
+      UsuarioAssociado: '',
+      id_Evento: ''
     });
 
   }
 
   carregaDataset() {
 
-    // console.log('despesa-frm:<carregaDataset>');
-    // console.log(this.updatelist);
     this.updatelist.map(upd => {
       if (this[upd]) {
         // console.log('Atribui o valor na variável ' + upd);
@@ -110,26 +100,27 @@ export class DespesaFrmComponent implements OnInit {
       }
     });
 
+    this.finishload = true;
+
   } // carregaDataset()
 
   carregaForm(data: any) {
+
+    console.log('carregaForm::');
+    console.log(data);
 
     if (data) {
       console.log('carregaForm: ' + JSON.stringify(data));
       const jsonel = data[0];
       this.formDespesa.patchValue(jsonel);
       this.bsrangedata = [new Date(data[0].Data_Saida), new Date(data[0].Data_Retorno)];
+      this.idDespesa = data[0].id;
       if (this.despesaseventos.find(ev => ev.id === data[0].id_Evento)) {
         this.lookEvento = this.despesaseventos.find(ev => ev.id === data[0].id_Evento).descricao;
+      } else {
+        this.layout.showError('Evento ' + data[0].id_Evento + ' não cadastrado!');
       }
     }
-/*    this.formDespesa.controls.id = data.id;
-    this.formDespesa.patchValue({Data_Saida: data.Data_Saida});
-    this.formDespesa.patchValue({Data_Retorno: data.Data_Retorno});
-    this.formDespesa.patchValue({Roteiro: data.Roteiro});
-    this.formDespesa.patchValue({Observacoes: data.Observacoes});
-    this.formDespesa.patchValue({UsuarioAssociado: data.UsuarioAssociado});
-    this.formDespesa.patchValue({id_Evento: data.id_Evento}); */
 
   } // carregaform()
 
