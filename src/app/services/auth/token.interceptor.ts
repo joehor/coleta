@@ -3,12 +3,13 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 import { AuthService } from '../auth/auth.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { NotifyService } from '../../services/notify.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   @Output() emitHTTPError: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private notify: NotifyService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log('Entrou no TokenInterceptor');
@@ -37,7 +38,7 @@ export class TokenInterceptor implements HttpInterceptor {
             this.notify.emitSuccess('OK!');
           }
  */
-        this.emitHTTPError.emit(data);
+        this.emitHTTPError.emit(error);
         return throwError(error);
       })
     );
