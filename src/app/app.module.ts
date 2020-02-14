@@ -20,6 +20,8 @@ import { ProgressbarModule
   , TabsModule
   , TypeaheadModule
   , BsDatepickerModule
+  , AccordionModule
+  , BsModalRef
 } from 'ngx-bootstrap';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -115,6 +117,7 @@ import { TokenComponent } from './services/auth/token/token.component';
     TabsModule.forRoot(),
     TypeaheadModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    AccordionModule.forRoot(),
 
     // ngx-toast - toast
     ToastrModule.forRoot(
@@ -146,7 +149,8 @@ import { TokenComponent } from './services/auth/token/token.component';
     BsDropdownDirective,
     BsDropdownConfig,
     CopyClipboardDirective,
-    NotifyService
+    NotifyService,
+    BsModalRef
   ],
   bootstrap: [AppComponent]
 })
