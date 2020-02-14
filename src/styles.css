@@ -20,6 +20,15 @@ a:hover {
   text-decoration:line-through;
 }
 
+.titlecad {
+  display: flex;
+  justify-content: space-between;
+}
+
+.caption {
+  font-size: 20px;
+}
+
 @media only screen and (max-width: 1200px) {
   :root{
     --main-slidemenu-width: 0; /* tela grande abrir automático */
