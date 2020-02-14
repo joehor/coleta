@@ -20,6 +20,8 @@ export class ToolbarComponent implements OnInit {
   constructor( private themeservice: ThemeService, private auth: AuthService, private route: Router ) {
 
     this.useractive = this.auth.isAuthenticated();
+    this.auth.emitisLoggin.subscribe(logado => this.useractive = logado);
+
     // aplica o tema salvo...
     this.theme = localStorage.getItem('colortheme');
     if (this.theme) { this.themeservice.setTheme( this.theme ); }
