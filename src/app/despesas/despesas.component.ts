@@ -64,9 +64,17 @@ export class DespesasComponent implements OnInit {
     console.log('openDespesa::');
     console.log(data);
 
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg', ignoreBackdropClick: true});
-    this.modalRef.content.formDespesa.patchValue(data);
-    // this.modalRef.content.carregaForm([data]);
+    // tslint:disable-next-line: no-shadowed-variable
+    const initialState = {
+      despesa: data,
+      title: 'Modal with component'
+    };
+
+/*     class: 'modal-lg',
+    ignoreBackdropClick: true,
+ */
+    this.modalRef = this.modalService.show(template, {initialState});
+    this.modalRef.content.despesa = data; // ERROR TypeError: Cannot set property 'passjson' of null
 
   }
 
