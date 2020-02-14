@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   getToken() {
 
     this.loading = true;
-    console.log('getToken::');
+    // console.log('getToken::');
     // se foi bloqueado pelo auth guard salva a rota para acessar logo que se logar ...
     const redUrl = localStorage.getItem('lockUrl');
     const usuario = this.formLogin.value.usr;
@@ -99,8 +99,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.loginerror = {};
 
     if (!usuario || !senha) {
-      console.log('usuario: ' + usuario);
-      console.log('senha: ' + senha);
+      // console.log('usuario: ' + usuario);
+      // console.log('senha: ' + senha);
       // console.log('control: ' + JSON.stringify(this.formLogin.controls));
       // this._snackbarService.openSimpleSnack('Necessário informar o login e senha!');
       this.loginerror = {mensagem: 'Necessário informar usuário e senha'};
@@ -109,7 +109,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log('Dados: ' + usuario + ':' + senha);
+    // console.log('Dados: ' + usuario + ':' + senha);
     // aqui
 
     this.loginservice
