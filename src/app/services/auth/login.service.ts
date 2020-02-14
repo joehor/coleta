@@ -1,8 +1,8 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse  } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { throwError, onErrorResumeNext } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { DataLookupService } from '../data-lookup.service';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class LoginService {
       Password: pss
     });
 
-    console.log('Iniciando busca em: "' + environment.urlApi + '"');
+    // console.log('Iniciando busca em: "' + environment.urlApi + '"');
     if (isDevMode()) {
       this.baseapi = '';
     } else {
@@ -36,6 +36,10 @@ export class LoginService {
     })
     .pipe(
       // retry( 2 ),
+/*       map(ret => {
+        console.log('login.service::');
+        console.log(ret);
+      }),*/
       catchError( this.handleError )
     );
 
@@ -109,14 +113,14 @@ export class LoginService {
     // console.log('datalookup: ' + error.statusText);
     // console.log('this.httplisterror: ' + JSON.stringify(this.httplisterror));
 
-    console.log('Apierror!');
+    // console.log('Apierror!');
 
     let apiret = httplisterror.filter( err => (err.code === error.status) )[0];
 
-    console.log('Apierror depois!');
+    // console.log('Apierror depois!');
 
-    console.log('apiret: ' + JSON.stringify(apiret));
-    console.log(apiret.mensagem);
+    // console.log('apiret: ' + JSON.stringify(apiret));
+    // console.log(apiret.mensagem);
 
     if (!apiret) { apiret = {code: error.statusText, erro: error.message, mensagem: error.message}; }
 
