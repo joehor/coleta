@@ -60,13 +60,12 @@
  .footer {
   background-color: lightsteelblue;
   color: steelblue;
+  position: absolute;
   display: flex;
   justify-content: flex-end;
   padding: 5px;
   font-size: 10px;
   font-style: italic;
-  position: fixed;
-  bottom: 0;
   width: 100%;
 }
 
@@ -76,7 +75,7 @@
     --main-slidemenu-width: 0; /* tela grande abrir automático */
   }
   .sidebar {
-    position: fixed;
+    position: absolute;
     z-index: 1000;
     border-right-style: solid;
     border-right-color: white;
