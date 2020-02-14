@@ -12,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService, private notify: NotifyService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    console.log('Entrou no TokenInterceptor');
+    // console.log('Entrou no TokenInterceptor');
 
     request = request.clone({
       setHeaders: {
@@ -30,7 +30,7 @@ export class TokenInterceptor implements HttpInterceptor {
             status: error.status,
             statusText: error.statusText
         };
-        console.log(data);
+        // console.log(data);
 
 /*           if (h.status !== 200) {
             this.notify.emitError(h.statusText);

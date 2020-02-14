@@ -43,7 +43,7 @@ export class SidebarComponent implements OnInit {
       }
     });
 
-    console.log('window.innerWidth: ' + window.innerWidth);
+    // console.log('window.innerWidth: ' + window.innerWidth);
 
     if (window.innerWidth > 1200) {
       document.documentElement.style.setProperty('--main-slidemenu-width', '0');

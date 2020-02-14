@@ -67,7 +67,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 } else {
                     // server-side error
                     const traducao = this.httplisterror.filter(f => f.code === error.status);
-                    console.log(traducao);
+                    // console.log(traducao);
                     if (traducao) {
                       /* errorMessage = `${traducao[0].code}-${traducao[0].mensagem}<br><a style="cursor:pointer" [routerLink]="['/error']">Saber mais</a>`; */
                       errorMessage = `${traducao[0].code}-${traducao[0].mensagem}`;
@@ -75,7 +75,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                       errorMessage = `Error Status: ${error.status}\nMessage: ${error.message}`;
                     }
                 }
-                console.log(errorMessage);
+                // console.log(errorMessage);
                 this.notify.emitError(errorMessage);
                 return throwError(errorMessage);
             })
