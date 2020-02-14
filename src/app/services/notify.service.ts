@@ -14,7 +14,7 @@ export class NotifyService {
     });
    }
 
-  emitSuccess(msg: string) {
+  emitSuccess(msg: string, title?: string) {
     this.emitAvisos.emit(
       {
         erro: true,
@@ -23,10 +23,10 @@ export class NotifyService {
         mensagem: msg
       }
     );
-    this.toast.success(msg);
+    this.toast.success(msg, title || 'Feito!');
   }
 
-  emitError(msg: string) {
+  emitError(msg: string, title?: string) {
     this.emitAvisos.emit(
       {
         erro: true,
@@ -35,10 +35,10 @@ export class NotifyService {
         mensagem: msg
       }
     );
-    this.toast.error(msg, 'Eita!');
+    this.toast.error(msg, title || 'Eita!');
   }
 
-  emitWarning(msg: string) {
+  emitWarning(msg: string, title?: string) {
     this.emitAvisos.emit(
       {
         erro: false,
@@ -47,10 +47,10 @@ export class NotifyService {
         mensagem: msg
       }
     );
-    this.toast.warning(msg);
+    this.toast.warning(msg, title || 'Ops!');
   }
 
-  emitNotify(msg: string) {
+  emitNotify(msg: string, title?: string) {
     this.emitAvisos.emit(
       {
         erro: false,
@@ -59,7 +59,7 @@ export class NotifyService {
         mensagem: msg
       }
     );
-    this.toast.info(msg);
+    this.toast.info(msg, title || 'Psiu!');
   }
 
   emitToast() {
