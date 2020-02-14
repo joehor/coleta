@@ -4,6 +4,7 @@ import { DataPostService } from '../services/data-post.service';
 import { DataLookupService } from '../services/data-lookup.service';
 import { LayoutComponent } from '../layout/layout.component';
 import { ActivatedRoute } from '@angular/router';
+import { BsModalRef  } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-despesa-frm',
@@ -18,6 +19,7 @@ export class DespesaFrmComponent implements OnInit {
 
   formDespesa: FormGroup;
   idDespesa: number;
+  despesa: any;
   finishload = false;
 
   // form inputs
@@ -45,7 +47,8 @@ export class DespesaFrmComponent implements OnInit {
     private datapost: DataPostService,
     private datalookup: DataLookupService,
     private layout: LayoutComponent,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    public bsModalRef: BsModalRef
     ) {
 
       this.datalookup.emitUpdateComplete.subscribe(complete => {
@@ -59,8 +62,15 @@ export class DespesaFrmComponent implements OnInit {
 
   ngOnInit() {
 
+    /* this.bsModalRef.content.passjson = this.passjson; */
+
     this.criaForm();
     this.carregaDataset();
+
+    if (this.despesa) {
+      console.log(this.despesa);
+      this.carregaForm(this.despesa);
+    }
 
     // pega o parametro enviado ...
     this.router.paramMap.subscribe( params => {
@@ -110,7 +120,8 @@ export class DespesaFrmComponent implements OnInit {
     console.log(data);
 
     if (data) {
-      console.log('carregaForm: ' + JSON.stringify(data));
+      console.log('carregaForm::')
+      console.log(JSON.stringify(data));
       const jsonel = data[0];
       this.formDespesa.patchValue(jsonel);
       this.bsrangedata = [new Date(data[0].Data_Saida), new Date(data[0].Data_Retorno)];
