@@ -38,9 +38,11 @@ export class DespesaFrmComponent implements OnInit {
 
   SaidaRetorno: any;
   lookEvento: string;
+  lookUsuario: string;
 
   updatelist: any[] = ['despesaseventos'];
   despesaseventos: any[] = [];
+  usuarios: any[] = ['MARCELO', 'JOAO', 'PEDRO', 'PAULO'];
 
   constructor(
     private formbuilder: FormBuilder,
@@ -126,10 +128,19 @@ export class DespesaFrmComponent implements OnInit {
       this.formDespesa.patchValue(jsonel);
       this.bsrangedata = [new Date(data[0].Data_Saida), new Date(data[0].Data_Retorno)];
       this.idDespesa = data[0].id;
+
+      /* Posiciona o evento */
       if (this.despesaseventos.find(ev => ev.id === data[0].id_Evento)) {
         this.lookEvento = this.despesaseventos.find(ev => ev.id === data[0].id_Evento).descricao;
       } else {
         this.layout.showError('Evento ' + data[0].id_Evento + ' não cadastrado!');
+      }
+
+      /* Posiciona o usuario */
+      if (this.usuarios.find(ev => ev === data[0].UsuarioAssociado)) {
+        this.lookUsuario = this.usuarios.find(ev => ev === data[0].UsuarioAssociado);
+      } else {
+        this.layout.showError('Usuario ' + data[0].UsuarioAssociado + ' não cadastrado!');
       }
     }
 
@@ -154,6 +165,19 @@ export class DespesaFrmComponent implements OnInit {
     const jsonel = {[val]: this.frmDados[val]};
 
     console.log('onTypeaheadSelect: ' + JSON.stringify(jsonel));
+
+    this.formDespesa.patchValue(jsonel);
+
+  } // onTypeaheadSelect(val: string, event: any)
+
+  onUsuarioSelect(val: string, event: any) {
+
+    console.log(event);
+
+    this.frmDados[val] = event.value;
+    const jsonel = {[val]: this.frmDados[val]};
+
+    console.log('onUsuarioSelect: ' + JSON.stringify(jsonel));
 
     this.formDespesa.patchValue(jsonel);
 
